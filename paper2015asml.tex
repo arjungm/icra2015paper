@@ -51,8 +51,9 @@ WORKING TITLE: Incorporating User Feedback in Motion Planning for Manipulators
 Co-robots, i.e. robots that need to work close to people, will need to account for the preferences and expectations of their human 
 co-workers in executing motions or actions. Consistent, legible and predictable motions are a key factor in making humans comfortable 
 around robots. In this work, we take a first step towards designing motions that are more acceptable to human co-workers by asking 
-people to rate robot motions generated in a variety of environments. We compute a set of features for each trajectory and use the features 
-and associated rating to derive a quality score that represents how well the human observers liked the trajectory. We present an 
+people to rate robot motions generated in a variety of environments. Our approach is data-driven, i.e. we aim to use data from an online 
+survey to inform good quality paths and trajectories. We compute a set of features for each trajectory and use the features 
+and associated ratings to try add predict a quality score that represents how well the human observers liked the trajectory. We present an 
 analysis of the dataset that we have collected, highlighting the features that dominate the trajectories that people prefer. We also 
 present a classifier that will return the quality score for a given trajectory. Finally, we discuss how a data-driven approach using the 
 results of this analysis can be used to help design better plans that are more acceptable to people. 
@@ -70,13 +71,11 @@ human perception of robotic paths into account will become more important. Human
 account for the expectations and motions of their co-workers easily. For human co-workers to be comfortable, robots will similarly 
 have to tailor their motions for the presence and actions of the people around them. 
 
-In this work, we take a first step towards the ultimate goal of generating robotic motions that are consistent, legible and predictable. Our 
-tool of choice is a survey of robot motions where human observers rate the acceptability of the motion. We generated a range of trajectories 
-across multiple environments with different planners. Movies of these trajectories from multiple viewpoints were then presented to human 
-observers using an online survey tool. The users were asked to rate different attributes of the trajectories. We 
+In this work, we take a first step towards the ultimate goal of generating robotic motions that are consistent, legible and predictable for human observers and co-workers. We start with a survey where human observers rate robot motion quality. We generated a range of trajectories across multiple environments with different planners. The motion planning problem we chose required a (simulated) robot to move its arm from a specified end-effector start position to a desired end-effector goal position. Movies of these trajectories from multiple viewpoints were then presented to human observers using an online survey tool. The users were asked to rate different attributes of the trajectories. We also computed a large set of features for each trajectory. The feature set was designed to be easily extensible across different types of robots and also captures the relationship between the trajectories and the environment. We use the feature set, coupled with machine learning techniques, to build a classifier that predicts the human rating for a given trajectory. The classifiers also help in identifying a set of features that are the most important in predicting human preferences for robot trajectories. The classifiers could also form the basis for a new {\em data-driven{ approach to motion planning. 
 
+This paper is organized as follows. In Section~\ref{sec:background}, we first describe some of the existing approaches to designing better quality paths for robots. We also look at how human motion information has inspired work in designing better trajectories for robots. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents raw results from the survey, including examples of trajectories that were rated well and badly. In Section~\ref{sec:analysis}, we present a set of features corresponding to the trajectories and use a machine learning approach to derive a classifier for predicting the rating of trajectories. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
 
-This template provides authors with most of the formatting specifications needed for preparing electronic versions of their papers. All standard paper components have been specified for three reasons: (1) ease of use when formatting individual papers, (2) automatic compliance to electronic requirements that facilitate the concurrent or later production of electronic products, and (3) conformity of style throughout a conference proceedings. Margins, column widths, line spacing, and type styles are built-in; examples of the type styles are provided throughout this document and are identified in italic type, within parentheses, following the example. Some components, such as multi-leveled equations, graphics, and tables are not prescribed, although the various table text styles are provided. The formatter will need to create these components, incorporating the applicable criteria that follow.
+\section{Background}
 
 \section{PROCEDURE FOR PAPER SUBMISSION}
 
