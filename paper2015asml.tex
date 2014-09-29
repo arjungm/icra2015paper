@@ -145,12 +145,16 @@ After selecting the scenes, the robot was positioned in the scenes manually and 
 
 Finally, the planning algorithms that were used were RRT-Connect~\cite{kuffner2000rrt}, and RRT*~\cite{frazzoli-RRTstar} with two cost functions: \emph{PathLength} and \emph{MaxMinClearance}.The objective for \emph{PathLength} minimizes the length of the trajectory (as the sum of the euclidean distances between ends of trajectory segments). The objective for \emph{MaxMinClearance} computes uses the minimum clearance of a configuration belonging to a trajectory as the value it is trying to maximize.
 
+\todo cite OMPL and optimal planning
+
+\todo formulae for optimization objectives?
+
 The library of trajectory videos was collected by computing plans with each of the previously discussed planners for the planning queries and scenes hand-picked from above. The plans were then recorded in simulation through RVIZ. In designing the online survey, these video recordings would be taken from multiple vantage points to maximize the visibility of the motion to the participant reviewing it.
 
 \subsection{Online Survey}
 
 \begin{figure}
-    \includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_survey_screenshot}
+    \frame{\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_survey_screenshot}}
     \caption{The main survey question which prompts the participant for a rating in four motion characteristics (efficiency, elegance, smoothness and overall impression) after presenting a video that demonstrates the motion from four clearly visible vantage points for any sample trajectory.}
     \label{fig:survey_question}
 \end{figure}
@@ -179,12 +183,18 @@ The surveys were presented to users of Amazon Mechanical Turk~\cite{paolacci2010
 Mechanical Turk allows dispensing of monetary compensation on completion, which was set to 15\textcent~ per survey. The expected time to complete was 1-2 minutes, which allows the participant about 1 whole minute of deliberation when assigning ratings. Additionally, the participants were allowed to replay the trajectory video repeatedly (and other features that Youtube supports). This maximum possible payout is 15.45\textdollar~ or if each survey took on average 1.5 minutes to complete about 6\textdollar~ per hour of work for a participant.
 
 \begin{figure}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_control_question}
+\frame{\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_control_question}}
 \caption{The survey control question which prompts the participant about the action of the robot in the accompanying video. The question we adopted was to ask the particpant which colored cube the robot touched.}
 \label{fig:control_question}
 \end{figure}
 
-In addition to the rating and demographic questions, a control question was incorporated to account for satisficing in online surveys~\cite{krosnick1991response}~\cite{krosnick1996satisficing}. The question format can be seen in Figure~\ref{fig:control_question}. This question served as the first counter-measure against satisficing in the survey. The other counter-measure was to manually inspect the responses, and assess whether it agrees with the other survey respondents on a participant-by-participant and then trajectory-by-trajectory basis. The process for examining a particular participant involves seeing how his/her ratings agree or disagree with the average ratings of all the other ratings for this particular trajectory. Aggregating this over all the trajectories the participant rated gives us an idea of how much we can trust their responses and make a decision about rejecting all or none of their responses. Another heuristic we employed in inspecting the responses was looking for the average time to complete the survey to be extremely low, which could hint at strong satisficing.
+In addition to the rating and demographic questions, a control question was incorporated to account for satisficing in online surveys~\cite{krosnick1991response}~\cite{krosnick1996satisficing}. The question format can be seen in Figure~\ref{fig:control_question}. This question served as the first counter-measure against satisficing in the survey. 
+
+The other counter-measure was to manually inspect the responses, and assess whether it agrees with the other survey respondents on a participant-by-participant and then trajectory-by-trajectory basis. The process for examining a particular participant involves seeing how his/her ratings {\em agree or disagree} with the average ratings of all the other ratings for this particular trajectory. Aggregating this over all the trajectories the participant rated gives us an idea of how much we can trust their responses and make a decision about rejecting {\em all or none} of their responses. 
+
+Another heuristic we employed in inspecting the responses was looking for the average time to complete the survey to be extremely low, which could hint at strong satisficing.
+
+We found that for our set of data, all the participant ratings for a given trajectory for the were usually within one standard deviation of the average rating for that trajectory. This leads us towards rejecting none of the data we received after running the survey.
 
 \section{Survey Results}
 \label{sec:analysis}
@@ -203,7 +213,39 @@ An analysis of the ratings for each trajectory showed that four (averaged) ratin
 
 Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. Indeed, we found little evidence of any personal preference or clustering of users based on their preference for certain trajectories over others. 
 
-\subsection{Feature Design for Trajectory Classification}
+\section{Feature Design for Trajectory Classification}
+
+The trajectory features we selected for the classification task consider the environment, the shape of the trajectory and the dynamics-related quantities. These make up our unary features computed only on the input trajectory. 
+
+We also include features that compare each trajectory to a nominal trajectory for its problem which also serve to characterize how much the trajectory deviates from the "expected" path. We go over the selection of the nominal path in Section~\ref{subsec:multi_traj_feat}.
+
+\subsection{Unary Trajectory Features}
+
+\subsubsection{Path length}
+
+\subsubsection{Clearance}
+
+\subsubsection{Smoothness}
+
+\subsubsection{Maximum Acceleration}
+
+\subsubsection{Curvature}
+
+\subsection{Multi-Trajectory Features}
+\label{subsec:multi_traj_feat}
+
+Additionally we compared the trajectories to nominal end-effector trajectories that were created using a breadth first search in a 3D voxelized approximation of the planning problem. The solution path is in the workspace of the robot from the start position of the end effector to the end position. The edges used in this search are the 26-connected grid of adjacent neighboring voxels. 
+
+The order for the neighboring voxels being generated is decided by the length of the line connecting the voxel centers. This results in the voxel-neighbors that share \emph{faces} being pushed onto the queue before the voxel-neighbors that share an \emph{edges}, which are in turn added before those voxel-neighbors that share a \emph{corner} with the generating state. The authors make special mention of this because it can lead to differently shaped (but the same overall length) paths.
+
+We compared the planned workspace trajectories of the end-effectors of the robot to this canonical trajectory for each planning problem by computing:
+
+\subsubsection{Hausdorff Distance}
+
+
+
+\subsubsection{Dynamic Time Warping}
+
 
 \todo 
 
