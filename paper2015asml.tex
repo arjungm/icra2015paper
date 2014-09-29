@@ -21,6 +21,8 @@
 %\usepackage{times} % assumes new font selection scheme installed
 %\usepackage{amsmath} % assumes amsmath package installed
 %\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{wrapfig}
+\usepackage{graphicx,color}
 
 \title{\LARGE \bf
 WORKING TITLE: Incorporating User Feedback in Motion Planning for Manipulators
@@ -85,6 +87,33 @@ Human motions have been the subject of recent stufy with the intent of determini
 Recent work has also addressed the task of making motions predictable (similar motions in similar environments and tasks) and/or legible (make it easier for human observers to understand the intent of the robot)~\cite{Beetz:2010}. Legibility makes it possible for human observers to understand clearly what a robot is intending to do, allowing them to modify their actions and motions if necessary. Predictability implies that the robot will always be consistent in its actions, removing the element of surprise for human observers. These concepts have been well-studies recently with the intent of measuring legibility~\cite{Lichtenthaler:2011}, using expressions to improve the readability of robots~\cite{Takayama:2011} and generating anticipation~\cite{Gielniak:2011}. In~\cite{Dragan:2013}, the notion of legibility was incorporated into a constrained trajectory optimization motion planner to generate motions that are more legible to human observers. 
 
 There has been relatively little examination of how human observers perceive robot arm trajectories in environments with obstacles. There is no data available for how human observers react to such robot motions. It is not clear whether minimum-jerk trajectories (or other cost functions) are the best descriptors of motions in such environments or if there are other features that better explain human-observer preferences in such sitations. Our goal in this work is to collect the data needed to answer the query, "Which robot trajectories in cluttered environments do human-observers prefer". A second question that we would like to answer is "Why are certain robot trajectories preferred by human-observers?". This is a larger question that we aim to address in future work and instead we focus on,"Can we predict a human-observer preference for a given trajectory". The answer to this latter question, we hope, will eventually point us towards a cost function for generating more human friendly motion plans. 
+
+\section{Approach}
+\label{sec:survey}
+Our approach starts with an online survey designed to get information from multiple users about how well they like robot trajectories. In this section, we will describe in detail the infrastructure used to create the trajectories and movies that were used in the survey and the online 
+survey procedure used. 
+
+\subsection{System Infrastructure}
+
+\subsection{Online Survey}
+
+
+
+\section{Survey Results}
+The results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of (average) responses for each of the four survey questions across the 100 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. 
+\begin{figure}[t]
+  \centering{\includegraphics[width=\linewidth]{pictures/efficiency.pdf}}
+  \centering{\includegraphics[width=\linewidth]{pictures/elegant.pdf}}
+  \centering{\includegraphics[width=\linewidth]{pictures/smooth.pdf}}
+  \centering{\includegraphics[width=\linewidth]{pictures/overall.pdf}}
+  \caption{Histogram of averaged ratings for the 103 different trajectories. Clockwise from top left: Efficient vs. Inefficient, Elegant vs. Inelegant, Smooth vs. Rough, Overall Rating}
+\label{fig:survey_raw}
+\end{figure}
+
+
+An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth). 
+
+Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. Indeed, we found little evidence of any personal preference or clustering of users based on their preference for certain trajectories over others. 
 
 
 \addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
