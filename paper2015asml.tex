@@ -125,9 +125,9 @@ Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat
 \label{tab:rating_scales}
 \end{table*}
 
-Robot motion study for industrial has been primarily influenced by the need to generate smooth jerk-free trajectories that minimize wear and tear of internal parts. In recent years, there has been more interest in the generation of motions for robots working in human environments, i.e. environments with clutter and people working next to the robots. Most attention, though, has been focused on generating {\em collision-free} motions. Examples include the use of randomized planners\cite{kuffner_RRT_icra00}, trajectory optimization techniques\cite{Mrinal:2011}, and deterministic search-based techniques\cite{Cohen:2012}. Such approaches have also been modified to account for other types of constraints, e.g. dynamic constraints or process constraints arising from the task. 
+Robot motion study for industrial has been primarily influenced by the need to generate smooth jerk-free trajectories that minimize wear and tear of internal parts. In recent years, there has been more interest in the generation of motions for robots working in human environments, i.e. environments with clutter and people working next to the robots. Most attention, though, has been focused on generating {\em collision-free} motions. Examples include the use of randomized planners\cite{kuffner2000rrt}, trajectory optimization techniques\cite{Mrinal:2011}, and deterministic search-based techniques\cite{cohen2010search}. Such approaches have also been modified to account for other types of constraints, e.g. dynamic constraints or process constraints arising from the task. 
 
-Human motions have been the subject of recent stufy with the intent of determining whether there are certain motor or locomotor invariants that best describe human manipulation or locomotion. Human motion has been observed to be stereo-typical~\cite{Atkeson:85}, i.e. learned motion patterns that are repeatedly used. This requires less planning of individual motions and contributes to making human motions more deterministic and predictable. The minimum jerk principle for human motions specifies that the trajectory of the human can best be represented as a motion that minimizes jerk of the hand~\cite{Flash:85}. Uno et. al.~\cite{Uno:89} used minimum torque change as a measure to explain the observed human motions. Minimizing jerk at the joint level~\cite{Rosenbaum:1995} has been another criterion used for human motion. Human motion has also been found to be optimized~\cite{Arechavaleta:2006}. Albrech et. al.~\cite{Albrecht:2011} studied the reaching motions of several subjects in table-setting situations and attempted to codify the motion using cost functions representing minimum-jerk hand motions, minimum-jerk joint motions, minimum torque change and a combination of all three. They found that no single combination of the cost functions explained the observed data completely. 
+Human motions have been the subject of recent study with the intent of determining whether there are certain motor or locomotor invariants that best describe human manipulation or locomotion. Human motion has been observed to be stereo-typical~\cite{Atkeson:85}, i.e. learned motion patterns that are repeatedly used. This requires less planning of individual motions and contributes to making human motions more deterministic and predictable. The minimum jerk principle for human motions specifies that the trajectory of the human can best be represented as a motion that minimizes jerk of the hand~\cite{Flash:85}. Uno et. al.~\cite{Uno:89} used minimum torque change as a measure to explain the observed human motions. Minimizing jerk at the joint level~\cite{Rosenbaum:1995} has been another criterion used for human motion. Human motion has also been found to be optimized~\cite{Arechavaleta:2006}. Albrech et. al.~\cite{Albrecht:2011} studied the reaching motions of several subjects in table-setting situations and attempted to codify the motion using cost functions representing minimum-jerk hand motions, minimum-jerk joint motions, minimum torque change and a combination of all three. They found that no single combination of the cost functions explained the observed data completely. 
 
 Recent work has also addressed the task of making motions predictable (similar motions in similar environments and tasks) and/or legible (make it easier for human observers to understand the intent of the robot)~\cite{Beetz:2010}. Legibility makes it possible for human observers to understand clearly what a robot is intending to do, allowing them to modify their actions and motions if necessary. Predictability implies that the robot will always be consistent in its actions, removing the element of surprise for human observers. These concepts have been well-studies recently with the intent of measuring legibility~\cite{Lichtenthaler:2011}, using expressions to improve the readability of robots~\cite{Takayama:2011} and generating anticipation~\cite{Gielniak:2011}. In~\cite{Dragan:2013}, the notion of legibility was incorporated into a constrained trajectory optimization motion planner to generate motions that are more legible to human observers. 
 
@@ -139,7 +139,7 @@ Our approach starts with an online survey designed to get information from multi
 
 \subsection{Planning System Infrastructure}
 
-The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with video recording capabilities to quickly generate a large number of trajectories. The MoveIt! architecture allows for the definition of environments, referred to as planning scenes, start and goal states for robots (motion planning queries). It also allows for the use of any supported planning algorithms (planners). A combination of different scenes, motion queries, and planners was used to generate robot trajectories for evalutation. We chose three distinct scenes (shown in~\ref{fig:scenes}): a kitchen ({\sc Countertop}), an industrial workbench ({\sc Industrial}) and a drawer on a table ({\sc Drawer}). Multiple queries were generated in each scene for motions of the right arm of the PR2 robot. The robot was positioned in the scenes manually and motion planning queries were constructed by hand. The positioning in the scenes was done with the expectation that the planning queries would not be impossible or trivial for the planning algorithms to solve. 
+The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with video recording capabilities to quickly generate a large number of trajectories. The MoveIt! architecture allows for the definition of environments, referred to as planning scenes, start and goal states for robots (motion planning queries). It also allows for the use of any supported planning algorithms (planners). A combination of different scenes, motion queries, and planners was used to generate robot trajectories for evalutation. We chose three distinct scenes (Fig.~\ref{fig:scenes}): a kitchen ({\sc Countertop}), an industrial workbench ({\sc Industrial}) and a drawer on a table ({\sc Drawer}). Multiple queries were generated in each scene for motions of the right arm of the PR2 robot. The robot was positioned in the scenes manually and motion planning queries were constructed by hand. The positioning in the scenes was done with the expectation that the planning queries would not be impossible or trivial for the planning algorithms to solve. 
 
 %\begin{figure}[b]
 %    \includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/designing_queries_moveit}
@@ -151,9 +151,15 @@ The planning algorithms that we used are RRT-Connect~\cite{kuffner2000rrt} and R
 
 \todo formulae for optimization objectives?
 
-The infrastructure we designed around MoveIt! allowed us to automatically generate movies of the generated trajectories using the ROS Visualizer (Rviz). We generated movies from different viewpoints to maximize the visibility of the motion to human observers reviewing it. Each participant was allowed to provide feedback no more than once for each of the trajectories generated by the survey design. We ran the survey for 103 trajectories, requesting no more than 20 ratings per trajectory. Participants are allowed to rate multiple distinct trajectories, but no more than once. The analysis of these results is presented in Section~\ref{sec:analysis}.
+The infrastructure we designed around MoveIt! allows us to automatically generate movies of the generated trajectories using the ROS Visualizer (Rviz). We generated movies from different viewpoints to maximize the visibility of the motion to human observers reviewing it. Each participant was allowed to provide feedback no more than once for each of the trajectories generated by the survey design. We ran the survey for 103 trajectories, requesting no more than 20 ratings per trajectory. Participants are allowed to rate multiple distinct trajectories, but no more than once. The analysis of these results is presented in Section~\ref{sec:analysis}.
 
 \subsection{Online Survey}
+
+We conducted an online survey{\footnote The online survey was conducted after gaining a waiver from SRI's IRB. Our survey followed standard guidelines for privacy of participant information when conducting a survey on Mechanical Turk.}  to ask human observers to rate a variety of trajectories of the PR2 robot. The surveys were built on Amazon's Mechanical Turk~\cite{paolacci2010running}, which has become a useful tool for large online data gathering and crowd-sourced work. Each respondent in the survey was presented with a set of demographic questions, a video, and four scales to rate the robot's motion on the attributes  of elegance, efficency, smoothness and overall impression. Each respondent was expected to rate multiple trajectories but could not rate a trajectory more than once. Each video has four different views of the robot displayed simultaneously. Participants were asked a demographic questions about (a) familiarity with video games, (b) familiarity with robotics, (c) Age group: categorized as 18-24, 25-44, 45-64 and 65+ and (d) Highest Education Level: PhD/Masters/Bachelors/Associate/High School. None of these pieces of information were used to filter the responses we collected.  A summary of the rating scales used in the main survey question can be seen in Table~\ref{tab:rating_scales}.
+
+Mechanical Turk allows monetary compensation on completion of the survey, which we set to 15\textcent~ per survey. We estimated the time that each participant would take to rate a single trajectory as 1-2 minutes. Additionally, the participants were allowed to replay the trajectory video repeatedly. The maximum possible payout for each participant is thus 15.45\textdollar (if each survey took 1.5 minutes to complete then the wage is approximately 6\textdollar~ per hour). This is standard compensation for quality work on Mechanical Turk for tasks of this type, as was pointed out by several veteran Mechanical Turk surveyors. 
+
+Respondents on Mechanical Turk are only paid if the survey organizer approves their response. A control question, asking the respondent to identify the known action of a robot in a video, served as the first satisficing trap to ensure that participants were truthfully attempting the survey (see~\cite{krosnick1991response}~\cite{krosnick1996satisficing} for more information on satisficing in survey responses. Survey responses were also manually examined to assess whether participants were responding honestly. We looked at whether participant responses were outliers when compared to the rest of the group. We also examined the average time taken by each participant to complete the survey. Overall, we found that all the participants had made a honest attempt at filling out the rating and we did not reject any responses. 
 
 %\begin{figure}
 %    \frame{\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_survey_screenshot}}
@@ -161,27 +167,10 @@ The infrastructure we designed around MoveIt! allowed us to automatically genera
 %    \label{fig:survey_question}
 %\end{figure}
 
-
-\subsubsection{Demographic Questions}
-
-Participants were asked a few demographic questions which ask about:
-
-\begin{itemize}
-\item Familiarity with videogames
-\item Familiarity with robotics
-\item The participant's age group: We asked whether the participant belonged to the 18-24, 25-44, 45-64, and 65+ age brackets.
-\item The participant's highest education level: We asked if the particpant had a PhD/Masters, a Bachelors, Associate or High School level degree as their highest education.
-\end{itemize}
-
-None of these pieces of information were used to filter the responses we collected.
-
 \todo find info on relation between videogame and robotics
 
 \subsubsection{Survey Design and Process}
 
-The surveys were presented to users of Amazon Mechanical Turk~\cite{paolacci2010running}, who were presented with a set of demographic questions, a video, and the four scales to rate the robot's motion on the basis of elegance, efficency, smoothness and overall impression. Additionally a control question was presented with another video asking the participant about the robot's action in another different accompanying video. This served as the first satisficing trap to ensure that participants were truthfully attempting the survey. A summary of the rating scales used in the main survey question can be seen in Table~\ref{tab:rating_scales}.
-
-Mechanical Turk allows monetary compensation on completion of the survey, which we set to 15\textcent~ per survey. The expected time to complete was 1-2 minutes, which allows the participant about 1 whole minute of deliberation when assigning ratings. Additionally, the participants were allowed to replay the trajectory video repeatedly (and other features that Youtube supports). This maximum possible payout is 15.45\textdollar, or if each survey took 1.5 minutes to complete then the wage is approximately 6\textdollar~ per hour.
 
 %\begin{figure}
 %\frame{\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_control_question}}
@@ -189,13 +178,22 @@ Mechanical Turk allows monetary compensation on completion of the survey, which 
 %\label{fig:control_question}
 %\end{figure}
 
-In addition to the rating and demographic questions, a control question was incorporated to account for satisficing in online surveys~\cite{krosnick1991response}~\cite{krosnick1996satisficing}. Also we manually inspect the responses, and assess whether it agrees with the other survey respondents on a participant-by-participant and then trajectory-by-trajectory basis. We also look at the time to complete the survey as another indicator for satisficing.
-
-We found that for our set of data, all the participant ratings for a given trajectory for the were usually within one standard deviation of the average rating for that trajectory. This leads us to rejecting none of the data we received after running the survey.
-
 \section{Survey Results}
 \label{sec:analysis}
-The results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of (average) responses for each of the four survey questions across the 100 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. 
+The results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of (average) responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{table:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1% (with p-values < 0.01).
+
+\begin{table}
+\label{table:correlation}
+\begin{tabular}
+
+\end{tabular}
+\end{table}
+
+
+Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. Indeed, we found little evidence of any personal preference or clustering of users based on their preference for certain trajectories over others. 
+
+
+
 \begin{figure}[t]
   \centering{\includegraphics[width=0.45\linewidth]{pictures/efficiency}}
   \centering{\includegraphics[width=0.45\linewidth]{pictures/elegant}}
@@ -205,10 +203,6 @@ The results of the survey are summarized in Fig.~\ref{fig:survey_raw} which show
 \label{fig:survey_raw}
 \end{figure}
 
-
-An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth). 
-
-Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. Indeed, we found little evidence of any personal preference or clustering of users based on their preference for certain trajectories over others. 
 
 \section{Feature Design for Trajectory Classification}
 
