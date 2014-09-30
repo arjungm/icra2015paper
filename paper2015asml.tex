@@ -129,7 +129,7 @@ The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with 
 %    \label{fig:design}
 %\end{figure}
 
-The planning algorithms that were used were RRT-Connect~\cite{kuffner2000rrt} and RRT*.  RRT*~\cite{frazzoli-RRTstar} was used with two different cost functions: \sc{PathLength} and \sc{MaxMinClearance}.The objective for \sc{PathLength} minimizes the length of the trajectory (as the sum of the euclidean distances between ends of trajectory segments). The objective for \sc{MaxMinClearance} computes uses the minimum clearance of a configuration belonging to a trajectory as the value it is trying to maximize. Both planners are implemented in the OMPL library~\ref{OMPL:2012}. 
+The planning algorithms that we used are RRT-Connect~\cite{kuffner2000rrt} and RRT*.  RRT*~\cite{frazzoli-RRTstar} was used with two different cost functions: {\sc PathLength} and {\sc MaxMinClearance}.The objective for {\sc PathLength} minimizes the length of the trajectory (as the sum of the euclidean distances between ends of trajectory segments). The objective for {\sc MaxMinClearance} computes uses the minimum clearance of a configuration belonging to a trajectory as the value it is trying to maximize. Both planners are implemented in the OMPL library~\ref{OMPL:2012}. 
 
 \todo formulae for optimization objectives?
 
