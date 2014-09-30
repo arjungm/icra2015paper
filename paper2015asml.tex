@@ -157,9 +157,9 @@ The infrastructure we designed around MoveIt! allows us to automatically generat
 
 We conducted an online survey{\footnote The online survey was conducted after gaining a waiver from SRI's IRB. Our survey followed standard guidelines for privacy of participant information when conducting a survey on Mechanical Turk.}  to ask human observers to rate a variety of trajectories of the PR2 robot. The surveys were built on Amazon's Mechanical Turk~\cite{paolacci2010running}, which has become a useful tool for large online data gathering and crowd-sourced work. Each respondent in the survey was presented with a set of demographic questions, a video, and four scales to rate the robot's motion on the attributes  of elegance, efficency, smoothness and overall impression. Each respondent was expected to rate multiple trajectories but could not rate a trajectory more than once. Each video has four different views of the robot displayed simultaneously. Participants were asked a demographic questions about (a) familiarity with video games, (b) familiarity with robotics, (c) Age group: categorized as 18-24, 25-44, 45-64 and 65+ and (d) Highest Education Level: PhD/Masters/Bachelors/Associate/High School. None of these pieces of information were used to filter the responses we collected.  A summary of the rating scales used in the main survey question can be seen in Table~\ref{tab:rating_scales}.
 
-Mechanical Turk allows monetary compensation on completion of the survey, which we set to 15\textcent~ per survey. We estimated the time that each participant would take to rate a single trajectory as 1-2 minutes. Additionally, the participants were allowed to replay the trajectory video repeatedly. The maximum possible payout for each participant is thus 15.45\textdollar (if each survey took 1.5 minutes to complete then the wage is approximately 6\textdollar~ per hour). This is standard compensation on Mechanical Turk for tasks of this type. 
+Mechanical Turk allows monetary compensation on completion of the survey, which we set to 15\textcent~ per survey. We estimated the time that each participant would take to rate a single trajectory as 1-2 minutes. Additionally, the participants were allowed to replay the trajectory video repeatedly. The maximum possible payout for each participant is thus 15.45\textdollar (if each survey took 1.5 minutes to complete then the wage is approximately 6\textdollar~ per hour). This is standard compensation for quality work on Mechanical Turk for tasks of this type, as was pointed out by several veteran Mechanical Turk surveyors. 
 
-Respondents on Mechanical Turk are only paid if the survey organizer approves their response. A control question, asking the respondent to identify the known action of a robot in a video, served as the first satisficing trap to ensure that participants were truthfully attempting the survey (see~\cite{krosnick1991response}~\cite{krosnick1996satisficing} for more information on satisficing in survey responses. Survey responses were also manually examined to assess whether participants were responding honestly. We looked at whether participant responses were outliers when compared to the rest of the group. We also examined the average time taken by each participant to complete the survey. Overall, we found that all the participants had made a honest attempt at filling out the rating and we did not reject any of them. 
+Respondents on Mechanical Turk are only paid if the survey organizer approves their response. A control question, asking the respondent to identify the known action of a robot in a video, served as the first satisficing trap to ensure that participants were truthfully attempting the survey (see~\cite{krosnick1991response}~\cite{krosnick1996satisficing} for more information on satisficing in survey responses. Survey responses were also manually examined to assess whether participants were responding honestly. We looked at whether participant responses were outliers when compared to the rest of the group. We also examined the average time taken by each participant to complete the survey. Overall, we found that all the participants had made a honest attempt at filling out the rating and we did not reject any responses. 
 
 %\begin{figure}
 %    \frame{\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_survey_screenshot}}
@@ -178,12 +178,22 @@ Respondents on Mechanical Turk are only paid if the survey organizer approves th
 %\label{fig:control_question}
 %\end{figure}
 
-
-We found that for our set of data, all the participant ratings for a given trajectory for the were usually within one standard deviation of the average rating for that trajectory. This leads us to rejecting none of the data we received after running the survey.
-
 \section{Survey Results}
 \label{sec:analysis}
-The results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of (average) responses for each of the four survey questions across the 100 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. 
+The results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of (average) responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{table:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1% (with p-values < 0.01).
+
+\begin{table}
+\label{table:correlation}
+\begin{tabular}
+
+\end{tabular}
+\end{table}
+
+
+Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. Indeed, we found little evidence of any personal preference or clustering of users based on their preference for certain trajectories over others. 
+
+
+
 \begin{figure}[t]
   \centering{\includegraphics[width=0.45\linewidth]{pictures/efficiency}}
   \centering{\includegraphics[width=0.45\linewidth]{pictures/elegant}}
@@ -193,10 +203,6 @@ The results of the survey are summarized in Fig.~\ref{fig:survey_raw} which show
 \label{fig:survey_raw}
 \end{figure}
 
-
-An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth). 
-
-Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. Indeed, we found little evidence of any personal preference or clustering of users based on their preference for certain trajectories over others. 
 
 \section{Feature Design for Trajectory Classification}
 
