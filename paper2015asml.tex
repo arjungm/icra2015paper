@@ -139,7 +139,7 @@ Our approach starts with an online survey designed to get information from multi
 
 \subsection{Planning System Infrastructure}
 
-The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with video recording capabilities to quickly generate a large number of trajectories. The MoveIt! architecture allows for the definition of environments, referred to as planning scenes, start and goal states for robots (motion planning queries). It also allows for the use of any supported planning algorithms (planners). A combination of different scenes, motion queries, and planners was used to generate robot trajectories for evalutation. We chose three distinct scenes (shown in~\ref{fig:scenes}): a kitchen ({\sc Countertop}), an industrial workbench ({\sc Industrial}) and a drawer on a table ({\sc Drawer}). Multiple queries were generated in each scene for motions of the right arm of the PR2 robot. The robot was positioned in the scenes manually and motion planning queries were constructed by hand~\ref{fig:design}. The positioning in the scenes was done with the expectation that the planning queries would not be impossible or trivial for the planning algorithms to solve. 
+The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with video recording capabilities to quickly generate a large number of trajectories. The MoveIt! architecture allows for the definition of environments, referred to as planning scenes, start and goal states for robots (motion planning queries). It also allows for the use of any supported planning algorithms (planners). A combination of different scenes, motion queries, and planners was used to generate robot trajectories for evalutation. We chose three distinct scenes (shown in~\ref{fig:scenes}): a kitchen ({\sc Countertop}), an industrial workbench ({\sc Industrial}) and a drawer on a table ({\sc Drawer}). Multiple queries were generated in each scene for motions of the right arm of the PR2 robot. The robot was positioned in the scenes manually and motion planning queries were constructed by hand. The positioning in the scenes was done with the expectation that the planning queries would not be impossible or trivial for the planning algorithms to solve. 
 
 %\begin{figure}[b]
 %    \includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/designing_queries_moveit}
@@ -179,9 +179,9 @@ None of these pieces of information were used to filter the responses we collect
 
 \subsubsection{Survey Design and Process}
 
-The surveys were presented to users of Amazon Mechanical Turk~\cite{paolacci2010running}, who would be presented with a set of demographic questions, a video, and the four scales to rate the robot's motion on the basis of elegance, efficency, smoothness and overall impression. Additionally a control question was presented with another video asking the participant about the robot's action in the accompanying video. This served as the first satisficing trap to ensure that participants were truthfully attempting the survey. On overview of the main survey question can be seen in Figure~\ref{fig:survey_question}.
+The surveys were presented to users of Amazon Mechanical Turk~\cite{paolacci2010running}, who were presented with a set of demographic questions, a video, and the four scales to rate the robot's motion on the basis of elegance, efficency, smoothness and overall impression. Additionally a control question was presented with another video asking the participant about the robot's action in another different accompanying video. This served as the first satisficing trap to ensure that participants were truthfully attempting the survey. A summary of the rating scales used in the main survey question can be seen in Table~\ref{tab:rating_scales}.
 
-Mechanical Turk allows dispensing of monetary compensation on completion, which was set to 15\textcent~ per survey. The expected time to complete was 1-2 minutes, which allows the participant about 1 whole minute of deliberation when assigning ratings. Additionally, the participants were allowed to replay the trajectory video repeatedly (and other features that Youtube supports). This maximum possible payout is 15.45\textdollar~ or if each survey took on average 1.5 minutes to complete about 6\textdollar~ per hour of work for a participant.
+Mechanical Turk allows monetary compensation on completion of the survey, which we set to 15\textcent~ per survey. The expected time to complete was 1-2 minutes, which allows the participant about 1 whole minute of deliberation when assigning ratings. Additionally, the participants were allowed to replay the trajectory video repeatedly (and other features that Youtube supports). This maximum possible payout is 15.45\textdollar, or if each survey took 1.5 minutes to complete then the wage is approximately 6\textdollar~ per hour.
 
 %\begin{figure}
 %\frame{\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_control_question}}
@@ -189,13 +189,13 @@ Mechanical Turk allows dispensing of monetary compensation on completion, which 
 %\label{fig:control_question}
 %\end{figure}
 
-In addition to the rating and demographic questions, a control question was incorporated to account for satisficing in online surveys~\cite{krosnick1991response}~\cite{krosnick1996satisficing}. The question format can be seen in Figure~\ref{fig:control_question}. This question served as the first counter-measure against satisficing in the survey. 
+In addition to the rating and demographic questions, a control question was incorporated to account for satisficing in online surveys~\cite{krosnick1991response}~\cite{krosnick1996satisficing}. This question served as the first counter-measure against satisficing in the survey. It asked the participant to correctly answer a question about the robot performing a simple, and easy-to-recognize motion. 
 
 The other counter-measure was to manually inspect the responses, and assess whether it agrees with the other survey respondents on a participant-by-participant and then trajectory-by-trajectory basis. The process for examining a particular participant involves seeing how his/her ratings {\em agree or disagree} with the average ratings of all the other ratings for this particular trajectory. Aggregating this over all the trajectories the participant rated gives us an idea of how much we can trust their responses and make a decision about rejecting {\em all or none} of their responses. 
 
 Another heuristic we employed in inspecting the responses was looking for the average time to complete the survey to be extremely low, which could hint at strong satisficing.
 
-We found that for our set of data, all the participant ratings for a given trajectory for the were usually within one standard deviation of the average rating for that trajectory. This leads us towards rejecting none of the data we received after running the survey.
+We found that for our set of data, all the participant ratings for a given trajectory for the were usually within one standard deviation of the average rating for that trajectory. This leads us to rejecting none of the data we received after running the survey.
 
 \section{Survey Results}
 \label{sec:analysis}
