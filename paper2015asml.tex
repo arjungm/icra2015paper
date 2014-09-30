@@ -37,6 +37,7 @@
 %EDITING COMMANDS
 \newcommand{\hilight}[1]{\colorbox{red}{#1}}
 \newcommand{\todo}{\colorbox{red}{TODO}}
+\newcommand{\tj}[1]{\ensuremath{\xi_\text{#1}}}
 
 \title{\LARGE \bf
 WORKING TITLE: Incorporating User Feedback in Motion Planning for Manipulators
@@ -234,33 +235,92 @@ We also include features that compare each trajectory to a nominal trajectory fo
 \subsection{Multi-Trajectory Features}
 \label{subsec:multi_traj_feat}
 
-Additionally we compared the trajectories to nominal end-effector trajectories that were created using a breadth first search in a 3D voxelized approximation of the planning problem. The solution path is in the workspace of the robot from the start position of the end effector to the end position. The edges used in this search are the 26-connected grid of adjacent neighboring voxels. 
+We compared the trajectories to nominal end-effector trajectories that were created using a breadth first search in a 3D voxel approximation of the planning problem. The planning scene is discretized, and voxels are marked as occupied or empty if any part of the voxel is considered in collision with the underlying planning scene. The start and goal voxel is simply the $(x,y,z)$ of the end-effector tool-frame. Note that this does not take into account the orientation of the end-effector. These voxels make up our vertices $V_\text{grid}$ for our graph.
 
-The order for the neighboring voxels being generated is decided by the length of the line connecting the voxel centers. This results in the voxel-neighbors that share \emph{faces} being pushed onto the queue before the voxel-neighbors that share an \emph{edges}, which are in turn added before those voxel-neighbors that share a \emph{corner} with the generating state. The authors make special mention of this because it can lead to differently shaped (but the same overall length) paths.
+The edges $E_\text{grid}$ used in this search are the 26-connected grid of adjacent neighboring voxels that are one unit step away in any direction. For example, some valid adjacent voxels can be computed by adding $(+\Delta x,0,0)$, $(-\Delta x,-\Delta y,0)$, and $(+\Delta x, -\Delta y,-\Delta z)$ to the coordinates of the current voxel. For this graph, $\Delta x = \Delta y = \Delta z = 1$. An edge only exists in this graph if the ending voxel is collision.
 
-We compared the planned workspace trajectories of the end-effectors of the robot to this canonical trajectory for each planning problem by computing:
+The order the neighboring voxels are generated is decided by the length of the line connecting the voxel centers. This results in the voxel-neighbors that share \emph{faces} being pushed onto the queue before the voxel-neighbors that share an \emph{edges}, which are in turn added before those voxel-neighbors that share a \emph{corner} with the generating state. For example, the voxel at $(1,0,0)$ is added to the queue before $(1,1,0)$ which is added before $(1,1,1)$, provided all three are collision free. 
+
+We make special mention of this because it can lead to differently shaped (but the same overall length) paths if you were to generate the edges with any other order. This lets us use a simple BFS to search the graph with unit cost edges.
+
+Defining our searchable graph to be $G=(V_\text{grid}, E_\text{grid})$, we can now perform breadth first search on the graph to get a valid collision free path from $V_\text{start}$ to $V_\text{end}$. The resulting path is given a nominal timing and we refer to it as $\xi_{\text{BFS}}$. We compute comparison features between it and three other workspace trajectories that are computed from the forward kinematics of the joint-space trajectory for the following links in the kinematic chain of the manipulator: for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$).
+
+We compared the planned workspace trajectories of the end-effectors of the robot to this canonical trajectory for each planning problem by computing the the Hausdorff distances~\cite{dubuisson1994modified}, and Dynamic Time Warping~\cite{senin2008dynamic} costs between $\xi_{\text{BFS}}$ and each of the other three.
 
 \subsubsection{Hausdorff Distance}
 
+The Hausdorff distance $H_\text{AB}$ between trajectory $\xi_\text{A}$ and trajectory $\xi_\text{B}$ can be computed as follows:
+\begin{equation}
+\begin{aligned}
+H_\text{AB} &= \max (h_{\text{AB}}, h_{\text{BA}}) \\
+h_{\text{AB}} &= \max_{q_\text{A} \in \xi_\text{A}} \min_{q_\text{B} \in \xi_\text{B}} d(q_\text{A}, q_\text{B})\\
+h_{\text{BA}} &= \max_{q_\text{B} \in \xi_\text{B}} \min_{q_\text{A} \in \xi_\text{A}} d(q_\text{B}, q_\text{B})\\
+\end{aligned}
+\end{equation}
 
+where $q_\text{i}$ is a configuration (or in this case an end effector position) at the waypoint in trajectory $\xi_\text{i}$ and $d(q_\text{i}, q_\text{j})$ is the euclidean distance between the trajectory waypoints.
+
+In addition to this Hausdorff distance we also use the Interpolation-based Modified Hausdorff distance~\cite{dubuisson1994modified}~\cite{chen2013dynamic}, which is defined as:
+
+\begin{equation}
+\text{imh}_\text{AB} = \frac{1}{|\xi_\text{A}|} \sum_{q_\text{A} \in \xi_\text{A}} \min_{\overline{q_\text{i}q_\text{i+1}} \in \xi_\text{B}} d(q_\text{A}, \overline{q_\text{i}q_\text{i+1}})
+\end{equation}
+
+where $n(\xi)$ is the number of waypoints in the trajectory, $\overline{q_\text{i}q_\text{i+1}}$ is the i-th segment and $d(q_\text{A}, \overline{q_\text{i}q_\text{i+1}})$ is the shortest distance between the point and any point on the straight-line segment. We calculate this distance only one way, between $\xi_{\text{BFS}}$ and each of $\xi_\text{elbow}$, $\xi_\text{wrist}$, and $\xi_\text{tip}$.
 
 \subsubsection{Dynamic Time Warping}
 
+Dynamic Time Warping was previously used in a wide varity of applications ranging from speech recognition, gesture recognition, handwriting matching, and can be applied here to compare two different trajectories~\cite{senin2008dynamic}\cite{chen2013dynamic}. It provides a way to compute a distance despite differences in timing of the trajectories as well.
 
-\todo 
+DTW computes a mapping of a subset of the waypoints in $\xi_\text{A}$ to a subset of the waypoints in $\xi_\text{B}$ which constitutes the warping path, or
 
-Write about:
+\begin{equation}
+\xi_\text{DTW} = \{ (0, 0), (a_i, b_j), \mathellipsis ,(n_A, n_B) \}
+\end{equation}
+
+where $n_A = |\tj{A}|$ and $n_B = |\tj{B}|$ which are the number of waypoints in the trajectory.
+
+The path is constrained to map the first waypoints and last waypoints together, which makes up a boundary condition. Finally, the warping path is continuous and monotone such that each coordinate of the waypoint in the warping path is between 0 and 1 of the coordinate of the preceding waypoint in the path, or
+
+\begin{equation}
+\forall_{(a_i,b_i) \in \xi_\text{DTW}} 
+  \begin{cases}
+      0 \leq a_{i} - a_{i-1} \leq 1 \\
+      0 \leq b_{i} - b_{i-1} \leq 1 \\
+  \end{cases}
+\end{equation}
+
+Computing this warping path cost is done by framing it as a dynamic programming problem where the cumulative DTW cost of a cell is done on a $n_B+1 \times n_B+1$ array and initialized such that
+
+\begin{equation}
+\begin{aligned}
+\text{DTW}[0,0] &= 0 \\
+\forall_{i=\{1,\mathellipsis,n_A\}} \text{DTW}[i,0] &= \inf\\
+\forall_{j=\{1,\mathellipsis,n_B\}} \text{DTW}[0,j] &= \inf\\
+\end{aligned}
+\end{equation}
+
+and the algorithm iterates over $i=\{1,\mathellipsis,|\tj{A}|\}$ and $j=\{1,\mathellipsis,|\tj{B}|\}$ and updates the the cell at an index $(i,j)$ with the rule
+
+\begin{equation}
+\text{DTW}[i,j] = \text{d}_{i,j} + \min 
+  \begin{cases}
+    \text{DTW}[i-1,j] \\
+    \text{DTW}[i,j-1] \\
+    \text{DTW}[i-1,j-1] ) \\
+  \end{cases}
+\end{equation}
+
+where $\text{d}_{i,j}$ is the euclidean distance between waypoint $i$-th waypoint of \tj{A} and $j$-th waypoint of \tj{B}. After computing this array, $\text{DTW}[n_A, n_B]$ gives the cost or distance between \tj{A} and \tj{B}.
+
+\todo Write about:
 \begin{itemize}
 \item clearance
 \item smoothness
-\item hausdorff distance
-\item dynamic time warping
 \item angular distance
 \item path length
-\item bfs path computation
 \item figures for examples of high-low values of the above
 \end{itemize}
-\todo
 
 \addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
