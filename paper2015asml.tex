@@ -70,50 +70,42 @@ Towards a Data-driven Approach to Motion Planning
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-Co-robots, i.e. robots that need to work close to people, will need to account for the preferences and expectations of their human 
-co-workers in executing motions or actions. Consistent, legible and predictable motions are a key factor in making humans comfortable 
-around robots. In this work, we take a first step towards designing motions that are more acceptable to human co-workers by asking 
-people to rate robot motions generated in a variety of environments. Our approach is data-driven, i.e. we aim to use data from an online 
-survey to inform good quality paths and trajectories. We compute a set of features for each trajectory and use the features 
-and associated ratings to try add predict a quality score that represents how well the human observers liked the trajectory. We present an 
-analysis of the dataset that we have collected, highlighting the features that dominate the trajectories that people prefer. We also 
-present a classifier that will return the quality score for a given trajectory. Finally, we discuss how a data-driven approach using the 
-results of this analysis can be used to help design better plans that are more acceptable to people. 
+Co-robots, i.e. robots that work close to people, will need to account for the preferences and expectations of their human 
+co-workers in executing trajectories or actions. Consistent, legible and predictable trajectories are a key factor in making humans comfortable 
+around robots. In this work, we take a data-driven approach towards designing robot trajectories that are more acceptable 
+to human co-workers and observers. We use an online survey to ask people to rate multiple robot trajectories generated in a variety of environments. 
+We compute a large set of features for each trajectory, also taking into account environment information. We use a combination 
+of the features and the survey ratings to learn a classifier that predicts the rating for a new trajectory based on the learned 
+human-observer preferences. The classifier also helps identify and highlight the most important features 
+that influence people's ratings of the trajectories. Finally, we discuss how a data-driven approach using the 
+results of this analysis can be used to help design better trajectories that are more acceptable to people.
 \end{abstract}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}
 
-Robots working in industrial environments have traditionally been limited to simple, efficient point to point motions. Robotic workcells 
+Robots working in industrial environments have traditionally been limited to simple, efficient point to point trajectories. Robotic workcells 
 typically require a safety cage to prevent people from being getting close. Robotic motion generation, therefore, does not take 
-into account any notion of the acceptability of motions for human observers. The need for more flexibility in manufacturing and logistics, 
+into account any notion of the acceptability of trajectories for human observers. The need for more flexibility in manufacturing and logistics, 
 though, has resulted in a greater need for robots that can work beside humans. As robots and people start becoming co-workers, taking 
-human perception of robotic paths into account will become more important. Humans are able to predict and adjust their motions to 
-account for the expectations and motions of their co-workers easily. For human co-workers to be comfortable, robots will similarly 
-have to tailor their motions for the presence and actions of the people around them. 
+human perception of robotic paths into account will become more important. Humans are able to predict and adjust their trajectories to 
+account for the expectations and trajectories of their co-workers easily. For human co-workers to be comfortable, robots will similarly 
+have to tailor their trajectories for the presence and actions of the people around them\footnote{we use the word motion in general to describe how robot's move 
+and the word trajectory to describe time-parameterized paths}. 
 
-In this work, we take a first step towards the ultimate goal of generating robotic arm motions in cluttered environments that are acceptable for human observers and co-workers. We start with a survey where human observers rate robot motion quality. We generated a range of trajectories across multiple environments with different planners. The motion planning problems we chose required a (simulated) robot to move its arm from a specified end-effector start position to a desired end-effector goal position. Movies of these trajectories from multiple viewpoints were then presented to human observers using an online survey tool. The users were asked to rate different attributes of the trajectories. We also computed a large set of features for each trajectory. The feature set was designed to be easily extensible across different types of robots and also captures the relationship between the trajectories and the environment. We use the feature set, coupled with machine learning techniques, to build a classifier that predicts the human rating for a given trajectory. The classifiers also help in identifying a set of features that are the most important in predicting human preferences for robot trajectories. The classifiers could also form the basis for a new {\em data-driven} approach to motion planning. 
+In this work, we take a first step towards the ultimate goal of generating robotic arm trajectories in cluttered environments that are acceptable for human observers and co-workers. 
+We start with a survey where human observers rate robot motion quality. We generated a range of trajectories across multiple environments with different planners. 
+The motion planning problems we chose required a (simulated) robot to move its arm from a specified end-effector start position to a desired end-effector goal position. Movies of these trajectories from multiple viewpoints were then presented to human observers using an online survey tool. The users were asked to rate different attributes of the trajectories. We also computed a large set of features for each trajectory. The feature set was designed to be easily extensible across different types of robots and also captures the relationship between the trajectories and the environment. We use the feature set, coupled with machine learning techniques, to build a classifier that predicts the human rating for a given trajectory. The classifiers also help in identifying a set of features that are the most important in predicting human preferences for robot trajectories, allowing us to rate motion planned trajectories as they are generated.
 
-This paper is organized as follows. In Section~\ref{sec:background}, we first describe some of the existing approaches to designing better quality paths for robots. We also look at how human motion information has inspired work in designing better trajectories for robots. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents raw results from the survey, including examples of trajectories that were rated well and badly. In Section~\ref{sec:analysis}, we present a set of features corresponding to the trajectories and use a machine learning approach to derive a classifier for predicting the rating of trajectories. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
-
-\begin{figure}
-\centering
-  \includegraphics[trim = 70mm 0mm 70mm 0mm, width=0.62\columnwidth, clip=true]{pictures/countertop_scene2}
-  \begin{minipage}[b][][s]{0.352\columnwidth}
-  \centering
-    \includegraphics[trim = 70mm 0mm 70mm 0mm, width=\textwidth, clip=true]{pictures/drawer_scene2}
-    \vfill
-    \includegraphics[trim = 30mm 0mm 30mm 0mm, width=\textwidth, clip=true]{pictures/industrial_scene2}
-  \end{minipage}
-\caption{The scenes used in generating the robot motions to collect feedback from human observers. \emph{Drawer} (top right), \emph{Countertop} (left), and \emph{Industrial} (bottom right)}\label{fig:scenes}
-\end{figure}
+This paper is organized as follows. In Section~\ref{sec:background}, we first describe realted work in this area. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents the results from the survey and analysis, including the trajectory features used for classification and the classification approaches used with the data. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
 
 \section{Background}
 \label{sec:background}
 
 \begin{table*}
 \centering
+\scalebox{0.9}{
 \begin{tabular}{|c||c|c|c|c|c|c|c|}
 \hline
 Efficiency  & Highly inefficient& Moderately inefficient& Slightly inefficient& Neutral & Slightly efficient& Moderately efficient& Highly efficient\\
@@ -125,21 +117,34 @@ Smoothness  & Highly rough& Moderately rough& Slightly rough& Neutral & Slightly
 Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat good& Moderately good& Extremely good\\
 \hline
 \end{tabular}
+}
 \caption{The rating categories and the associated scale presented to the survey respondent}
 \label{tab:rating_scales}
 \end{table*}
 
-Robot motion for industrial applications has been primarily influenced by the need to generate smooth jerk-free trajectories that minimize wear and tear of internal parts. In recent years, there has been more interest in the generation of motions for robots working in human environments, i.e. environments with clutter and people working next to the robots. Most attention, though, has been focused on generating {\em collision-free} motions. Examples include the use of randomized planners~\cite{kuffner2000rrt}, trajectory optimization techniques~\cite{Mrinal:2011}, and deterministic search-based techniques~\cite{cohen2010search}. Such approaches have also been modified to account for other types of constraints, e.g. dynamic constraints or process constraints arising from the task. 
+Robot motion for industrial applications has been primarily influenced by the need to generate smooth jerk-free trajectories that minimize wear and tear of internal parts. In recent years, there has been more interest in the generation of trajectories for robots working in human environments, i.e. environments with clutter and people working next to the robots. Most attention, though, has been focused on generating {\em collision-free} trajectories. Examples include the use of randomized planners~\cite{kuffner2000rrt}, trajectory optimization techniques~\cite{Mrinal:2011}, and deterministic search-based techniques~\cite{cohen2010search}. Such approaches have also been modified to account for other types of constraints, e.g. dynamic constraints or process constraints arising from the task. 
 
-Human motions have been the subject of recent study with the intent of determining whether there are certain motor or locomotor invariants that best describe human manipulation or locomotion. Human motion has been observed to be stereo-typical~\cite{Atkeson:85}, i.e. learned motion patterns that are repeatedly used. This requires less planning of individual motions and contributes to making human motions more deterministic and predictable. The minimum jerk principle for human motions specifies that the trajectory of the human can best be represented as a motion that minimizes jerk of the hand~\cite{Flash:85}. Uno et. al.~\cite{Uno:89} used minimum torque change as a measure to explain the observed human motions. Minimizing jerk at the joint level~\cite{Rosenbaum:1995} has been another criterion used for human motion. Human motion has also been found to be optimized~\cite{Arechavaleta:2006}. Albrech et. al.~\cite{Albrecht:2011} studied the reaching motions of several subjects in table-setting situations and attempted to codify the motion using cost functions representing minimum-jerk hand motions, minimum-jerk joint motions, minimum torque change and a combination of all three. They found that no single combination of the cost functions explained the observed data completely. 
+Human motion have been the subject of recent study with the intent of determining whether there are certain motor or locomotor invariants that best describe human manipulation or locomotion. Human motion has been observed to be stereo-typical~\cite{Atkeson:85}, i.e. learned motion patterns that are repeatedly used. This requires less planning of individual motions and contributes to making human motions more deterministic and predictable. The minimum jerk principle for human motions specifies that the trajectory of the human can best be represented as a motion that minimizes jerk of the hand~\cite{Flash:85}. Uno et. al.~\cite{Uno:89} used minimum torque change as a measure to explain the observed human motions. Minimizing jerk at the joint level~\cite{Rosenbaum:1995} has been another criterion used for human motion. Human motion has also been found to be optimized~\cite{Arechavaleta:2006}. Albrech et. al.~\cite{Albrecht:2011} studied the reaching motions of several subjects in table-setting situations and attempted to codify the motion using cost functions representing minimum-jerk hand trajectories, minimum-jerk joint trajectories, minimum torque change and a combination of all three. They found that no single combination of the cost functions explained the observed data completely. 
 
 Recent work has also addressed the task of making motions predictable (similar motions in similar environments and tasks) and/or legible (make it easier for human observers to understand the intent of the robot)~\cite{Beetz:2010}. Legibility makes it possible for human observers to understand clearly what a robot is intending to do, allowing them to modify their actions and motions if necessary. Predictability implies that the robot will always be consistent in its actions, removing the element of surprise for human observers. These concepts have been well-studies recently with the intent of measuring legibility~\cite{Lichtenthaler:2011}, using expressions to improve the readability of robots~\cite{Takayama:2011} and generating anticipation~\cite{Gielniak:2011}. In~\cite{Dragan:2013}, the notion of legibility was incorporated into a constrained trajectory optimization motion planner to generate motions that are more legible to human observers. 
 
-There has been relatively little examination of how human observers perceive robot arm trajectories in environments with obstacles. There is no data available for how human observers react to such robot motions. It is not clear whether minimum-jerk trajectories (or other cost functions) are the best descriptors of motions in such environments or if there are other features that better explain human-observer preferences in such sitations. Our goal in this work is to collect the data needed to answer the query, "Which robot trajectories in cluttered environments do human-observers prefer". A second question that we would like to answer is "Why are certain robot trajectories preferred by human-observers?". This is a larger question that we aim to address in future work and instead we focus on,"Can we predict a human-observer preference for a given trajectory". The answer to this latter question, we hope, will eventually point us towards a cost function for generating more human friendly motion plans. 
+There has been relatively little examination of how human observers perceive robot arm trajectories in environments with obstacles. There is no data available for how human observers react to such robot trajectories. It is not clear whether minimum-jerk trajectories (or other cost functions) are the best descriptors of trajectories in such environments or if there are other features that better explain human-observer preferences in such sitations. Our goal in this work is to collect the data needed to answer the query, "Which robot trajectories in cluttered environments do human-observers prefer". A second question that we would like to answer is "Why are certain robot trajectories preferred by human-observers?". This is a larger question that we aim to address in future work and instead we focus on,"Can we predict a human-observer preference for a given trajectory". The answer to this latter question, we hope, will eventually point us towards a cost function for generating more human friendly motion plans. 
 
 \section{Approach}
 \label{sec:survey}
 Our approach starts with an online survey designed to get information from multiple users about how well they like robot trajectories. In this section, we will describe in detail the infrastructure used to create the trajectories and movies that were used in the survey. We will also describe the online survey procedure in detail. 
+
+\begin{figure}[b]
+\centering
+  \includegraphics[trim = 70mm 0mm 70mm 0mm, width=0.62\columnwidth, clip=true]{pictures/countertop_scene2}
+  \begin{minipage}[b][][s]{0.352\columnwidth}
+  \centering
+    \includegraphics[trim = 70mm 0mm 70mm 0mm, width=\textwidth, clip=true]{pictures/drawer_scene2}
+    \vfill
+    \includegraphics[trim = 30mm 0mm 30mm 0mm, width=\textwidth, clip=true]{pictures/industrial_scene2}
+  \end{minipage}
+\caption{The scenes used in generating the robot trajectories to collect feedback from human observers. \emph{Drawer} (top right), \emph{Countertop} (left), and \emph{Industrial} (bottom right)}\label{fig:scenes}
+\end{figure}
 
 \subsection{Planning System Infrastructure}
 
@@ -167,8 +172,6 @@ Respondents on Mechanical Turk are only paid if the survey organizer approves th
 %    \label{fig:survey_question}
 %\end{figure}
 
-\todo find info on relation between videogame and robotics
-
 %\begin{figure}
 %\frame{\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_control_question}}
 %\caption{The survey control question which prompts the respondent about the action of the robot in the accompanying video. The question we adopted was to ask the particpant which colored cube the robot touched.}
@@ -176,7 +179,7 @@ Respondents on Mechanical Turk are only paid if the survey organizer approves th
 %\end{figure}
 
 \section{Survey Results and Analysis}
-\label{sec:analysis}
+\label{sec:raw_results}
 The survey resulted in at least 20 ratings for each trajectory. While the raw results are interesting in themselves, we are most interested in knowing why the respondents preferred particular trajectories. We aim to infer this information using a data-driven approach. We compute multiple features for each trajectory and use the features and survey ratings to design a classifier that can classify a new trajectory into one of three classes: low human-observer preference, medium human-observer preference and high human-observer preference. The classifier can thus be used with new trajectories to predict the expected rating of that trajectory by a human-bserver. The classifier also helps to identify the features that are most key to determining the human-observer preference for a particular trajectory over others. These features will be key in eventually developing new motion planners or cost functions for motion planners that create plans that are more acceptable to human observers.  
 
 \subsection{Raw Survey Results}
@@ -192,8 +195,8 @@ The survey resulted in at least 20 ratings for each trajectory. While the raw re
 The raw results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of (average) responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{table:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1% (with p-values < 0.01). Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. 
 
 \begin{table}
-\label{table:correlation}
-\begin{centering}
+\label{tab:correlation}
+\centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 & Efficient & Elegant & Smooth & Overall \\ \hline
@@ -202,10 +205,8 @@ Elegant & 0.96 & 1 & 0.96 & 0.98 \\ \hline
 Smooth & 0.91 & 0.96 & 1 & 0.96 \\ \hline
 Overall & 0.98 & 0.98 & 0.96 & 1 \\ \hline
 \end{tabular}
-\end{centering}
 \caption{Correlation between the four attributes in the survey.}
 \end{table}
-
 
 \subsection{Trajectory Features}
 
@@ -219,24 +220,24 @@ The first set of features we compute for each trajectory take into account the e
 We compute path length for the joint-space trajectory and for three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links of the right arm (the moving arm).
 
 {\bf Clearance:}
-The average clearance of a trajectory \tj{} is the average minimum distance of configurations at waypoints to the closest obstacle, or
-\begin{equation}
-\text{Clearance} = \frac{1}{n} \sum_{i=0}^n \min_{o \in O} \text{dist}(q_i, o)
-\end{equation}
-where $O$ represents the set of obstacles in the scene and $\text{dist}(q_i, o)$ calculates the closest distance between obstacle $o$ and configuration $q_i$.
+The clearance of a trajectory \tj{} is the average over the waypoints of the minimum distance of configurations to the closest obstacle.
+%\begin{equation}
+%\text{Clearance} = \frac{1}{n} \sum_{i=0}^n \min_{o \in O} \text{dist}(q_i, o)
+%\end{equation}
+%where $O$ represents the set of obstacles in the scene and $\text{dist}(q_i, o)$ calculates the closest distance between obstacle $o$ and configuration $q_i$.
 
 {\bf Smoothness:}
-The smoothness of a trajectory is computed by averaging the included angle of three consecutive waypoint configurations, for all triplets of waypoints in \tj{}. The angle is computed using joint-space euclidean distance between configurations as the length of sides of the triangle.
-\begin{equation}
-\begin{aligned}
-&\text{Smoothness} = \frac{1}{n-2} \sum_{i=1}^{n-1} \mathellipsis\\
-&\left[ \pi- \text{angle}(\|q_\text{i-1}-q_\text{i}\|,\|q_\text{i}-q_\text{i+1}\|,\|q_\text{i+1}-q_\text{i-1}\|) \right]\\
-\end{aligned}
-\end{equation}
-where the included angle is computed
-\begin{equation}
-\text{angle}(a,b,c) = \arccos (a^2+c^2-b^2)/2ac
-\end{equation}
+The smoothness of a trajectory is computed by averaging the included angle of three consecutive waypoint configurations, for all triplets of waypoints in \tj{}. The angle is computed using joint-space euclidean distance between configurations as the length of sides of the triangle as described in~\cite{cohen2012generic}.
+%\begin{equation}
+%\begin{aligned}
+%&\text{Smoothness} = \frac{1}{n-2} \sum_{i=1}^{n-1} \mathellipsis\\
+%&\left[ \pi- \text{angle}(\|q_\text{i-1}-q_\text{i}\|,\|q_\text{i}-q_\text{i+1}\|,\|q_\text{i+1}-q_\text{i-1}\|) \right]\\
+%\end{aligned}
+%\end{equation}
+%where the included angle is computed
+%\begin{equation}
+%\text{angle}(a,b,c) = \arccos (a^2+c^2-b^2)/2ac
+%\end{equation}
 We compute smoothness for both the joint-space trajectory \tj{} and for workspace trajectories $\xi_\text{elbow}$, $\xi_\text{wrist}$, and $\xi_\text{tip}$.
 
 {\bf Maximum Acceleration:}
@@ -280,13 +281,13 @@ h_{\text{BA}} &= \max_{q_\text{B} \in \xi_\text{B}} \min_{q_\text{A} \in \xi_\te
 
 where $q_\text{A}$ is a configuration (or in this case an end effector position) at the waypoint in trajectory \tj{A} and $\text{d}(q_\text{i}, q_\text{j})$ is the euclidean distance between the trajectory waypoints.
 
-In addition to this Hausdorff distance we also use the Interpolation-based Modified Hausdorff distance~\cite{dubuisson1994modified}~\cite{chen2013dynamic}, which is defined as:
+We also use the Interpolation-based Modified Hausdorff distance~\cite{dubuisson1994modified}~\cite{chen2013dynamic}, which is defined as:
 
 \begin{equation}
 \text{imh}_\text{AB} = \frac{1}{n_A} \sum_{q_\text{A} \in \xi_\text{A}} \min_{\overline{q_\text{B,i}} \in \xi_\text{B}} \text{d}(q_\text{A}, \overline{q_\text{B,i}})
 \end{equation}
 
-where $n(\xi)$ is the number of waypoints in the trajectory, $\overline{q_\text{B,i}}$ is the i-th segment in \tj{B}, and $\text{d}(q, \overline{q})$ is the shortest distance between the point and the line segment. We calculate this distance only one way, for $(\tj{elbow},\tj{BFS})$, $(\tj{wrist},\tj{BFS})$. and $(\tj{tip},\tj{BFS})$.
+where $n$ is the number of waypoints, $\overline{q_\text{B,i}}$ is the i-th segment in \tj{B}, and $\text{d}(q, \overline{q})$ is the shortest distance between the point and the line segment. We calculate this distance only one way, for $(\tj{elbow},\tj{BFS})$, $(\tj{wrist},\tj{BFS})$. and $(\tj{tip},\tj{BFS})$.
 
 \subsubsection{Dynamic Time Warping}
 
@@ -294,41 +295,40 @@ Dynamic Time Warping (DTW) was previously used in a wide varity of applications 
 
 \begin{equation}
 \xi_\text{DTW} = \{ (0, 0), (a_i, b_j), \mathellipsis ,(n_A, n_B) \}
-\end{equation}
-where $n_A = |\tj{A}|$ and $n_B = |\tj{B}|$ which are the number of waypoints in the trajectory.
+\end{equation} where $n_A = |\tj{A}|$ and $n_B = |\tj{B}|$ which are the number of waypoints in the trajectory. More on the construction of the \tj{DTW} can be read in~\cite{senin2008dynamic}\cite{chen2013dynamic}. The DTW feature is the cost of the warping path.
 
-The path is constrained to map the first waypoints and last waypoints together, which makes up a boundary condition. Finally, the warping path is continuous and monotone such that each coordinate of the waypoint in the warping path is between 0 and 1 of the coordinate of the preceding waypoint in the path, or
-
-\begin{equation}
-\forall_{(a_i,b_i) \in \xi_\text{DTW}} 
-  \begin{cases}
-      0 \leq a_{i} - a_{i-1} \leq 1 \\
-      0 \leq b_{i} - b_{i-1} \leq 1 \\
-  \end{cases}
-\end{equation}
-
-Computing this warping path cost is done by framing it as a dynamic programming problem where the cumulative DTW cost of a cell is done on a $n_B+1 \times n_B+1$ array and initialized such that
-
-\begin{equation}
-\begin{aligned}
-\text{DTW}[0,0] &= 0 \\
-\forall_{i=\{1,\mathellipsis,n_A\}} \text{DTW}[i,0] &= \inf\\
-\forall_{j=\{1,\mathellipsis,n_B\}} \text{DTW}[0,j] &= \inf\\
-\end{aligned}
-\end{equation}
-
-and the algorithm iterates over $i=\{1,\mathellipsis,|\tj{A}|\}$ and $j=\{1,\mathellipsis,|\tj{B}|\}$ and updates the the cell at an index $(i,j)$ with the rule
-
-\begin{equation}
-\text{DTW}[i,j] = \text{d}_{i,j} + \min 
-  \begin{cases}
-    \text{DTW}[i-1,j] \\
-    \text{DTW}[i,j-1] \\
-    \text{DTW}[i-1,j-1] ) \\
-  \end{cases}
-\end{equation}
-
-where $\text{d}_{i,j}$ is the euclidean distance between waypoint $i$-th waypoint of \tj{A} and $j$-th waypoint of \tj{B}. After computing this array, $\text{DTW}[n_A, n_B]$ gives the cost or distance between \tj{A} and \tj{B}.
+%The path is constrained to map the first waypoints and last waypoints together, which makes up a boundary condition. Finally, the warping path is continuous and monotone such that each coordinate of the waypoint in the warping path is between 0 and 1 of the coordinate of the preceding waypoint in the path, or
+%
+%\begin{equation}
+%\forall_{(a_i,b_i) \in \xi_\text{DTW}} 
+%  \begin{cases}
+%      0 \leq a_{i} - a_{i-1} \leq 1 \\
+%      0 \leq b_{i} - b_{i-1} \leq 1 \\
+%  \end{cases}
+%\end{equation}
+%
+%Computing this warping path cost is done by framing it as a dynamic programming problem where the cumulative DTW cost of a cell is done on a $n_B+1 \times n_B+1$ array and initialized such that
+%
+%\begin{equation}
+%\begin{aligned}
+%\text{DTW}[0,0] &= 0 \\
+%\forall_{i=\{1,\mathellipsis,n_A\}} \text{DTW}[i,0] &= \inf\\
+%\forall_{j=\{1,\mathellipsis,n_B\}} \text{DTW}[0,j] &= \inf\\
+%\end{aligned}
+%\end{equation}
+%
+%and the algorithm iterates over $i=\{1,\mathellipsis,|\tj{A}|\}$ and $j=\{1,\mathellipsis,|\tj{B}|\}$ and updates the the cell at an index $(i,j)$ with the rule
+%
+%\begin{equation}
+%\text{DTW}[i,j] = \text{d}_{i,j} + \min 
+%  \begin{cases}
+%    \text{DTW}[i-1,j] \\
+%    \text{DTW}[i,j-1] \\
+%    \text{DTW}[i-1,j-1] ) \\
+%  \end{cases}
+%\end{equation}
+%
+%where $\text{d}_{i,j}$ is the euclidean distance between waypoint $i$-th waypoint of \tj{A} and $j$-th waypoint of \tj{B}. After computing this array, $\text{DTW}[n_A, n_B]$ gives the cost or distance between \tj{A} and \tj{B}.
 
 
 \begin{figure*}[t]
@@ -388,12 +388,6 @@ where $\text{d}_{i,j}$ is the euclidean distance between waypoint $i$-th waypoin
 \label{fig:good_traj}
 \end{figure*}
 
-\todo Write about:
-\begin{itemize}
-\item get example trajectories (without elbow path)
-\item get example snapshots high-low values of features
-\end{itemize}
-
 \subsection{Classification}
 The 103 data points were broken up into 3 classes based on average overall ratings:
 \begin{itemize}
@@ -415,7 +409,7 @@ Test & 4 & 10 & 21 \\ \hline
 \end{centering}
 \end{table}
 
-In all, we utilized three different classification frameworks to predict overall ratings-decision trees, random forests and boosting. As a base framework we first construct a decision tree model.  Decision trees for classification provide a good visual representation especially in the presence of complex features, where the relationships between predictors and response is not immediately obvious. Figure ~\ref{fig:decision_tree} shows our base decision tree model. The features of interest in this tree include the DTW distance computed for the wrist (vs. the tool path), the hausdorf distance computed for the end-effector and the max curvature computed for the elbow. Using 10-fold cross-validation, we also design a simpler tree that has just three terminal nodes with the $wrist\_tool\_dtw$ feature serving as the key discriminant among the classes. This tree has an accuracy of 86\% on the test data. The $wrist\_tool\_dtw$ compares, using DTW, the path taken by the wrist vs. the path take by the tool. Large values of this feature correspond to extra rotations of the wrist as the tool is moving towards the goal - such motions are rated as low quality by the human observers. 
+In all, we utilized three different classification frameworks to predict overall ratings-decision trees, random forests and boosting. As a base framework we first construct a decision tree model.  Decision trees for classification provide a good visual representation especially in the presence of complex features, where the relationships between predictors and response is not immediately obvious. Figure ~\ref{fig:decision_tree} shows our base decision tree model. The features of interest in this tree include the DTW distance computed for the wrist (vs. the tool path) denoted by $wrist\_tool\_dtw$, the Hausdorf distance computed for the end-effector and the max curvature computed for the elbow. Using 10-fold cross-validation, we also design a simpler tree that has just three terminal nodes with the $wrist\_tool\_dtw$ feature serving as the key discriminant among the classes. This tree has an accuracy of 86\% on the test data. Large values of this feature correspond to extra rotations of the wrist as the tool is moving towards the goal - such trajectories are rated as low quality by the human observers. 
 
 The second classification framework we use is a random forest ensemble of trees. This involves randomly dividing the data into several bootstrap training samples and building a tree on each bootstrap sample. Within each boostrapped sample, at each split a subset of features is randomly selected from the full set of features, but only one predictor is used at each split. This brings additional randomness within each tree. The class is chosen by majority vote across all trees. For every tree constructed from a bootstrapped training sample there is one Out of Bag (OOB) error which can be thought of as a test error for every tree. It is estimated internally, during the run. On test data, the random forest method returns 83\% accuracy. 
 
@@ -425,20 +419,20 @@ The third classification framework that we use is Boosting. In the Boosting  fra
 
 \begin{figure}[t]
   \centering{\includegraphics[width=0.99\linewidth]{pictures/meandecrease}}
-  \caption{Mean decrease in accuracy for each feature.}
+  \caption{Random Forest: Mean decrease in accuracy for each feature.}
 \label{fig:feature_importance_1}
 \end{figure}
 
 \begin{figure}[t]
  \centering{\includegraphics[width=0.99\linewidth]{pictures/gini}}
-  \caption{Gini index (higher values indicate more important features).}
+  \caption{Random Forest: Gini index (higher values indicate more important features).}
 \label{fig:feature_importance_2}
 \end{figure}
  
 \begin{figure}[t]
  \centering{\includegraphics[width=0.99\linewidth]{pictures/gini}}
-  \caption{Gini index (higher values indicate more important features).}
-\label{fig:}
+  \caption{Boosting: Gini index (higher values indicate more important features).}
+\label{fig:gini_boosting}
 \end{figure}
 
 
