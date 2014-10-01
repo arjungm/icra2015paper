@@ -360,62 +360,62 @@ Dynamic Time Warping (DTW) was previously used in a wide varity of applications 
 %where $\text{d}_{i,j}$ is the euclidean distance between waypoint $i$-th waypoint of \tj{A} and $j$-th waypoint of \tj{B}. After computing this array, $\text{DTW}[n_A, n_B]$ gives the cost or distance between \tj{A} and \tj{B}.
 
 
-\begin{figure*}[t]
-\begin{center}
-\begin{tabular}{cccc}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{5}}\\
-
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{5}}\\
-
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{5}}\\
-
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{5}}\\
-
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{5}}\\
-
+%\begin{figure*}[t]
+%\begin{center}
+%\begin{tabular}{cccc}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{5}}\\
+%
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{5}}\\
+%
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{5}}\\
+%
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{5}}\\
+%
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{5}}\\
+%
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{1}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{2}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{3}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{4}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{5}}\\
-
+%
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{1}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{2}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{3}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{4}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{5}}\\
-
+%
 %bad trajs
 %{2014_Sep_17_18_38_44}{1}
 %{2014_Sep_17_18_39_17}{3}
 %{2014_Sep_17_18_40_06}{1}
 %{2014_Sep_17_18_40_21}{2}
-
-\end{tabular}
-\end{center}
-\caption{Snapshots of favorably rated trajectories on all four categories by a large proportion of survey users}
-\label{fig:good_traj}
-\end{figure*}
+%
+%\end{tabular}
+%\end{center}
+%\caption{Snapshots of favorably rated trajectories on all four categories by a large proportion of survey users}
+%\label{fig:good_traj}
+%\end{figure*}
 
 \subsection{Classification}
 The 103 data points were broken up into 3 classes based on average overall ratings:
@@ -458,7 +458,7 @@ Fig.~\ref{fig:feature_importance_1} and Fig.~\ref{fig:feature_importance_2} show
  
 
 
-\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
+%\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
                                   % the textheight of the last page by a suitable amount.
                                   % This command does not take effect until the next page
