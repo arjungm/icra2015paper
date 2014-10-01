@@ -99,9 +99,30 @@ We start with a survey where human observers rate robot motion quality. We gener
 The motion planning problems we chose required a (simulated) robot to move its arm from a specified end-effector start position to a desired end-effector goal position. Movies of these trajectories from multiple viewpoints were then presented to human observers using an online survey tool. The users were asked to rate different attributes of the trajectories. We also computed a large set of features for each trajectory. The feature set was designed to be easily extensible across different types of robots and also captures the relationship between the trajectories and the environment. We use the feature set, coupled with machine learning techniques, to build a classifier that predicts the human rating for a given trajectory. The classifiers also help in identifying a set of features that are the most important in predicting human preferences for robot trajectories, allowing us to rate motion planned trajectories as they are generated.
 
 This paper is organized as follows. In Section~\ref{sec:background}, we first describe realted work in this area. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents the results from the survey and analysis, including the trajectory features used for classification and the classification approaches used with the data. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
+\begin{figure}
+\centering
+\begin{minipage}[][][s]{0.45\columnwidth}
+\centering
+\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{1}}
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{2}}
+\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{3}}
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{4}}
+\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{5}}
+(a)
+\end{minipage}
+\hfill
+\begin{minipage}[][][s]{0.45\columnwidth}
+\centering
+\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{1}}
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{2}}
+\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{3}}
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{4}}
+\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{5}}
+(b)
+\end{minipage}
+\caption{Example trajectory snapshots for motions that survey participants rated (a) highly and (b) poorly. In (b) the hand ducks under the table in between the first and middle snapshot.}\label{fig:example_trajectory}
+\end{figure}
 
-\section{Background}
-\label{sec:background}
 
 \begin{table*}
 \centering
@@ -122,17 +143,8 @@ Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat
 \label{tab:rating_scales}
 \end{table*}
 
-Robot motion for industrial applications has been primarily influenced by the need to generate smooth jerk-free trajectories that minimize wear and tear of internal parts. In recent years, there has been more interest in the generation of trajectories for robots working in human environments, i.e. environments with clutter and people working next to the robots. Most attention, though, has been focused on generating {\em collision-free} trajectories. Examples include the use of randomized planners~\cite{kuffner2000rrt}, trajectory optimization techniques~\cite{Mrinal:2011}, and deterministic search-based techniques~\cite{cohen2010search}. Such approaches have also been modified to account for other types of constraints, e.g. dynamic constraints or process constraints arising from the task. 
-
-Human motion have been the subject of recent study with the intent of determining whether there are certain motor or locomotor invariants that best describe human manipulation or locomotion. Human motion has been observed to be stereo-typical~\cite{Atkeson:85}, i.e. learned motion patterns that are repeatedly used. This requires less planning of individual motions and contributes to making human motions more deterministic and predictable. The minimum jerk principle for human motions specifies that the trajectory of the human can best be represented as a motion that minimizes jerk of the hand~\cite{Flash:85}. Uno et. al.~\cite{Uno:89} used minimum torque change as a measure to explain the observed human motions. Minimizing jerk at the joint level~\cite{Rosenbaum:1995} has been another criterion used for human motion. Human motion has also been found to be optimized~\cite{Arechavaleta:2006}. Albrech et. al.~\cite{Albrecht:2011} studied the reaching motions of several subjects in table-setting situations and attempted to codify the motion using cost functions representing minimum-jerk hand trajectories, minimum-jerk joint trajectories, minimum torque change and a combination of all three. They found that no single combination of the cost functions explained the observed data completely. 
-
-Recent work has also addressed the task of making motions predictable (similar motions in similar environments and tasks) and/or legible (make it easier for human observers to understand the intent of the robot)~\cite{Beetz:2010}. Legibility makes it possible for human observers to understand clearly what a robot is intending to do, allowing them to modify their actions and motions if necessary. Predictability implies that the robot will always be consistent in its actions, removing the element of surprise for human observers. These concepts have been well-studies recently with the intent of measuring legibility~\cite{Lichtenthaler:2011}, using expressions to improve the readability of robots~\cite{Takayama:2011} and generating anticipation~\cite{Gielniak:2011}. In~\cite{Dragan:2013}, the notion of legibility was incorporated into a constrained trajectory optimization motion planner to generate motions that are more legible to human observers. 
-
-There has been relatively little examination of how human observers perceive robot arm trajectories in environments with obstacles. There is no data available for how human observers react to such robot trajectories. It is not clear whether minimum-jerk trajectories (or other cost functions) are the best descriptors of trajectories in such environments or if there are other features that better explain human-observer preferences in such sitations. Our goal in this work is to collect the data needed to answer the query, "Which robot trajectories in cluttered environments do human-observers prefer". A second question that we would like to answer is "Why are certain robot trajectories preferred by human-observers?". This is a larger question that we aim to address in future work and instead we focus on,"Can we predict a human-observer preference for a given trajectory". The answer to this latter question, we hope, will eventually point us towards a cost function for generating more human friendly motion plans. 
-
-\section{Approach}
-\label{sec:survey}
-Our approach starts with an online survey designed to get information from multiple users about how well they like robot trajectories. In this section, we will describe in detail the infrastructure used to create the trajectories and movies that were used in the survey. We will also describe the online survey procedure in detail. 
+\section{Background}
+\label{sec:background}
 
 \begin{figure}[b]
 \centering
@@ -143,8 +155,21 @@ Our approach starts with an online survey designed to get information from multi
     \vfill
     \includegraphics[trim = 30mm 0mm 30mm 0mm, width=\textwidth, clip=true]{pictures/industrial_scene2}
   \end{minipage}
-\caption{The scenes used in generating the robot trajectories to collect feedback from human observers. \emph{Drawer} (top right), \emph{Countertop} (left), and \emph{Industrial} (bottom right)}\label{fig:scenes}
+  \hfill
+\caption{The scenes used in generating the robot motions to collect feedback from human observers. \emph{Drawer} (top right), \emph{Countertop} (left), and \emph{Industrial} (bottom right)}\label{fig:scenes}
 \end{figure}
+
+Robot motion for industrial applications has been primarily influenced by the need to generate smooth jerk-free trajectories that minimize wear and tear of internal parts. In recent years, there has been more interest in the generation of motions for robots working in human environments, i.e. environments with clutter and people working next to the robots. Most attention, though, has been focused on generating {\em collision-free} motions. Examples include the use of randomized planners~\cite{kuffner2000rrt}, trajectory optimization techniques~\cite{Mrinal:2011}, and deterministic search-based techniques~\cite{cohen2010search}. Such approaches have also been modified to account for other types of constraints, e.g. dynamic constraints or process constraints arising from the task. 
+
+Human motions have been the subject of recent study with the intent of determining whether there are certain motor or locomotor invariants that best describe human manipulation or locomotion. Human motion has been observed to be stereo-typical~\cite{Atkeson:85}, i.e. learned motion patterns that are repeatedly used. This requires less planning of individual motions and contributes to making human motions more deterministic and predictable. The minimum jerk principle for human motions specifies that the trajectory of the human can best be represented as a motion that minimizes jerk of the hand~\cite{Flash:85}. Uno et. al.~\cite{Uno:89} used minimum torque change as a measure to explain the observed human motions. Minimizing jerk at the joint level~\cite{Rosenbaum:1995} has been another criterion used for human motion. Human motion has also been found to be optimized~\cite{Arechavaleta:2006}. Albrech et. al.~\cite{Albrecht:2011} studied the reaching motions of several subjects in table-setting situations and attempted to codify the motion using cost functions representing minimum-jerk hand motions, minimum-jerk joint motions, minimum torque change and a combination of all three. They found that no single combination of the cost functions explained the observed data completely. 
+
+Recent work has also addressed the task of making motions predictable (similar motions in similar environments and tasks) and/or legible (make it easier for human observers to understand the intent of the robot)~\cite{Beetz:2010}. Legibility makes it possible for human observers to understand clearly what a robot is intending to do, allowing them to modify their actions and motions if necessary. Predictability implies that the robot will always be consistent in its actions, removing the element of surprise for human observers. These concepts have been well-studies recently with the intent of measuring legibility~\cite{Lichtenthaler:2011}, using expressions to improve the readability of robots~\cite{Takayama:2011} and generating anticipation~\cite{Gielniak:2011}. In~\cite{Dragan:2013}, the notion of legibility was incorporated into a constrained trajectory optimization motion planner to generate motions that are more legible to human observers. 
+
+There has been relatively little examination of how human observers perceive robot arm trajectories in environments with obstacles. There is no data available for how human observers react to such robot motions. It is not clear whether minimum-jerk trajectories (or other cost functions) are the best descriptors of motions in such environments or if there are other features that better explain human-observer preferences in such sitations. Our goal in this work is to collect the data needed to answer the query, "Which robot trajectories in cluttered environments do human-observers prefer". A second question that we would like to answer is "Why are certain robot trajectories preferred by human-observers?". This is a larger question that we aim to address in future work and instead we focus on,"Can we predict a human-observer preference for a given trajectory". The answer to this latter question, we hope, will eventually point us towards a cost function for generating more human friendly motion plans. 
+
+\section{Approach}
+\label{sec:survey}
+Our approach starts with an online survey designed to get information from multiple users about how well they like robot trajectories. In this section, we will describe in detail the infrastructure used to create the trajectories and movies that were used in the survey. We will also describe the online survey procedure in detail. 
 
 \subsection{Planning System Infrastructure}
 
@@ -157,6 +182,12 @@ The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with 
 %\end{figure}
 
 The planning algorithms that we used are RRT-Connect~\cite{kuffner2000rrt} and RRT*.  RRT*~\cite{frazzoli-RRTstar} was used with two different cost functions: {\sc PathLength} and {\sc MaxMinClearance}.The objective for {\sc PathLength} minimizes the length of the trajectory (as the sum of the euclidean distances between ends of trajectory segments). The objective for {\sc MaxMinClearance} computes uses the minimum clearance of a configuration belonging to a trajectory as the value it is trying to maximize. Both planners are implemented in the OMPL library~\ref{OMPL:2012}. The infrastructure we designed around MoveIt! allows us to automatically generate movies of the generated trajectories using the ROS Visualizer (Rviz). We generated movies from different viewpoints to maximize the visibility of the motion to human observers reviewing it. A total of 103 different trajectories were generated in this manner. 
+
+\begin{figure}
+\centering
+  \includegraphics[trim = 0mm 0mm 40mm 0mm, width=\columnwidth, clip=true]{pictures/pr2_robot_4_downscale}
+\caption{The PR2 mobile manipulator with the three links frames for the elbow, wrist and tool (or fingertip).}\label{fig:scenes}
+\end{figure}
 
 \subsection{Online Survey}
 
@@ -331,62 +362,62 @@ Dynamic Time Warping (DTW) was previously used in a wide varity of applications 
 %where $\text{d}_{i,j}$ is the euclidean distance between waypoint $i$-th waypoint of \tj{A} and $j$-th waypoint of \tj{B}. After computing this array, $\text{DTW}[n_A, n_B]$ gives the cost or distance between \tj{A} and \tj{B}.
 
 
-\begin{figure*}[t]
-\begin{center}
-\begin{tabular}{cccc}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{5}}\\
-
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{5}}\\
-
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{5}}\\
-
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{5}}\\
-
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{1}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{2}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{3}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{4}}
-\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{5}}\\
-
+%\begin{figure*}[t]
+%\begin{center}
+%\begin{tabular}{cccc}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_59}{3}{5}}\\
+%
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_22}{2}{5}}\\
+%
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_38_58}{3}{5}}\\
+%
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_36}{4}{5}}\\
+%
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{1}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{2}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{3}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{4}}
+%\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_39_41}{2}{5}}\\
+%
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{1}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{2}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{3}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{4}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_15}{2}{5}}\\
-
+%
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{1}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{2}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{3}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{4}}
 %\includegraphics[trim = 0mm 0mm 0mm 0mm, clip, width=0.19\textwidth]{\gta{2014_Sep_17_18_40_16}{3}{5}}\\
-
+%
 %bad trajs
 %{2014_Sep_17_18_38_44}{1}
 %{2014_Sep_17_18_39_17}{3}
 %{2014_Sep_17_18_40_06}{1}
 %{2014_Sep_17_18_40_21}{2}
-
-\end{tabular}
-\end{center}
-\caption{Snapshots of favorably rated trajectories on all four categories by a large proportion of survey users}
-\label{fig:good_traj}
-\end{figure*}
+%
+%\end{tabular}
+%\end{center}
+%\caption{Snapshots of favorably rated trajectories on all four categories by a large proportion of survey users}
+%\label{fig:good_traj}
+%\end{figure*}
 
 \subsection{Classification}
 The 103 data points were broken up into 3 classes based on average overall ratings:
@@ -436,7 +467,7 @@ The third classification framework that we use is Boosting. In the Boosting  fra
 \end{figure}
 
 
-\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
+%\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
                                   % the textheight of the last page by a suitable amount.
                                   % This command does not take effect until the next page
