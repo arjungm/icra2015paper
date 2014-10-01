@@ -97,23 +97,12 @@ In this work, we take a first step towards the ultimate goal of generating robot
 
 This paper is organized as follows. In Section~\ref{sec:background}, we first describe some of the existing approaches to designing better quality paths for robots. We also look at how human motion information has inspired work in designing better trajectories for robots. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents raw results from the survey, including examples of trajectories that were rated well and badly. In Section~\ref{sec:analysis}, we present a set of features corresponding to the trajectories and use a machine learning approach to derive a classifier for predicting the rating of trajectories. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
 
-\begin{figure}
-\centering
-  \includegraphics[trim = 70mm 0mm 70mm 0mm, width=0.62\columnwidth, clip=true]{pictures/countertop_scene2}
-  \begin{minipage}[b][][s]{0.352\columnwidth}
-  \centering
-    \includegraphics[trim = 70mm 0mm 70mm 0mm, width=\textwidth, clip=true]{pictures/drawer_scene2}
-    \vfill
-    \includegraphics[trim = 30mm 0mm 30mm 0mm, width=\textwidth, clip=true]{pictures/industrial_scene2}
-  \end{minipage}
-\caption{The scenes used in generating the robot motions to collect feedback from human observers. \emph{Drawer} (top right), \emph{Countertop} (left), and \emph{Industrial} (bottom right)}\label{fig:scenes}
-\end{figure}
-
 \section{Background}
 \label{sec:background}
 
 \begin{table*}
 \centering
+\scalebox{0.9}{
 \begin{tabular}{|c||c|c|c|c|c|c|c|}
 \hline
 Efficiency  & Highly inefficient& Moderately inefficient& Slightly inefficient& Neutral & Slightly efficient& Moderately efficient& Highly efficient\\
@@ -125,6 +114,7 @@ Smoothness  & Highly rough& Moderately rough& Slightly rough& Neutral & Slightly
 Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat good& Moderately good& Extremely good\\
 \hline
 \end{tabular}
+}
 \caption{The rating categories and the associated scale presented to the survey respondent}
 \label{tab:rating_scales}
 \end{table*}
@@ -141,6 +131,18 @@ There has been relatively little examination of how human observers perceive rob
 \label{sec:survey}
 Our approach starts with an online survey designed to get information from multiple users about how well they like robot trajectories. In this section, we will describe in detail the infrastructure used to create the trajectories and movies that were used in the survey. We will also describe the online survey procedure in detail. 
 
+\begin{figure}[b]
+\centering
+  \includegraphics[trim = 70mm 0mm 70mm 0mm, width=0.62\columnwidth, clip=true]{pictures/countertop_scene2}
+  \begin{minipage}[b][][s]{0.352\columnwidth}
+  \centering
+    \includegraphics[trim = 70mm 0mm 70mm 0mm, width=\textwidth, clip=true]{pictures/drawer_scene2}
+    \vfill
+    \includegraphics[trim = 30mm 0mm 30mm 0mm, width=\textwidth, clip=true]{pictures/industrial_scene2}
+  \end{minipage}
+\caption{The scenes used in generating the robot motions to collect feedback from human observers. \emph{Drawer} (top right), \emph{Countertop} (left), and \emph{Industrial} (bottom right)}\label{fig:scenes}
+\end{figure}
+
 \subsection{Planning System Infrastructure}
 
 The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with video recording capabilities to quickly generate a large number of trajectories. The MoveIt! architecture allows for the definition of environments, referred to as planning scenes, start and goal states for robots (motion planning queries). It also allows for the use of any supported planning algorithms (planners). A combination of different scenes, motion queries, and planners was used to generate robot trajectories for evalutation. We chose three distinct scenes (Fig.~\ref{fig:scenes}): a kitchen ({\sc Countertop}), an industrial workbench ({\sc Industrial}) and a drawer on a table ({\sc Drawer}). Multiple queries were generated in each scene for trajectories of the right arm of the PR2 robot. The robot was positioned in the scenes manually and motion planning queries were constructed by hand. The positioning in the scenes was done with the expectation that the planning queries would not be impossible or trivial for the planning algorithms to solve. 
@@ -153,9 +155,7 @@ The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with 
 
 The planning algorithms that we used are RRT-Connect~\cite{kuffner2000rrt} and RRT*.  RRT*~\cite{frazzoli-RRTstar} was used with two different cost functions: {\sc PathLength} and {\sc MaxMinClearance}.The objective for {\sc PathLength} minimizes the length of the trajectory (as the sum of the euclidean distances between ends of trajectory segments). The objective for {\sc MaxMinClearance} computes uses the minimum clearance of a configuration belonging to a trajectory as the value it is trying to maximize. Both planners are implemented in the OMPL library~\ref{OMPL:2012}. The infrastructure we designed around MoveIt! allows us to automatically generate movies of the generated trajectories using the ROS Visualizer (Rviz). We generated movies from different viewpoints to maximize the visibility of the motion to human observers reviewing it. A total of 103 different trajectories were generated in this manner. 
 
-
-\todo formulae for optimization objectives?
-
+\todo insert figure for PR2 with labelled joints
 
 \subsection{Online Survey}
 
@@ -170,8 +170,6 @@ Respondents on Mechanical Turk are only paid if the survey organizer approves th
 %    \caption{The main survey question which prompts the respondent for a rating in four motion characteristics (efficiency, elegance, smoothness and overall impression) after presenting a video that demonstrates the motion from four clearly visible vantage points for any sample trajectory.}
 %    \label{fig:survey_question}
 %\end{figure}
-
-\todo find info on relation between videogame and robotics
 
 %\begin{figure}
 %\frame{\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_control_question}}
@@ -196,8 +194,8 @@ The survey resulted in at least 20 ratings for each trajectory. While the raw re
 The raw results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of (average) responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{table:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1% (with p-values < 0.01). Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. 
 
 \begin{table}
-\label{table:correlation}
-\begin{centering}
+\label{tab:correlation}
+\centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 & Efficient & Elegant & Smooth & Overall \\ \hline
@@ -206,10 +204,8 @@ Elegant & 0.96 & 1 & 0.96 & 0.98 \\ \hline
 Smooth & 0.91 & 0.96 & 1 & 0.96 \\ \hline
 Overall & 0.98 & 0.98 & 0.96 & 1 \\ \hline
 \end{tabular}
-\end{centering}
 \caption{Correlation between the four attributes in the survey.}
 \end{table}
-
 
 \subsection{Trajectory Features}
 
@@ -223,24 +219,24 @@ The first set of features we compute for each trajectory take into account the e
 We compute path length for the joint-space trajectory and for three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links of the right arm (the moving arm).
 
 {\bf Clearance:}
-The average clearance of a trajectory \tj{} is the average minimum distance of configurations at waypoints to the closest obstacle, or
-\begin{equation}
-\text{Clearance} = \frac{1}{n} \sum_{i=0}^n \min_{o \in O} \text{dist}(q_i, o)
-\end{equation}
-where $O$ represents the set of obstacles in the scene and $\text{dist}(q_i, o)$ calculates the closest distance between obstacle $o$ and configuration $q_i$.
+The clearance of a trajectory \tj{} is the average over the waypoints of the minimum distance of configurations to the closest obstacle.
+%\begin{equation}
+%\text{Clearance} = \frac{1}{n} \sum_{i=0}^n \min_{o \in O} \text{dist}(q_i, o)
+%\end{equation}
+%where $O$ represents the set of obstacles in the scene and $\text{dist}(q_i, o)$ calculates the closest distance between obstacle $o$ and configuration $q_i$.
 
 {\bf Smoothness:}
-The smoothness of a trajectory is computed by averaging the included angle of three consecutive waypoint configurations, for all triplets of waypoints in \tj{}. The angle is computed using joint-space euclidean distance between configurations as the length of sides of the triangle.
-\begin{equation}
-\begin{aligned}
-&\text{Smoothness} = \frac{1}{n-2} \sum_{i=1}^{n-1} \mathellipsis\\
-&\left[ \pi- \text{angle}(\|q_\text{i-1}-q_\text{i}\|,\|q_\text{i}-q_\text{i+1}\|,\|q_\text{i+1}-q_\text{i-1}\|) \right]\\
-\end{aligned}
-\end{equation}
-where the included angle is computed
-\begin{equation}
-\text{angle}(a,b,c) = \arccos (a^2+c^2-b^2)/2ac
-\end{equation}
+The smoothness of a trajectory is computed by averaging the included angle of three consecutive waypoint configurations, for all triplets of waypoints in \tj{}. The angle is computed using joint-space euclidean distance between configurations as the length of sides of the triangle as described in~\cite{cohen2012generic}.
+%\begin{equation}
+%\begin{aligned}
+%&\text{Smoothness} = \frac{1}{n-2} \sum_{i=1}^{n-1} \mathellipsis\\
+%&\left[ \pi- \text{angle}(\|q_\text{i-1}-q_\text{i}\|,\|q_\text{i}-q_\text{i+1}\|,\|q_\text{i+1}-q_\text{i-1}\|) \right]\\
+%\end{aligned}
+%\end{equation}
+%where the included angle is computed
+%\begin{equation}
+%\text{angle}(a,b,c) = \arccos (a^2+c^2-b^2)/2ac
+%\end{equation}
 We compute smoothness for both the joint-space trajectory \tj{} and for workspace trajectories $\xi_\text{elbow}$, $\xi_\text{wrist}$, and $\xi_\text{tip}$.
 
 {\bf Maximum Acceleration:}
@@ -284,13 +280,13 @@ h_{\text{BA}} &= \max_{q_\text{B} \in \xi_\text{B}} \min_{q_\text{A} \in \xi_\te
 
 where $q_\text{A}$ is a configuration (or in this case an end effector position) at the waypoint in trajectory \tj{A} and $\text{d}(q_\text{i}, q_\text{j})$ is the euclidean distance between the trajectory waypoints.
 
-In addition to this Hausdorff distance we also use the Interpolation-based Modified Hausdorff distance~\cite{dubuisson1994modified}~\cite{chen2013dynamic}, which is defined as:
+We also use the Interpolation-based Modified Hausdorff distance~\cite{dubuisson1994modified}~\cite{chen2013dynamic}, which is defined as:
 
 \begin{equation}
 \text{imh}_\text{AB} = \frac{1}{n_A} \sum_{q_\text{A} \in \xi_\text{A}} \min_{\overline{q_\text{B,i}} \in \xi_\text{B}} \text{d}(q_\text{A}, \overline{q_\text{B,i}})
 \end{equation}
 
-where $n(\xi)$ is the number of waypoints in the trajectory, $\overline{q_\text{B,i}}$ is the i-th segment in \tj{B}, and $\text{d}(q, \overline{q})$ is the shortest distance between the point and the line segment. We calculate this distance only one way, for $(\tj{elbow},\tj{BFS})$, $(\tj{wrist},\tj{BFS})$. and $(\tj{tip},\tj{BFS})$.
+where $n$ is the number of waypoints, $\overline{q_\text{B,i}}$ is the i-th segment in \tj{B}, and $\text{d}(q, \overline{q})$ is the shortest distance between the point and the line segment. We calculate this distance only one way, for $(\tj{elbow},\tj{BFS})$, $(\tj{wrist},\tj{BFS})$. and $(\tj{tip},\tj{BFS})$.
 
 \subsubsection{Dynamic Time Warping}
 
@@ -298,41 +294,40 @@ Dynamic Time Warping (DTW) was previously used in a wide varity of applications 
 
 \begin{equation}
 \xi_\text{DTW} = \{ (0, 0), (a_i, b_j), \mathellipsis ,(n_A, n_B) \}
-\end{equation}
-where $n_A = |\tj{A}|$ and $n_B = |\tj{B}|$ which are the number of waypoints in the trajectory.
+\end{equation} where $n_A = |\tj{A}|$ and $n_B = |\tj{B}|$ which are the number of waypoints in the trajectory. More on the construction of the \tj{DTW} can be read in~\cite{senin2008dynamic}\cite{chen2013dynamic}. The DTW feature is the cost of the warping path.
 
-The path is constrained to map the first waypoints and last waypoints together, which makes up a boundary condition. Finally, the warping path is continuous and monotone such that each coordinate of the waypoint in the warping path is between 0 and 1 of the coordinate of the preceding waypoint in the path, or
-
-\begin{equation}
-\forall_{(a_i,b_i) \in \xi_\text{DTW}} 
-  \begin{cases}
-      0 \leq a_{i} - a_{i-1} \leq 1 \\
-      0 \leq b_{i} - b_{i-1} \leq 1 \\
-  \end{cases}
-\end{equation}
-
-Computing this warping path cost is done by framing it as a dynamic programming problem where the cumulative DTW cost of a cell is done on a $n_B+1 \times n_B+1$ array and initialized such that
-
-\begin{equation}
-\begin{aligned}
-\text{DTW}[0,0] &= 0 \\
-\forall_{i=\{1,\mathellipsis,n_A\}} \text{DTW}[i,0] &= \inf\\
-\forall_{j=\{1,\mathellipsis,n_B\}} \text{DTW}[0,j] &= \inf\\
-\end{aligned}
-\end{equation}
-
-and the algorithm iterates over $i=\{1,\mathellipsis,|\tj{A}|\}$ and $j=\{1,\mathellipsis,|\tj{B}|\}$ and updates the the cell at an index $(i,j)$ with the rule
-
-\begin{equation}
-\text{DTW}[i,j] = \text{d}_{i,j} + \min 
-  \begin{cases}
-    \text{DTW}[i-1,j] \\
-    \text{DTW}[i,j-1] \\
-    \text{DTW}[i-1,j-1] ) \\
-  \end{cases}
-\end{equation}
-
-where $\text{d}_{i,j}$ is the euclidean distance between waypoint $i$-th waypoint of \tj{A} and $j$-th waypoint of \tj{B}. After computing this array, $\text{DTW}[n_A, n_B]$ gives the cost or distance between \tj{A} and \tj{B}.
+%The path is constrained to map the first waypoints and last waypoints together, which makes up a boundary condition. Finally, the warping path is continuous and monotone such that each coordinate of the waypoint in the warping path is between 0 and 1 of the coordinate of the preceding waypoint in the path, or
+%
+%\begin{equation}
+%\forall_{(a_i,b_i) \in \xi_\text{DTW}} 
+%  \begin{cases}
+%      0 \leq a_{i} - a_{i-1} \leq 1 \\
+%      0 \leq b_{i} - b_{i-1} \leq 1 \\
+%  \end{cases}
+%\end{equation}
+%
+%Computing this warping path cost is done by framing it as a dynamic programming problem where the cumulative DTW cost of a cell is done on a $n_B+1 \times n_B+1$ array and initialized such that
+%
+%\begin{equation}
+%\begin{aligned}
+%\text{DTW}[0,0] &= 0 \\
+%\forall_{i=\{1,\mathellipsis,n_A\}} \text{DTW}[i,0] &= \inf\\
+%\forall_{j=\{1,\mathellipsis,n_B\}} \text{DTW}[0,j] &= \inf\\
+%\end{aligned}
+%\end{equation}
+%
+%and the algorithm iterates over $i=\{1,\mathellipsis,|\tj{A}|\}$ and $j=\{1,\mathellipsis,|\tj{B}|\}$ and updates the the cell at an index $(i,j)$ with the rule
+%
+%\begin{equation}
+%\text{DTW}[i,j] = \text{d}_{i,j} + \min 
+%  \begin{cases}
+%    \text{DTW}[i-1,j] \\
+%    \text{DTW}[i,j-1] \\
+%    \text{DTW}[i-1,j-1] ) \\
+%  \end{cases}
+%\end{equation}
+%
+%where $\text{d}_{i,j}$ is the euclidean distance between waypoint $i$-th waypoint of \tj{A} and $j$-th waypoint of \tj{B}. After computing this array, $\text{DTW}[n_A, n_B]$ gives the cost or distance between \tj{A} and \tj{B}.
 
 
 \begin{figure*}[t]
@@ -391,12 +386,6 @@ where $\text{d}_{i,j}$ is the euclidean distance between waypoint $i$-th waypoin
 \caption{Snapshots of favorably rated trajectories on all four categories by a large proportion of survey users}
 \label{fig:good_traj}
 \end{figure*}
-
-\todo Write about:
-\begin{itemize}
-\item get example trajectories (without elbow path)
-\item get example snapshots high-low values of features
-\end{itemize}
 
 \subsection{Classification}
 The 103 data points were broken up into 3 classes based on average overall ratings:
