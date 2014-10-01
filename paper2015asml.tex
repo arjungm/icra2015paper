@@ -45,12 +45,12 @@ Towards a Data-driven Approach to Motion Planning
 }
 
 
-\author{Arjun Menon$^{1}$, Sachin Chitta$^{1}$, Mark Moll$^{2}$, Lydia Kavraki$^{2}$% <-this % stops a space
+\author{Arjun Menon$^{1}$, Pooja Kacker$^{2}$, Sachin Chitta$^{1}$% <-this % stops a space
 \thanks{*This work was supported by ...}% <-this % stops a space
 \thanks{$^{1}$SRI International, Menlo Park, CA
         {\tt\small arjun.menon@sri.com, sachin.chitta@sri.com}}%
-\thanks{$^{2}$Rice University, Department of Computer Science, Houston, TX
-        {\tt\small mmoll@rice.edu, kavraki@rice.edu}}%
+\thanks{$^{2}$Independent Consultant,
+        {\tt\small }}%
 }
 
 
@@ -125,7 +125,7 @@ Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat
 \label{tab:rating_scales}
 \end{table*}
 
-Robot motion study for industrial has been primarily influenced by the need to generate smooth jerk-free trajectories that minimize wear and tear of internal parts. In recent years, there has been more interest in the generation of motions for robots working in human environments, i.e. environments with clutter and people working next to the robots. Most attention, though, has been focused on generating {\em collision-free} motions. Examples include the use of randomized planners\cite{kuffner2000rrt}, trajectory optimization techniques\cite{Mrinal:2011}, and deterministic search-based techniques\cite{cohen2010search}. Such approaches have also been modified to account for other types of constraints, e.g. dynamic constraints or process constraints arising from the task. 
+Robot motion study for industrial has been primarily influenced by the need to generate smooth jerk-free trajectories that minimize wear and tear of internal parts. In recent years, there has been more interest in the generation of motions for robots working in human environments, i.e. environments with clutter and people working next to the robots. Most attention, though, has been focused on generating {\em collision-free} motions. Examples include the use of randomized planners~\cite{kuffner2000rrt}, trajectory optimization techniques~\cite{Mrinal:2011}, and deterministic search-based techniques~\cite{cohen2010search}. Such approaches have also been modified to account for other types of constraints, e.g. dynamic constraints or process constraints arising from the task. 
 
 Human motions have been the subject of recent study with the intent of determining whether there are certain motor or locomotor invariants that best describe human manipulation or locomotion. Human motion has been observed to be stereo-typical~\cite{Atkeson:85}, i.e. learned motion patterns that are repeatedly used. This requires less planning of individual motions and contributes to making human motions more deterministic and predictable. The minimum jerk principle for human motions specifies that the trajectory of the human can best be represented as a motion that minimizes jerk of the hand~\cite{Flash:85}. Uno et. al.~\cite{Uno:89} used minimum torque change as a measure to explain the observed human motions. Minimizing jerk at the joint level~\cite{Rosenbaum:1995} has been another criterion used for human motion. Human motion has also been found to be optimized~\cite{Arechavaleta:2006}. Albrech et. al.~\cite{Albrecht:2011} studied the reaching motions of several subjects in table-setting situations and attempted to codify the motion using cost functions representing minimum-jerk hand motions, minimum-jerk joint motions, minimum torque change and a combination of all three. They found that no single combination of the cost functions explained the observed data completely. 
 
@@ -182,12 +182,11 @@ Respondents on Mechanical Turk are only paid if the survey organizer approves th
 \label{sec:analysis}
 The results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of (average) responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{table:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1% (with p-values < 0.01).
 
-\begin{table}
-\label{table:correlation}
-\begin{tabular}
-
-\end{tabular}
-\end{table}
+%\begin{table}
+%\label{table:correlation}
+%\begin{tabular}
+%\end{tabular}
+%\end{table}
 
 
 Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. Indeed, we found little evidence of any personal preference or clustering of users based on their preference for certain trajectories over others. 
