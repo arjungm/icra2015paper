@@ -238,6 +238,7 @@ Overall & 0.98 & 0.98 & 0.96 & 1 \\ \hline
 \end{table}
 
 \subsection{Trajectory Features}
+\label{subsec:traj_feat}
 
 The first set of features we compute for each trajectory take into account the environment around the robot, the shape of the trajectory and the dynamics of the trajectory. These make up our unary features computed only on the input trajectory. We also include features that compare each trajectory to a nominal trajectory - these feature serve to characterize how much the trajectory deviates from the "expected" path. We go over the selection of the nominal path in Section~\ref{subsec:multi_traj_feat}. First, we detail the features we computed on each trajectory \tj{} with waypoints $q_i$ where $i={0,\mathellipsis,n}$ and $n=|\tj{}|$. Note that our features are generic, i.e. they can be computed in the same manner for any robot arm trajectory. We believe that our methods should be easily extensible to robots other than the PR2 as well and individual trajectory classifiers could be built for each different robot arm in a similar manner.  
 
@@ -246,7 +247,7 @@ The first set of features we compute for each trajectory take into account the e
 %\begin{equation}
 %\text{Length} = \sum_{i=0}^{n-1} \| q_\text{i}-q_\text{i+1} \|
 %\end{equation}
-We compute path length for the joint-space trajectory and for three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links of the right arm (the moving arm).
+We compute path length for the joint-space trajectory and for three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links of the right arm (the moving arm). We also compute the length of the trajectory in angular distance by summing over the waypoints $\arccos( \langle Q_\text{i},Q_\text{i+1}\rangle^2-1 )$ where $Q_\text{i}$ is the quaternion orientation for the $i$-th waypoint (referred to later as the "quat\_dist" feature).
 
 {\bf Clearance:}
 The clearance of a trajectory \tj{} is the average over the waypoints of the minimum distance of configurations to the closest obstacle.
@@ -283,6 +284,9 @@ Curvature at a given waypoint is computed by splines to the workspace trajectory
 %R_i = \frac{\|\dot{q}_i\|^3}{\|\dot{q}_i \times \ddot{q}_i\|}
 %\end{equation}
 %where velocity $\dot{q}_i$ and acceleration $\ddot{q}_i$ are computed at the waypoint $i$ from differentiating the interpolating spline of the work-space trajectory. Alternatively, the higher order derviatives can be %computed using finite differencing methods.
+
+{\bf Joint Limit Distance: }
+The maximin distance to joint limits is the maximum over waypoints, of the miniminum over joints of their distance to their respective closest limit (upper or lower), or $\max_{q \in \tj{}} \min_{\theta \in q} \min(|\theta-\theta_U|,|\theta-\theta_L|)$.
 
 \subsection{Multi-Trajectory Features}
 \label{subsec:multi_traj_feat}
@@ -416,6 +420,27 @@ Dynamic Time Warping (DTW) was previously used in a wide varity of applications 
 %\caption{Snapshots of favorably rated trajectories on all four categories by a large proportion of survey users}
 %\label{fig:good_traj}
 %\end{figure*}
+
+\begin{table}
+\label{tab:feature_description}
+\scalebox{0.9}{
+\centering
+\begin{tabular}{p{0.3\columnwidth}|p{0.2\columnwidth}|p{0.5\columnwidth}}
+\hline
+Feature Name & Metric & Feature Description \\
+\hline
+path\_length, smoothness, clearance, max\_lin\_acc, joint\_limit\_distance & Joint-space & Features discussed in Section~\ref{subsec:traj_feat} computed on joint-space trajectory \tj{}\\
+\hline
+[link]\_length, [link]\_smoothness, [link]\_max\_curvature, [link]\_lin\_acc, [link]\_quat\_dist & Cartesian & Features discussed in Section~\ref{subsec:traj_feat} computed on 3D cartesian path traced by [link] in \tj{}\\
+\hline
+h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Cartesian & Assymetric ($h$) or symmetric ($H$) hausdorff distance between 3D cartesian path traced by [link] in \tj{} w.r.t BFS path or between 3D Cartesian path traced by [link1] and [link2] in \tj{}\\
+\hline
+[link]\_bfs\_dtw, [link1]\_[link2]\_dtw & Cartesian & DTW cost between path traced by [link] in \tj{} and the BFS path, or between 3D-cartesian-path traced by [link1] and [link2] in \tj{}\\
+\hline
+\end{tabular}
+}
+\caption{Decoding of feature names into descriptions}
+\end{table}
 
 \subsection{Classification}
 The 103 data points were broken up into 3 classes based on average overall ratings:
