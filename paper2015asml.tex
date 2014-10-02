@@ -176,7 +176,8 @@ We extended the MoveIt! benchmarking architecture~\cite{cohen2012generic} with v
 \begin{table*}[t]
 \centering
 \scalebox{0.9}{
-\begin{tabular}{|c||c|c|c|c|c|c|c|}
+\begin{tabular}{cccccccc}
+&&&&&&&\\
 \hline
 Efficiency  & Highly inefficient& Moderately inefficient& Slightly inefficient& Neutral & Slightly efficient& Moderately efficient& Highly efficient\\
 \hline
@@ -434,7 +435,8 @@ where $n$ is the number of waypoints, $\overline{q_\text{B,i}}$ is the i-th segm
 \label{tab:feature_description}
 \scalebox{0.9}{
 \centering
-\begin{tabular}{|p{0.3\columnwidth}|p{0.2\columnwidth}|p{0.5\columnwidth}|}
+\begin{tabular}{p{0.3\columnwidth}p{0.2\columnwidth}p{0.5\columnwidth}}
+&&\\
 \hline
 Feature Name & Metric & Feature Description \\
 \hline
@@ -449,11 +451,13 @@ h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Carte
 \end{tabular}
 }
 \caption{The complete list of computed trajectory features used for classification.}
+\vspace{-0.2in} 
 \end{table}
 
 \begin{figure}[h]
 \centering
-\begin{tabular}{|c|cc|}%p{0.4\columnwidth}p{0.4\columnwidth}}
+\begin{tabular}{c|cc}%p{0.4\columnwidth}p{0.4\columnwidth}}
+&&\\
 \hline
 & Low feature-value & High feature-value \\
 \hline
@@ -475,6 +479,7 @@ h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Carte
 \hline
 \end{tabular}
 \caption{Example trajectories for different values of the most useful features. Trajectories on the left have low feature values while trajectories on the right have high features values for each corresponding feature in that row.}\label{fig:example_features}
+\vspace{-0.2in} 
 \end{figure}
 
 \section{Classification}
