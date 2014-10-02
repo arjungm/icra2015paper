@@ -441,6 +441,30 @@ h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Carte
 \caption{Decoding of feature names into descriptions}
 \end{table}
 
+\begin{figure}[h]
+\centering
+\begin{tabular}{c|p{0.4\columnwidth}p{0.4\columnwidth}}
+& Low feature-value & High feature-value \\
+\hline
+\rot{wrist\_tool\_dtw} & 
+\adjincludegraphics[trim={.1\width} {.080\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_tool_dtw}{low}{0}} & 
+\adjincludegraphics[trim={.2\width} {.0\height} {.2\width} {.15\height}, clip, width=0.4\columnwidth]{\fta{wrist_tool_dtw}{high}{0}} \\
+
+\rot{tool\_length} & 
+\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_length}{low}{0}} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.015\height}, clip, width=0.4\columnwidth]{\fta{tool_length}{high}{0}} \\
+
+\rot{tool\_quat\_dist} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.1\height}, clip, width=0.4\columnwidth]{\fta{tool_quat_dist}{low}{0}} & 
+\adjincludegraphics[trim={.1\width} {.1\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_quat_dist}{high}{0}} \\
+
+\rot{wrist\_bfs\_dtw} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{low}{0}} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{high}{0}} \\
+\end{tabular}
+\caption{Trajectory examples of the most useful features, where the feature is displayed row-wise and columns are whether the feature is {\em low} or {\em high} for the example.}\label{fig:example_features}
+\end{figure}
+
 \section{Classification}
 The survey data provides a great platform to answer the question, ``Can we predict a human-observer preference for a given trajectory?''. Our approach to this question is to let the data drive us towards the answer instead of trying to hand-design a cost function or set of features that offer the best explanation. Towards this end, we chose to learn a classifier based on the available data to help predict the human-observer rating for a new trajectory. The 103 data points (corresponding to the 103 distinct trajectories) were broken up into 3 classes based on average overall ratings:
 \begin{itemize}
@@ -485,49 +509,6 @@ The third classification framework that we use is Boosting. In the Boosting  fra
  \centering{\includegraphics[width=0.99\linewidth]{pictures/gini}}
   \caption{Boosting: Gini index (higher values indicate more important features).}
 \label{fig:gini_boosting}
-\end{figure}
-
-\begin{figure}
-\centering
-\begin{tabular}{c|p{0.4\columnwidth}p{0.4\columnwidth}}
-& Low feature-value & High feature-value \\
-\hline
-
-\rot{wrist\_tool\_dtw} & 
-\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_tool_dtw}{low}{0}} & 
-\adjincludegraphics[trim={.2\width} {.0\height} {.2\width} {.15\height}, clip, width=0.4\columnwidth]{\fta{wrist_tool_dtw}{high}{0}} \\
-
-\rot{tool\_length} & 
-\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_length}{low}{0}} & 
-\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.015\height}, clip, width=0.4\columnwidth]{\fta{tool_length}{high}{0}} \\
-
-\rot{tool\_quat\_dist} & 
-\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_quat_dist}{low}{0}} & 
-\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_quat_dist}{high}{0}} \\
-
-\rot{wrist\_bfs\_dtw} & 
-\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{low}{0}} & 
-\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{high}{0}} \\
-\end{tabular}
-
-%\begin{minipage}[][][s]{0.45\columnwidth}
-%\centering
-%\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=\textwidth]{\fta{tool_length}{low}{0}}
-%\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=\textwidth]{\fta{tool_quat_dist}{low}{0}}
-%\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=\textwidth]{\fta{wrist_bfs_dtw}{low}{0}}
-%%\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\textwidth, clip=true]{\fta{}{low}{0}}
-%(a)
-%\end{minipage}
-%\hfill
-%\begin{minipage}[][][s]{0.45\columnwidth}
-%\centering
-%\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=\textwidth]{\fta{tool_length}{high}{0}}
-%\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=\textwidth]{\fta{tool_quat_dist}{high}{0}}
-%\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=\textwidth]{\fta{wrist_bfs_dtw}{high}{0}}
-%%\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\textwidth, clip=true]{\fta{}{high}{0}}
-%(b)
-%\end{minipage}
-\caption{Example trajectory snapshots for motions that survey participants rated (a) highly and (b) poorly. In (b) the hand ducks under the table in between the first and middle snapshot.}\label{fig:example_trajectory}
 \end{figure}
 
 
