@@ -70,29 +70,35 @@ Towards a Data-driven Approach to Motion Planning
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-Co-robots, i.e. robots that need to work close to people, will need to account for the preferences and expectations of their human 
-co-workers in executing motions or actions. Consistent, legible and predictable motions are a key factor in making humans comfortable 
-around robots. In this work, we take a first step towards designing motions that are more acceptable to human co-workers by asking 
-people to rate robot motions generated in a variety of environments. Our approach is data-driven, i.e. we aim to use data from an online 
-survey to inform good quality paths and trajectories. We compute a set of features for each trajectory and use the features 
-and associated ratings to try add predict a quality score that represents how well the human observers liked the trajectory. We present an 
-analysis of the dataset that we have collected, highlighting the features that dominate the trajectories that people prefer. We also 
-present a classifier that will return the quality score for a given trajectory. Finally, we discuss how a data-driven approach using the 
-results of this analysis can be used to help design better plans that are more acceptable to people. 
+Co-robots, i.e. robots that work close to people, will need to account for the preferences and expectations of their human 
+co-workers in executing trajectories or actions. Consistent, legible and predictable trajectories are a key factor in making humans comfortable 
+around robots. In this work, we take a data-driven approach towards designing robot trajectories that are more acceptable 
+to human co-workers and observers. We use an online survey to ask people to rate multiple robot trajectories generated in a variety of environments. 
+We compute a large set of features for each trajectory, also taking into account environment information. We use a combination 
+of the features and the survey ratings to learn a classifier that predicts the rating for a new trajectory based on the learned 
+human-observer preferences. The classifier also helps identify and highlight the most important features 
+that influence people's ratings of the trajectories. Finally, we discuss how a data-driven approach using the 
+results of this analysis can be used to help design better trajectories that are more acceptable to people.
 \end{abstract}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}
 
-Robots working in industrial environments have traditionally been limited to simple, efficient point to point motions. Robotic workcells 
+Robots working in industrial environments have traditionally been limited to simple, efficient point to point trajectories. Robotic workcells 
 typically require a safety cage to prevent people from being getting close. Robotic motion generation, therefore, does not take 
-into account any notion of the acceptability of motions for human observers. The need for more flexibility in manufacturing and logistics, 
+into account any notion of the acceptability of trajectories for human observers. The need for more flexibility in manufacturing and logistics, 
 though, has resulted in a greater need for robots that can work beside humans. As robots and people start becoming co-workers, taking 
-human perception of robotic paths into account will become more important. Humans are able to predict and adjust their motions to 
-account for the expectations and motions of their co-workers easily. For human co-workers to be comfortable, robots will similarly 
-have to tailor their motions for the presence and actions of the people around them. 
+human perception of robotic paths into account will become more important. Humans are able to predict and adjust their trajectories to 
+account for the expectations and trajectories of their co-workers easily. For human co-workers to be comfortable, robots will similarly 
+have to tailor their trajectories for the presence and actions of the people around them\footnote{we use the word motion in general to describe how robot's move 
+and the word trajectory to describe time-parameterized paths}. 
 
+In this work, we take a first step towards the ultimate goal of generating robotic arm trajectories in cluttered environments that are acceptable for human observers and co-workers. 
+We start with a survey where human observers rate robot motion quality. We generated a range of trajectories across multiple environments with different planners. 
+The motion planning problems we chose required a (simulated) robot to move its arm from a specified end-effector start position to a desired end-effector goal position. Movies of these trajectories from multiple viewpoints were then presented to human observers using an online survey tool. The users were asked to rate different attributes of the trajectories. We also computed a large set of features for each trajectory. The feature set was designed to be easily extensible across different types of robots and also captures the relationship between the trajectories and the environment. We use the feature set, coupled with machine learning techniques, to build a classifier that predicts the human rating for a given trajectory. The classifiers also help in identifying a set of features that are the most important in predicting human preferences for robot trajectories, allowing us to rate motion planned trajectories as they are generated.
+
+This paper is organized as follows. In Section~\ref{sec:background}, we first describe realted work in this area. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents the results from the survey and analysis, including the trajectory features used for classification and the classification approaches used with the data. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
 \begin{figure}
 \centering
 \begin{minipage}[][][s]{0.45\columnwidth}
@@ -117,7 +123,6 @@ have to tailor their motions for the presence and actions of the people around t
 \caption{Example trajectory snapshots for motions that survey participants rated (a) highly and (b) poorly. In (b) the hand ducks under the table in between the first and middle snapshot.}\label{fig:example_trajectory}
 \end{figure}
 
-In this work, we take a first step towards the ultimate goal of generating robotic arm motions in cluttered environments that are acceptable for human observers and co-workers. We start with a survey where human observers rate robot motion quality. We generated a range of trajectories across multiple environments with different planners. The motion planning problems we chose required a (simulated) robot to move its arm from a specified end-effector start position to a desired end-effector goal position. Movies of these trajectories from multiple viewpoints were then presented to human observers using an online survey tool. The users were asked to rate different attributes of the trajectories. We also computed a large set of features for each trajectory. The feature set was designed to be easily extensible across different types of robots and also captures the relationship between the trajectories and the environment. We use the feature set, coupled with machine learning techniques, to build a classifier that predicts the human rating for a given trajectory. The classifiers also help in identifying a set of features that are the most important in predicting human preferences for robot trajectories. The classifiers could also form the basis for a new {\em data-driven} approach to motion planning. 
 
 \begin{table*}
 \centering
@@ -137,9 +142,6 @@ Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat
 \caption{The rating categories and the associated scale presented to the survey respondent}
 \label{tab:rating_scales}
 \end{table*}
-
-This paper is organized as follows. In Section~\ref{sec:background}, we first describe some of the existing approaches to designing better quality paths for robots. We also look at how human motion information has inspired work in designing better trajectories for robots. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents raw results from the survey, including examples of trajectories that were rated well and badly. In Section~\ref{sec:analysis}, we present a set of features corresponding to the trajectories and use a machine learning approach to derive a classifier for predicting the rating of trajectories. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
-
 
 \section{Background}
 \label{sec:background}
@@ -208,7 +210,7 @@ Respondents on Mechanical Turk are only paid if the survey organizer approves th
 %\end{figure}
 
 \section{Survey Results and Analysis}
-\label{sec:analysis}
+\label{sec:raw_results}
 The survey resulted in at least 20 ratings for each trajectory. While the raw results are interesting in themselves, we are most interested in knowing why the respondents preferred particular trajectories. We aim to infer this information using a data-driven approach. We compute multiple features for each trajectory and use the features and survey ratings to design a classifier that can classify a new trajectory into one of three classes: low human-observer preference, medium human-observer preference and high human-observer preference. The classifier can thus be used with new trajectories to predict the expected rating of that trajectory by a human-bserver. The classifier also helps to identify the features that are most key to determining the human-observer preference for a particular trajectory over others. These features will be key in eventually developing new motion planners or cost functions for motion planners that create plans that are more acceptable to human observers.  
 
 \subsection{Raw Survey Results}
@@ -463,24 +465,31 @@ Test & 4 & 10 & 21 \\ \hline
 \end{centering}
 \end{table}
 
-In all, we utilized three different classification frameworks to predict overall ratings-decision trees, random forests and boosting. As a base framework we first construct a decision tree model.  Decision trees for classification provide a good visual representation especially in the presence of complex features, where the relationships between predictors and response is not immediately obvious. Figure ~\ref{fig:decision_tree} shows our base decision tree model. The features of interest in this tree include the DTW distance computed for the wrist, the hausdorf distance computed for the end-effector and the max curvature computed for the elbow. Using 10-fold cross-validation, we also design a simpler tree that has just three terminal nodes with the $wrist_tool_dtw$ feature serving as the key discriminant among the classes. This tree has an accuracy of 86\% on the test data. It is clear that the BFS path, which serves as the nominal path for computing both the DTW and Hausdorf distance, is a good approximation of the path expected by the human observer for the end-effector of the robot. It is also clear that paths where the elbow has unnecessarily large motions are also penalized by human observers. 
+In all, we utilized three different classification frameworks to predict overall ratings-decision trees, random forests and boosting. As a base framework we first construct a decision tree model.  Decision trees for classification provide a good visual representation especially in the presence of complex features, where the relationships between predictors and response is not immediately obvious. Figure ~\ref{fig:decision_tree} shows our base decision tree model. The features of interest in this tree include the DTW distance computed for the wrist (vs. the tool path) denoted by $wrist\_tool\_dtw$, the Hausdorf distance computed for the end-effector and the max curvature computed for the elbow. Using 10-fold cross-validation, we also design a simpler tree that has just three terminal nodes with the $wrist\_tool\_dtw$ feature serving as the key discriminant among the classes. This tree has an accuracy of 86\% on the test data. Large values of this feature correspond to extra rotations of the wrist as the tool is moving towards the goal - such trajectories are rated as low quality by the human observers. 
 
 The second classification framework we use is a random forest ensemble of trees. This involves randomly dividing the data into several bootstrap training samples and building a tree on each bootstrap sample. Within each boostrapped sample, at each split a subset of features is randomly selected from the full set of features, but only one predictor is used at each split. This brings additional randomness within each tree. The class is chosen by majority vote across all trees. For every tree constructed from a bootstrapped training sample there is one Out of Bag (OOB) error which can be thought of as a test error for every tree. It is estimated internally, during the run. On test data, the random forest method returns 83\% accuracy. 
 
-Fig.~\ref{fig:feature_importance_1} and Fig.~\ref{fig:feature_importance_2} show two measures of variable (or feature) importance. The first measure shows the mean decrease in accuracy for each feature. The importance of a feature is determined by how much the accuracy of the random forest is affected by comparing, for each tree, the OOB error with the error obtained after permuting each feature. The differences are averaged across trees and normalized.  The second measure is based on the Gini index and measures the total decrease in node heterogeneity/impurities from splitting on the feature.  For both measures higher values denote that the features are more important. 
+Fig.~\ref{fig:feature_importance_1} and Fig.~\ref{fig:feature_importance_2} show two measures of variable (or feature) importance. The first measure shows the mean decrease in accuracy for each feature. The importance of a feature is determined by how much the accuracy of the random forest is affected by comparing, for each tree, the OOB error with the error obtained after permuting each feature. The differences are averaged across trees and normalized.  The second measure is based on the Gini index and measures the total decrease in node heterogeneity/impurities from splitting on the feature.  For both measures higher values denote that the features are more important. Again, the $wrist\_tool\_dtw$ feature stands out as one of the more important features in building the classifer. Two path lengths $tool\_length$ (the distance traveled by the tool) and $path\_length$ (the total distance traveled in joint space) also serve as important features - in most environments the total distance traveled by the arm between start and goal locations is expected to be small. The $tool\_quat\_dist$ and $wrist\_quat\_dist$ measure the rotation of the end-effector and it seems natural that excessive rotations of the end-effector would contribute to trajectories getting a bad rating. It is also clear that the BFS path, which serves as the nominal path for computing both the DTW and Hausdorf distance, is a good approximation of the path expected by the human observer for the end-effector of the robot. 
+
+The third classification framework that we use is Boosting. In the Boosting  framework, the trees are grown sequentially, using information (weights) from previously grown trees.  The algorithm adaptively changes the distribution of the training data by iteratively reweighting each observation in each iteration.  The weights are updated using (Breiman’s) weight updating coefficient which assigns higher weights to the wrongly classified observations and lower weights to the correctly classified examples. In every iteration, the  classifier thus focuses on the most difficult examples. Using 10-fold cross validation with all the available data, we obtain a classification accuracy of 76.7\%. Fig.~\ref{fig:gini_boosting} shows the relative importance of different features using the Boosting classifier. 7 of the top 10 features on this list are also part of the top 10 features using random forests.  
 
 \begin{figure}[t]
   \centering{\includegraphics[width=0.99\linewidth]{pictures/meandecrease}}
-  \caption{Mean decrease in accuracy for each feature.}
+  \caption{Random Forest: Mean decrease in accuracy for each feature.}
 \label{fig:feature_importance_1}
 \end{figure}
 
 \begin{figure}[t]
  \centering{\includegraphics[width=0.99\linewidth]{pictures/gini}}
-  \caption{Gini index (higher values indicate more important features).}
+  \caption{Random Forest: Gini index (higher values indicate more important features).}
 \label{fig:feature_importance_2}
 \end{figure}
  
+\begin{figure}[t]
+ \centering{\includegraphics[width=0.99\linewidth]{pictures/gini}}
+  \caption{Boosting: Gini index (higher values indicate more important features).}
+\label{fig:gini_boosting}
+\end{figure}
 
 
 %\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
