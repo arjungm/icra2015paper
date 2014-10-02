@@ -470,19 +470,19 @@ Fig.~\ref{fig:feature_importance_1} and Fig.~\ref{fig:feature_importance_2} show
 The third classification framework that we use is Boosting. In the Boosting  framework, the trees are grown sequentially, using information (weights) from previously grown trees.  The algorithm adaptively changes the distribution of the training data by iteratively reweighting each observation in each iteration.  The weights are updated using (Breiman’s) weight updating coefficient which assigns higher weights to the wrongly classified observations and lower weights to the correctly classified examples. In every iteration, the  classifier thus focuses on the most difficult examples. Using 10-fold cross validation with all the available data, we obtain a classification accuracy of 76.7\%. Fig.~\ref{fig:gini_boosting} shows the relative importance of different features using the Boosting classifier. 7 of the top 10 features on this list are also part of the top 10 features using random forests.  
 
 \begin{figure}[t]
-  \centering{\includegraphics[width=0.99\linewidth]{pictures/meandecrease}}
+  \centering{\includegraphics[width=0.90\linewidth]{pictures/meandecrease}}
   \caption{Random Forest: Mean decrease in accuracy for each feature.}
 \label{fig:feature_importance_1}
 \end{figure}
 
 \begin{figure}[t]
- \centering{\includegraphics[width=0.99\linewidth]{pictures/gini}}
+ \centering{\includegraphics[width=0.90\linewidth]{pictures/gini}}
   \caption{Random Forest: Gini index (higher values indicate more important features).}
 \label{fig:feature_importance_2}
 \end{figure}
  
 \begin{figure}[t]
- \centering{\includegraphics[width=0.99\linewidth]{pictures/gini}}
+ \centering{\includegraphics[width=0.90\linewidth]{pictures/gini}}
   \caption{Boosting: Gini index (higher values indicate more important features).}
 \label{fig:gini_boosting}
 \end{figure}
