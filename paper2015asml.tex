@@ -23,6 +23,7 @@
 %\usepackage{amssymb}  % assumes amsmath package installed
 \usepackage{wrapfig}
 \usepackage{graphicx,color}
+\usepackage{adjustbox}
 
 \usepackage{textcomp}
 \usepackage{amsmath}
@@ -42,7 +43,9 @@
 
 \newcommand{\gta}[3]{pictures/example_traj/Good/#1-snapshot-#3-#2}
 \newcommand{\bta}[3]{pictures/example_traj/Bad/#1-snapshot-#3-#2}
-\newcommand{\fta}[3]{pictures/example_features/#1\_#2\_#3}
+\newcommand{\fta}[3]{pictures/example_features/#1_#2_#3}
+
+\newcommand*\rot{\rotatebox{90}}
 
 \title{\LARGE \bf
 Towards a Data-driven Approach to Motion Planning
@@ -482,6 +485,49 @@ The third classification framework that we use is Boosting. In the Boosting  fra
  \centering{\includegraphics[width=0.99\linewidth]{pictures/gini}}
   \caption{Boosting: Gini index (higher values indicate more important features).}
 \label{fig:gini_boosting}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{tabular}{c|p{0.4\columnwidth}p{0.4\columnwidth}}
+& Low feature-value & High feature-value \\
+\hline
+
+\rot{wrist\_tool\_dtw} & 
+\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_tool_dtw}{low}{0}} & 
+\adjincludegraphics[trim={.2\width} {.0\height} {.2\width} {.15\height}, clip, width=0.4\columnwidth]{\fta{wrist_tool_dtw}{high}{0}} \\
+
+\rot{tool\_length} & 
+\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_length}{low}{0}} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.015\height}, clip, width=0.4\columnwidth]{\fta{tool_length}{high}{0}} \\
+
+\rot{tool\_quat\_dist} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_quat_dist}{low}{0}} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_quat_dist}{high}{0}} \\
+
+\rot{wrist\_bfs\_dtw} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{low}{0}} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{high}{0}} \\
+\end{tabular}
+
+%\begin{minipage}[][][s]{0.45\columnwidth}
+%\centering
+%\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=\textwidth]{\fta{tool_length}{low}{0}}
+%\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=\textwidth]{\fta{tool_quat_dist}{low}{0}}
+%\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=\textwidth]{\fta{wrist_bfs_dtw}{low}{0}}
+%%\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\textwidth, clip=true]{\fta{}{low}{0}}
+%(a)
+%\end{minipage}
+%\hfill
+%\begin{minipage}[][][s]{0.45\columnwidth}
+%\centering
+%\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=\textwidth]{\fta{tool_length}{high}{0}}
+%\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=\textwidth]{\fta{tool_quat_dist}{high}{0}}
+%\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=\textwidth]{\fta{wrist_bfs_dtw}{high}{0}}
+%%\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\textwidth, clip=true]{\fta{}{high}{0}}
+%(b)
+%\end{minipage}
+\caption{Example trajectory snapshots for motions that survey participants rated (a) highly and (b) poorly. In (b) the hand ducks under the table in between the first and middle snapshot.}\label{fig:example_trajectory}
 \end{figure}
 
 
