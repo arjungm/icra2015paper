@@ -97,7 +97,7 @@ have to tailor their trajectories for the presence and actions of the people aro
 
 In this work, we take a first step towards the ultimate goal of generating robotic arm trajectories in cluttered environments that are acceptable for human observers and co-workers. We take a data-driven approach to this problem, using an online survey where human observers rate robot motion quality to generate a large dataset of human-observer preferences for robot trajectories. We use a feature set computed for each trajectory to then learn a relationship between the features in the trajectory and the rating that it gets from the human observers. A classifier learned in this manner serves two purposes: (a) it helps in identifying a set of features that are the most important in predicting human preferences for robot trajectories and (b) it could form the basis of a new approach to generating trajectories that is driven by learned human-observer preferences.
 
-This paper is organized as follows. In Section~\ref{sec:background}, we first describe related work in this area. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents the results from the survey and analysis, including the trajectory features used for classification and the classification approaches used with the data. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
+This paper is organized as follows. In Section~\ref{sec:background}, we first describe related work in this area. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents the results from the survey and analysis, including the trajectory features used for classification and Section~\ref{sec:classification} covers the classification approaches used with the data. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
 \begin{figure}
 \centering
 \begin{tabular}{c|c}
@@ -231,7 +231,7 @@ The survey resulted in at least 20 ratings for each trajectory (so there were a 
   \centering{\includegraphics[width=0.45\linewidth]{pictures/elegant}}
   \centering{\includegraphics[width=0.45\linewidth]{pictures/smooth}}
   \centering{\includegraphics[width=0.45\linewidth]{pictures/overall}}
-  \caption{Histogram of averaged ratings for the 103 different trajectories. Clockwise from top left: Efficient vs. Inefficient, Elegant vs. Inelegant, Smooth vs. Rough, Overall Rating}
+  \caption{Histogram of averaged ratings for the 4 different attributes for 103 trajectories. Clockwise from top left: Efficient vs. Inefficient, Elegant vs. Awkward, Smooth vs. Rough, Overall Rating}
 \label{fig:survey_raw}
 \end{figure}
 The raw results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of averaged responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{tab:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1\% (with p-values $< 0.01\%$). The 95\% confidence intervals for all the four ratings for each trajectory was less than 1.0. 
@@ -478,6 +478,7 @@ h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Carte
 \end{figure}
 
 \section{Classification}
+\label{sec:classification}
 The survey data provides a great platform to answer the question, ``Can we predict a human-observer preference for a given trajectory?''. Our approach to this question is to let the data drive us towards the answer instead of trying to hand-design a cost function or set of features that offer the best explanation. Towards this end, we chose to learn a classifier based on the available data to help predict the human-observer rating for a new trajectory. The 103 data points (corresponding to the 103 distinct trajectories) were broken up into 3 classes based on average overall ratings:
 \begin{itemize}
 \item “low” - 11 data points with ratings $\in (1,3]$,
