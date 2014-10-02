@@ -131,6 +131,7 @@ This paper is organized as follows. In Section~\ref{sec:background}, we first de
 %(b)
 %\end{minipage}
 \caption{Example trajectory snapshots for motions that survey participants rated (a) highly and (b) poorly. In (b) the hand of the robot ducks under the table in between the first and middle snapshot.}\label{fig:example_trajectory}
+\vspace{-0.2in}
 \end{figure}
 
 \section{Background}
@@ -176,7 +177,8 @@ We extended the MoveIt! benchmarking architecture~\cite{cohen2012generic} with v
 \begin{table*}[t]
 \centering
 \scalebox{0.9}{
-\begin{tabular}{|c||c|c|c|c|c|c|c|}
+\begin{tabular}{cccccccc}
+&&&&&&&\\
 \hline
 Efficiency  & Highly inefficient& Moderately inefficient& Slightly inefficient& Neutral & Slightly efficient& Moderately efficient& Highly efficient\\
 \hline
@@ -190,6 +192,7 @@ Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat
 }
 \caption{The four rating categories/attributes and the associated scales for each presented to the survey respondent.}
 \label{tab:rating_scales}
+\vspace{-0.2in}
 \end{table*}
 
 %\begin{figure}[b]
@@ -247,6 +250,7 @@ Overall & 0.98 & 0.98 & 0.96 & 1 \\ \hline
 \end{tabular}
 \caption{Correlation between the four attributes in the survey.}
 \label{tab:correlation}
+\vspace{-0.1in}
 \end{table}
 
 \subsection{Trajectory Features}
@@ -314,7 +318,7 @@ We also wanted to design features that captured the difference between the plann
 
 
 {\bf Hausdorff Distance:}
-The Hausdorff distance $H_\text{AB}$ between trajectory $\xi_\text{A}$ and trajectory $\xi_\text{B}$ can be computed as follows:
+The Hausdorff distance $H_\text{AB}$ between trajectory $\xi_\text{A}$ and $\xi_\text{B}$ can be computed as follows:
 \begin{equation}
 \begin{aligned}
 H_\text{AB} &= \max (h_{\text{AB}}, h_{\text{BA}}) \\
@@ -434,7 +438,8 @@ where $n$ is the number of waypoints, $\overline{q_\text{B,i}}$ is the i-th segm
 \label{tab:feature_description}
 \scalebox{0.9}{
 \centering
-\begin{tabular}{|p{0.3\columnwidth}|p{0.2\columnwidth}|p{0.5\columnwidth}|}
+\begin{tabular}{p{0.3\columnwidth}p{0.2\columnwidth}p{0.5\columnwidth}}
+&&\\
 \hline
 Feature Name & Metric & Feature Description \\
 \hline
@@ -449,11 +454,13 @@ h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Carte
 \end{tabular}
 }
 \caption{The complete list of computed trajectory features used for classification.}
+\vspace{-0.2in} 
 \end{table}
 
 \begin{figure}[h]
 \centering
-\begin{tabular}{|c|cc|}%p{0.4\columnwidth}p{0.4\columnwidth}}
+\begin{tabular}{ccc}%p{0.4\columnwidth}p{0.4\columnwidth}}
+&&\\
 \hline
 & Low feature-value & High feature-value \\
 \hline
@@ -475,6 +482,7 @@ h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Carte
 \hline
 \end{tabular}
 \caption{Example trajectories for different values of the most useful features. Trajectories on the left have low feature values while trajectories on the right have high features values for each corresponding feature in that row.}\label{fig:example_features}
+\vspace{-0.2in} 
 \end{figure}
 
 \section{Classification}
