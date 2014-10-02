@@ -23,6 +23,7 @@
 %\usepackage{amssymb}  % assumes amsmath package installed
 \usepackage{wrapfig}
 \usepackage{graphicx,color}
+\usepackage{adjustbox}
 
 \usepackage{textcomp}
 \usepackage{amsmath}
@@ -42,7 +43,9 @@
 
 \newcommand{\gta}[3]{pictures/example_traj/Good/#1-snapshot-#3-#2}
 \newcommand{\bta}[3]{pictures/example_traj/Bad/#1-snapshot-#3-#2}
-\newcommand{\fta}[3]{pictures/example_features/#1\_#2\_#3}
+\newcommand{\fta}[3]{pictures/example_features/#1_#2_#3}
+
+\newcommand*\rot{\rotatebox{90}}
 
 \title{\LARGE \bf
 Towards a Data-driven Approach to Motion Planning
@@ -109,22 +112,6 @@ results of this analysis can be used to help design better trajectories that are
 \caption{Example trajectory snapshots for motions that survey participants rated (a) highly and (b) poorly. In (b) the hand ducks under the table in between the first and middle snapshot.}\label{fig:example_trajectory}
 \end{figure}
 
-
-Robots working in industrial environments have traditionally been limited to simple, efficient point to point trajectories. Robotic workcells 
-typically require a safety cage to prevent people from being getting close. Robotic motion generation, therefore, does not take 
-into account any notion of the acceptability of trajectories for human observers. The need for more flexibility in manufacturing and logistics, 
-though, has resulted in a greater need for robots that can work beside humans. As robots and people start becoming co-workers, taking 
-human perception of robotic paths into account will become more important. Humans are able to predict and adjust their trajectories to 
-account for the expectations and trajectories of their co-workers easily. For human co-workers to be comfortable, robots will similarly 
-have to tailor their trajectories for the presence and actions of the people around them\footnote{we use the word motion in general to describe how robot's move 
-and the word trajectory to describe time-parameterized paths}. 
-
-In this work, we take a first step towards the ultimate goal of generating robotic arm trajectories in cluttered environments that are acceptable for human observers and co-workers. 
-We start with a survey where human observers rate robot motion quality. We generated a range of trajectories across multiple environments with different planners. 
-The motion planning problems we chose required a (simulated) robot to move its arm from a specified end-effector start position to a desired end-effector goal position. Movies of these trajectories from multiple viewpoints were then presented to human observers using an online survey tool. The users were asked to rate different attributes of the trajectories. We also computed a large set of features for each trajectory. The feature set was designed to be easily extensible across different types of robots and also captures the relationship between the trajectories and the environment. We use the feature set, coupled with machine learning techniques, to build a classifier that predicts the human rating for a given trajectory. The classifiers also help in identifying a set of features that are the most important in predicting human preferences for robot trajectories, allowing us to rate motion planned trajectories as they are generated.
-
-This paper is organized as follows. In Section~\ref{sec:background}, we first describe realted work in this area. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents the results from the survey and analysis, including the trajectory features used for classification and the classification approaches used with the data. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
-
 \begin{table*}
 \centering
 \scalebox{0.9}{
@@ -143,6 +130,22 @@ Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat
 \caption{The rating categories and the associated scale presented to the survey respondent}
 \label{tab:rating_scales}
 \end{table*}
+
+
+Robots working in industrial environments have traditionally been limited to simple, efficient point to point trajectories. Robotic workcells 
+typically require a safety cage to prevent people from being getting close. Robotic motion generation, therefore, does not take 
+into account any notion of the acceptability of trajectories for human observers. The need for more flexibility in manufacturing and logistics, 
+though, has resulted in a greater need for robots that can work beside humans. As robots and people start becoming co-workers, taking 
+human perception of robotic paths into account will become more important. Humans are able to predict and adjust their trajectories to 
+account for the expectations and trajectories of their co-workers easily. For human co-workers to be comfortable, robots will similarly 
+have to tailor their trajectories for the presence and actions of the people around them\footnote{we use the word motion in general to describe how robot's move 
+and the word trajectory to describe time-parameterized paths}. 
+
+In this work, we take a first step towards the ultimate goal of generating robotic arm trajectories in cluttered environments that are acceptable for human observers and co-workers. 
+We start with a survey where human observers rate robot motion quality. We generated a range of trajectories across multiple environments with different planners. 
+The motion planning problems we chose required a (simulated) robot to move its arm from a specified end-effector start position to a desired end-effector goal position. Movies of these trajectories from multiple viewpoints were then presented to human observers using an online survey tool. The users were asked to rate different attributes of the trajectories. We also computed a large set of features for each trajectory. The feature set was designed to be easily extensible across different types of robots and also captures the relationship between the trajectories and the environment. We use the feature set, coupled with machine learning techniques, to build a classifier that predicts the human rating for a given trajectory. The classifiers also help in identifying a set of features that are the most important in predicting human preferences for robot trajectories, allowing us to rate motion planned trajectories as they are generated.
+
+This paper is organized as follows. In Section~\ref{sec:background}, we first describe realted work in this area. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents the results from the survey and analysis, including the trajectory features used for classification and the classification approaches used with the data. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
 
 \section{Background}
 \label{sec:background}
@@ -490,6 +493,49 @@ The third classification framework that we use is Boosting. In the Boosting  fra
  \centering{\includegraphics[width=0.99\linewidth]{pictures/gini}}
   \caption{Boosting: Gini index (higher values indicate more important features).}
 \label{fig:gini_boosting}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{tabular}{c|p{0.4\columnwidth}p{0.4\columnwidth}}
+& Low feature-value & High feature-value \\
+\hline
+
+\rot{wrist\_tool\_dtw} & 
+\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_tool_dtw}{low}{0}} & 
+\adjincludegraphics[trim={.2\width} {.0\height} {.2\width} {.15\height}, clip, width=0.4\columnwidth]{\fta{wrist_tool_dtw}{high}{0}} \\
+
+\rot{tool\_length} & 
+\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_length}{low}{0}} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.015\height}, clip, width=0.4\columnwidth]{\fta{tool_length}{high}{0}} \\
+
+\rot{tool\_quat\_dist} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_quat_dist}{low}{0}} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{tool_quat_dist}{high}{0}} \\
+
+\rot{wrist\_bfs\_dtw} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{low}{0}} & 
+\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{high}{0}} \\
+\end{tabular}
+
+%\begin{minipage}[][][s]{0.45\columnwidth}
+%\centering
+%\adjincludegraphics[trim={.1\width} {.2\height} {.25\width} {.0\height}, clip, width=\textwidth]{\fta{tool_length}{low}{0}}
+%\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=\textwidth]{\fta{tool_quat_dist}{low}{0}}
+%\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=\textwidth]{\fta{wrist_bfs_dtw}{low}{0}}
+%%\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\textwidth, clip=true]{\fta{}{low}{0}}
+%(a)
+%\end{minipage}
+%\hfill
+%\begin{minipage}[][][s]{0.45\columnwidth}
+%\centering
+%\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=\textwidth]{\fta{tool_length}{high}{0}}
+%\adjincludegraphics[trim={.1\width} {.0\height} {.25\width} {.0\height}, clip, width=\textwidth]{\fta{tool_quat_dist}{high}{0}}
+%\adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=\textwidth]{\fta{wrist_bfs_dtw}{high}{0}}
+%%\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\textwidth, clip=true]{\fta{}{high}{0}}
+%(b)
+%\end{minipage}
+\caption{Example trajectory snapshots for motions that survey participants rated (a) highly and (b) poorly. In (b) the hand ducks under the table in between the first and middle snapshot.}\label{fig:example_trajectory}
 \end{figure}
 
 
