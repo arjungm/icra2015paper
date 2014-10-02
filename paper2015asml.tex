@@ -321,9 +321,7 @@ We also use the Interpolation-based Modified Hausdorff distance~\cite{dubuisson1
 
 where $n$ is the number of waypoints, $\overline{q_\text{B,i}}$ is the i-th segment in \tj{B}, and $\text{d}(q, \overline{q})$ is the shortest distance between the point and the line segment. We calculate this distance only one way, for $(\tj{elbow},\tj{BFS})$, $(\tj{wrist},\tj{BFS})$. and $(\tj{tip},\tj{BFS})$.
 
-{\bf Dynamic Time Warping:}
-
-Dynamic Time Warping (DTW) was previously used in a wide varity of applications ranging from speech recognition, gesture recognition, handwriting matching, and can be applied here to compare two different trajectories~\cite{senin2008dynamic}\cite{chen2013dynamic}. It provides a way to compute a distance despite differences in timing of the trajectories as well. DTW computes a mapping of a subset of the waypoints in $\xi_\text{A}$ to a subset of the waypoints in $\xi_\text{B}$ which constitutes the warping path, or
+{\bf Dynamic Time Warping:} Dynamic Time Warping (DTW) was previously used in a wide varity of applications ranging from speech recognition, gesture recognition, handwriting matching, and can be applied here to compare two different trajectories~\cite{senin2008dynamic}\cite{chen2013dynamic}. It provides a way to compute a distance despite differences in timing of the trajectories as well. DTW computes a mapping of a subset of the waypoints in $\xi_\text{A}$ to a subset of the waypoints in $\xi_\text{B}$ which constitutes the warping path, or
 
 \begin{equation}
 \xi_\text{DTW} = \{ (0, 0), (a_i, b_j), \mathellipsis ,(n_A, n_B) \}
