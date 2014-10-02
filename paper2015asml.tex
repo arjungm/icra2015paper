@@ -149,25 +149,17 @@ Our approach starts with an online survey designed to get information from multi
 
 \subsection{Planning System Infrastructure}
 
-The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with video recording capabilities to quickly generate a large number of trajectories. The MoveIt! architecture allows for the definition of environments, referred to as planning scenes, start and goal states for robots (motion planning queries). It also allows for the use of any supported planning algorithms (planners). A combination of different scenes, motion queries, and planners was used to generate robot trajectories for evalutation. We chose three distinct scenes (Fig.~\ref{fig:scenes}): a kitchen ({\sc Countertop}), an industrial workbench ({\sc Industrial}) and a drawer on a table ({\sc Drawer}). Multiple queries were generated in each scene for trajectories of the right arm of the PR2 robot (Fig.~\ref{fig:PR2}. The robot was positioned in the scenes manually and motion planning queries were constructed by hand. The positioning in the scenes was done with the expectation that the planning queries would not be impossible or trivial for the planning algorithms to solve. 
-
-%\begin{figure}[b]
-%    \includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/designing_queries_moveit}
-%    \caption{Screenshot of the planning query design process which involved hand-picking start and goal query poses for the various scenes manually to ensure they were neither trivial nor impossible for the planning algorithms to solve. This was accomplished through use of RVIZ and interactive markers.}
-%    \label{fig:design}
-%\end{figure}
-
-The planning algorithms that we used are RRT-Connect~\cite{kuffner2000rrt} and RRT*.  RRT*~\cite{frazzoli-RRTstar} was used with two different cost functions: {\sc PathLength} and {\sc MaxMinClearance}.The objective for {\sc PathLength} minimizes the length of the trajectory (as the sum of the euclidean distances between ends of trajectory segments). The objective for {\sc MaxMinClearance} computes uses the minimum clearance of a configuration belonging to a trajectory as the value it is trying to maximize. Both planners are implemented in the OMPL library~\cite{OMPL:2012}. The planned trajectories are post-processed by an iterative-time parameterization method that time-parameterizes the trajectories while taking into account velocity and accelerations. The infrastructure we designed around MoveIt! allows us to automatically generate movies of the generated trajectories using the ROS Visualizer (Rviz). We generated movies from different viewpoints to maximize the visibility of the motion to human observers reviewing it. A total of 103 different trajectories were generated in this manner. 
-
-\begin{figure}
+\begin{wrapfigure}[13]{l}{.5\linewidth}
 \centering
-  \includegraphics[trim = 0mm 0mm 40mm 0mm, width=\columnwidth, clip=true]{pictures/pr2_robot_4_downscale}
-\caption{The PR2 mobile manipulator with the three links frames for the elbow, wrist and tool (or fingertip).}\label{fig:PR2}
-\end{figure}
+  \includegraphics[trim = 0mm 0mm 40mm 0mm, width=0.5\columnwidth, clip=true]{pictures/pr2_robot_4_downscale}
+\caption{{\footnotesize PR2 robot.}}
+\label{fig:PR2}
+\vspace{0.1in}
+\end{wrapfigure}
 
-\subsection{Online Survey}
+We extended the MoveIt! benchmarking architecture~\cite{cohen2012generic} with video recording capabilities to quickly generate a large number of trajectories. The MoveIt! architecture allows for the definition of environments, referred to as planning scenes, start and goal states for robots (motion planning queries). It also allows for the use of any supported planning algorithms (planners). A combination of different scenes, motion queries, and planners was used to generate robot trajectories for evalutation. We chose three distinct scenes (Fig.~\ref{fig:scenes}): a kitchen (Countertop), an industrial workbench (Industrial) and a drawer on a table (Drawer). Multiple queries were generated in each scene for trajectories of the right arm of the PR2 robot (Fig.~\ref{fig:PR2}. The robot was positioned in the scenes manually and motion planning queries were constructed by hand. The positioning in the scenes was done with the expectation that the planning queries would not be impossible or trivial for the planning algorithms to solve. 
 
-\begin{table*}
+\begin{table*}[t]
 \centering
 \scalebox{0.9}{
 \begin{tabular}{|c||c|c|c|c|c|c|c|}
@@ -186,7 +178,17 @@ Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat
 \label{tab:rating_scales}
 \end{table*}
 
-We conducted an online survey\footnote{The online survey was conducted after gaining a waiver from SRI's IRB after a review of our survey procedure. Our survey followed standard guidelines for privacy of respondent information when conducting a survey on Mechanical Turk.} where we asked human observers to rate a variety of trajectories of the PR2 robot. The survey was built on Amazon's Mechanical Turk~\cite{paolacci2010running}, which has become a useful tool for large online data gathering and crowd-sourced work. Each respondent in the survey was presented with a set of demographic questions, a video, and four scales to rate the robot's motion on the attributes  of elegance, efficency, smoothness and overall impression. Each respondent was expected to rate multiple trajectories but could not rate a trajectory more than once. Each video has four different views of the robot displayed simultaneously. respondents were asked demographic questions about familiarity with video games, familiarity with robotics, age group and highest education level. None of these pieces of information were used to filter the responses we collected.  A summary of the rating scales used in the main survey question can be seen in Table~\ref{tab:rating_scales}.
+%\begin{figure}[b]
+%    \includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/designing_queries_moveit}
+%    \caption{Screenshot of the planning query design process which involved hand-picking start and goal query poses for the various scenes manually to ensure they were neither trivial nor impossible for the planning algorithms to solve. This was accomplished through use of RVIZ and interactive markers.}
+%    \label{fig:design}
+%\end{figure}
+
+The planning algorithms that we used are RRT-Connect~\cite{kuffner2000rrt} and RRT*.  RRT*~\cite{frazzoli-RRTstar} was used with two different cost functions: PathLength and MaxMinClearance.The objective for PathLength minimizes the length of the trajectory (as the sum of the euclidean distances between ends of trajectory segments). The objective for MaxMinClearance computes uses the minimum clearance of a configuration belonging to a trajectory as the value it is trying to maximize. Both planners are implemented in the OMPL library~\cite{OMPL:2012}. The planned trajectories are post-processed by an iterative-time parameterization method that time-parameterizes the trajectories while taking into account velocity and accelerations. The infrastructure we designed around MoveIt! allows us to automatically generate movies of the generated trajectories using the ROS Visualizer (Rviz). We generated movies from different viewpoints to maximize the visibility of the motion to human observers reviewing it. A total of 103 different trajectories were generated in this manner. 
+
+\subsection{Online Survey}
+
+We conducted an online survey\footnote{The online survey was conducted after gaining a waiver from SRI's IRB after a review of our survey procedure. Our survey followed standard guidelines for privacy of respondent information when conducting a survey on Mechanical Turk.} where we asked human observers to rate a variety of trajectories of the PR2 robot. The survey was built on Amazon's Mechanical Turk~\cite{paolacci2010running}, which has become a useful tool for large online data gathering and crowd-sourced work. Each respondent in the survey was presented with a set of demographic questions, a video, and four scales to rate the robot's motion on the attributes  of elegance, efficency, smoothness and overall impression (a summary of the rating scales used in the main survey question can be seen in Table~\ref{tab:rating_scales}). Each respondent was expected to rate multiple trajectories but could not rate a trajectory more than once. Each video has four different views of the robot displayed simultaneously. Respondents were asked demographic questions about familiarity with video games, familiarity with robotics, age group and highest education level. The demographic information was not used to filter the responses we collected.  
 
 Mechanical Turk allows monetary compensation on completion of the survey, which we set to 15\textcent~per survey. We estimated the time that each respondent would take to rate a single trajectory as 1-2 minutes. Additionally, the respondents were allowed to replay the trajectory video repeatedly. The maximum possible payout for each respondent is thus 15.45\$ (if each survey took 1.5 minutes to complete then the wage is approximately 6\$ per hour). This is standard compensation for quality work on Mechanical Turk for tasks of this type, as was pointed out to us by several veteran Mechanical Turk surveyors. 
 
@@ -208,7 +210,7 @@ Respondents on Mechanical Turk are only paid if the survey organizer approves th
 \label{sec:raw_results}
 The survey resulted in at least 20 ratings for each trajectory (so there were a total of 2060 ratings from participants in the survey). In this section, we will first analyze the raw results from the survey (which are interesting in themselves). Subsequently, we will present a set of features that were used to represent individual trajectories. These features will be used in the next section to learn the human-observer ratings for robot trajectories. 
 \subsection{Raw Survey Results}
-\begin{figure}[t]
+\begin{figure}[h]
   \centering{\includegraphics[width=0.45\linewidth]{pictures/efficiency}}
   \centering{\includegraphics[width=0.45\linewidth]{pictures/elegant}}
   \centering{\includegraphics[width=0.45\linewidth]{pictures/smooth}}
@@ -500,11 +502,7 @@ The third classification framework that we use is Boosting. In the Boosting  fra
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{ACKNOWLEDGMENT}
-
-The preferred spelling of the word �acknowledgment� in America is without an �e� after the �g�. Avoid the stilted expression, �One of us (R. B. G.) thanks . . .�  Instead, try �R. B. G. thanks�. Put sponsor acknowledgments in the unnumbered footnote on the first page.
-
-
-
+We would like to thank Leila Takayama for valuable advice on structuring the online survey. We would like to thank Lydia Kavraki and Mark Moll for valuable discussions and suggestions. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliography{IEEEabrv,max,arjun}
 \bibliographystyle{IEEEtran}
