@@ -100,25 +100,36 @@ In this work, we take a first step towards the ultimate goal of generating robot
 This paper is organized as follows. In Section~\ref{sec:background}, we first describe related work in this area. In Section~\ref{sec:survey}, we present details of the online survey including information about the types of trajectories and environments used. Section~\ref{sec:raw_results} presents the results from the survey and analysis, including the trajectory features used for classification and the classification approaches used with the data. In Section~\ref{sec:conclusion}, we conclude with a discussion of how our results could be used to design motion planners that generate more human-acceptable trajectories. 
 \begin{figure}
 \centering
-\begin{minipage}[][][s]{0.45\columnwidth}
-\centering
-\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{1}}
-%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{2}}
-\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{3}}
-%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{4}}
-\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{5}}
-(a)
-\end{minipage}
-\hfill
-\begin{minipage}[][][s]{0.45\columnwidth}
-\centering
-\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{1}}
-%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{2}}
-\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{3}}
-%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{4}}
-\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{5}}
-(b)
-\end{minipage}
+\begin{tabular}{c|c}
+\adjincludegraphics[trim = 100mm 0mm 100mm 30mm, width=0.44\columnwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{1}} &
+\adjincludegraphics[trim = 100mm 0mm 100mm 30mm, width=0.44\columnwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{1}} \\
+\adjincludegraphics[trim = 100mm 0mm 100mm 30mm, width=0.44\columnwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{3}} &
+\adjincludegraphics[trim = 100mm 0mm 100mm 30mm, width=0.44\columnwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{3}} \\
+\adjincludegraphics[trim = 100mm 0mm 100mm 30mm, width=0.44\columnwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{5}} &
+\adjincludegraphics[trim = 100mm 0mm 100mm 30mm, width=0.44\columnwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{5}} \\
+(a) & (b) \\
+\end{tabular}
+%\begin{minipage}[][][s]{0.45\columnwidth}
+%\centering
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{1}}
+%%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{2}}
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{3}}
+%%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{4}}
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\gta{2014_Sep_17_18_40_15}{2}{5}}
+%(a)
+%\end{minipage}
+%\hfill
+%\vline
+%\hfill
+%\begin{minipage}[][][s]{0.45\columnwidth}
+%\centering
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{1}}
+%%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{2}}
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{3}}
+%%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{4}}
+%\includegraphics[trim = 100mm 0mm 100mm 30mm, width=\textwidth, clip=true]{\bta{2014_Sep_17_18_40_21}{2}{5}}
+%(b)
+%\end{minipage}
 \caption{Example trajectory snapshots for motions that survey participants rated (a) highly and (b) poorly. In (b) the hand of the robot ducks under the table in between the first and middle snapshot.}\label{fig:example_trajectory}
 \end{figure}
 
@@ -422,7 +433,7 @@ where $n$ is the number of waypoints, $\overline{q_\text{B,i}}$ is the i-th segm
 \label{tab:feature_description}
 \scalebox{0.9}{
 \centering
-\begin{tabular}{p{0.3\columnwidth}|p{0.2\columnwidth}|p{0.5\columnwidth}}
+\begin{tabular}{|p{0.3\columnwidth}|p{0.2\columnwidth}|p{0.5\columnwidth}|}
 \hline
 Feature Name & Metric & Feature Description \\
 \hline
@@ -441,7 +452,8 @@ h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Carte
 
 \begin{figure}[h]
 \centering
-\begin{tabular}{c|p{0.4\columnwidth}p{0.4\columnwidth}}
+\begin{tabular}{|c|cc|}%p{0.4\columnwidth}p{0.4\columnwidth}}
+\hline
 & Low feature-value & High feature-value \\
 \hline
 \rot{wrist\_tool\_dtw} & 
@@ -459,6 +471,7 @@ h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Carte
 \rot{wrist\_bfs\_dtw} & 
 \adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{low}{0}} & 
 \adjincludegraphics[trim={.1\width} {.0\height} {.1\width} {.0\height}, clip, width=0.4\columnwidth]{\fta{wrist_bfs_dtw}{high}{0}} \\
+\hline
 \end{tabular}
 \caption{Trajectory examples of the most useful features, where the feature is displayed row-wise and columns are whether the feature is {\em low} or {\em high} for the example.}\label{fig:example_features}
 \end{figure}
