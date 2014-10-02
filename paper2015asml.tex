@@ -188,7 +188,7 @@ Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat
 \hline
 \end{tabular}
 }
-\caption{The rating categories and the associated scale presented to the survey respondent}
+\caption{The four rating categories/attributes and the associated scales for each presented to the survey respondent.}
 \label{tab:rating_scales}
 \end{table*}
 
@@ -204,7 +204,7 @@ Our main focus in generating trajectories was to generate a wide sample. The cho
 
 \subsection{Online Survey}
 
-We conducted an online survey\footnote{The online survey was conducted after gaining a waiver from SRI's IRB after a review of our survey procedure. Our survey followed standard guidelines for privacy of respondent information when conducting a survey on Mechanical Turk.} where we asked human observers to rate a variety of trajectories of the PR2 robot. The survey was built on Amazon's Mechanical Turk~\cite{paolacci2010running}, which has become a useful tool for large online data gathering and crowd-sourced work. Each respondent in the survey was presented with a set of demographic questions, a video, and four scales to rate the robot's motion on the attributes  of elegance, efficency, smoothness and overall impression (a summary of the rating scales used in the main survey question can be seen in Table~\ref{tab:rating_scales}). Each respondent was expected to rate multiple trajectories but could not rate a trajectory more than once. Each video has four different views of the robot displayed simultaneously. Respondents were asked demographic questions about familiarity with video games, familiarity with robotics, age group and highest education level. The demographic information was not used to filter the responses we collected.  
+We conducted an online survey\footnote{The online survey was conducted after gaining a waiver from SRI's IRB after a review of our survey procedure. Our survey followed standard guidelines for privacy of respondent information when conducting a survey on Mechanical Turk.} where we asked human observers to rate a variety of trajectories of the PR2 robot. The survey was built on Amazon's Mechanical Turk~\cite{paolacci2010running}, which has become a useful tool for large online data gathering and crowd-sourced work. Each respondent in the survey was presented with a set of demographic questions, a video, and asked to rate the robot's motion on the attributes  of elegance, efficency, smoothness and overall impression (a summary of the rating scales used in the main survey question can be seen in Table~\ref{tab:rating_scales}). The ratings were later converted into numerical values on a scale of 1 to 7. Each respondent was expected to rate multiple trajectories but could not rate a trajectory more than once. Each video has four different views of the robot displayed simultaneously. Respondents were asked demographic questions about familiarity with video games, familiarity with robotics, age group and highest education level. The demographic information was not used to filter the responses we collected.  
 
 Mechanical Turk allows monetary compensation on completion of the survey, which we set to 15\textcent~per survey. We estimated the time that each respondent would take to rate a single trajectory as 1-2 minutes. Additionally, the respondents were allowed to replay the trajectory video repeatedly. The maximum possible payout for each respondent is thus 15.45\$ (if each survey took 1.5 minutes to complete then the wage is approximately 6\$ per hour). This is standard compensation for quality work on Mechanical Turk for tasks of this type, as was pointed out to us by several veteran Mechanical Turk surveyors. 
 
@@ -234,8 +234,7 @@ The survey resulted in at least 20 ratings for each trajectory (so there were a 
   \caption{Histogram of averaged ratings for the 103 different trajectories. Clockwise from top left: Efficient vs. Inefficient, Elegant vs. Inelegant, Smooth vs. Rough, Overall Rating}
 \label{fig:survey_raw}
 \end{figure}
-The raw results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of averaged responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{tab:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1\% (with p-values $< 0.01\%$). Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. 
-
+The raw results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of averaged responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{tab:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1\% (with p-values $< 0.01\%$). The 95\% confidence intervals for all the four ratings for each trajectory was less than 1.0. 
 \begin{table}
 \centering
 \begin{tabular}{|c|c|c|c|c|}
@@ -253,7 +252,7 @@ Overall & 0.98 & 0.98 & 0.96 & 1 \\ \hline
 \subsection{Trajectory Features}
 \label{subsec:traj_feat}
 
-The first set of features we compute for each trajectory take into account the environment around the robot, the shape of the trajectory and the dynamics of the trajectory. These make up our unary features computed only on the input trajectory. We also include features that compare each trajectory to a nominal trajectory - these feature serve to characterize how much the trajectory deviates from the "expected" path. We go over the multi-point features in the next section. First, we detail the features we computed on each trajectory \tj{} with waypoints $q_i$ where $i={0,\mathellipsis,n}$ and $n=|\tj{}|$. Note that our features are generic, i.e. they can be computed in the same manner for any robot arm trajectory. We believe that our methods should be easily extensible to robots other than the PR2 as well and individual trajectory classifiers could be built for each different robot arm in a similar manner.  
+We identified and computed multiple types of trajectory features. The first set of features we compute for each trajectory take into account the environment around the robot, the shape of the trajectory and the dynamics of the trajectory. These make up our unary features computed only on the input trajectory. We also include features that compare each trajectory to a nominal trajectory - these feature serve to characterize how much the trajectory deviates from the "expected" path. We go over the multi-point features in the next section. First, we detail the features we computed on each trajectory \tj{} with waypoints $q_i$ where $i={0,\mathellipsis,n}$ and $n=|\tj{}|$. Note that our features are generic, i.e. they can be computed in the same manner for any robot arm trajectory. We believe that our methods should be easily extensible to robots other than the PR2 as well and individual trajectory classifiers could be built for each different robot arm in a similar manner.  
 
 {\bf Path length:}
 %The length of the trajectory \tj{} computed as the sum over trajectory segments of the euclidean distance between end points of the segment, or
@@ -301,7 +300,7 @@ Curvature at a given waypoint is computed by splines to the workspace trajectory
 {\bf Joint Limit Distance: }
 The maximin distance to joint limits is the maximum over waypoints, of the miniminum over joints of their distance to their respective closest limit (upper or lower), or $\max_{q \in \tj{}} \min_{\theta \in q} \min(|\theta-\theta_U|,|\theta-\theta_L|)$.
 
-\subsection{Multi-Trajectory Features}
+\subsection{Comparative Trajectory Features}
 \label{subsec:multi_traj_feat}
 We also wanted to design features that captured the difference between the planned trajectory and an expected path for the end-effector in the environment. The expected or nominal end-effector trajectories were created using a breadth-first search in a 3D voxel approximation of the planning problem. The environment model was first discretized into a voxel-grid, and voxels are marked as occupied or empty. Any voxel that is partially occupied is considered to be occupied. A 26-connected grid was used in the planning process to find a path in the voxel grid for a cubical shape moving from the start position of the end-effector of the arm to the desired goal position.  Essentially, this would be the optimal path followed by the end-effector from start to goal if it were modeled as a free-standing cube. Next, we compute comparison features between $\xi_{\text{BFS}}$ and three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links. The comparison features computed between each pair of trajectories are the Hausdorff distances~\cite{dubuisson1994modified} and Dynamic Time Warping~\cite{senin2008dynamic} distances. 
 
@@ -449,7 +448,7 @@ h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Carte
 \hline
 \end{tabular}
 }
-\caption{Decoding of feature names into descriptions}
+\caption{The complete list of computed trajectory features used for classification.}
 \end{table}
 
 \begin{figure}[h]
@@ -510,18 +509,19 @@ The third classification framework that we use is Boosting. In the Boosting  fra
   \centering{\includegraphics[width=0.90\linewidth]{pictures/meandecrease}}
   \caption{Random Forest: Mean decrease in accuracy for each feature.}
 \label{fig:feature_importance_1}
+\vspace{-0.2in}
 \end{figure}
-
 \begin{figure}[t]
  \centering{\includegraphics[width=0.90\linewidth]{pictures/gini}}
   \caption{Random Forest: Gini index (higher values indicate more important features).}
 \label{fig:feature_importance_2}
+\vspace{-0.3in} 
 \end{figure}
- 
 \begin{figure}[t]
  \centering{\includegraphics[width=0.90\linewidth]{pictures/gini}}
   \caption{Boosting: Gini index (higher values indicate more important features).}
 \label{fig:gini_boosting}
+\vspace{-0.3in}
 \end{figure}
 
 The classification results clearly show the value in using a data-driven approach to determining human preferences for robot trajectories. It is difficult, 
@@ -534,6 +534,7 @@ should also help in the design of cost functions, when necessary, especially sin
 In particular, note that a feature like wrist\_tool\_dtw is not used in typical optimization schemes like RRT* which mostly relies on a path length optimization criterion. 
 
 \section{Conclusion}
+\label{sec:conclusion}
 In this work, we have generated ratings for a large dataset of robot trajectories. We have already gained significant insights into the 
 types of trajectories that are preferred by human observers. In particular, we have been able to identify a set of features that seem to influence 
 the human's perception of the trajectories the most. This can help us in defining better cost functions when generating the trajectories. The classifiers 
