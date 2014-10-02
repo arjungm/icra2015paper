@@ -90,8 +90,7 @@ into account any notion of the acceptability of trajectories for human observers
 though, has resulted in a greater need for robots that can work beside humans. As robots and people start becoming co-workers, taking 
 human perception of robotic paths into account will become more important. Humans are able to predict and adjust their trajectories to 
 account for the expectations and trajectories of their co-workers easily. For human co-workers to be comfortable, robots will similarly 
-have to tailor their trajectories for the presence and actions of the people around them\footnote{we use the word motion in general to describe how robot's move 
-and the word trajectory to describe time-parameterized paths}. 
+have to tailor their trajectories for the presence and actions of the people around them. 
 
 In this work, we take a first step towards the ultimate goal of generating robotic arm trajectories in cluttered environments that are acceptable for human observers and co-workers. We take a data-driven approach to this problem, using an online survey where human observers rate robot motion quality to generate a large dataset of human-observer preferences for robot trajectories. We use a feature set computed for each trajectory to then learn a relationship between the features in the trajectory and the rating that it gets from the human observers. A classifier learned in this manner serves two purposes: (a) it helps in identifying a set of features that are the most important in predicting human preferences for robot trajectories and (b) it could form the basis of a new approach to generating trajectories that is driven by learned human-observer preferences.
 
@@ -119,25 +118,6 @@ This paper is organized as follows. In Section~\ref{sec:background}, we first de
 \end{minipage}
 \caption{Example trajectory snapshots for motions that survey participants rated (a) highly and (b) poorly. In (b) the hand of the robot ducks under the table in between the first and middle snapshot.}\label{fig:example_trajectory}
 \end{figure}
-
-\begin{table*}
-\centering
-\scalebox{0.9}{
-\begin{tabular}{|c||c|c|c|c|c|c|c|}
-\hline
-Efficiency  & Highly inefficient& Moderately inefficient& Slightly inefficient& Neutral & Slightly efficient& Moderately efficient& Highly efficient\\
-\hline
-Elegance    & Highly awkward& Moderately awkward& Slightly awkward& Neutral & Slightly elegant& Moderately elegant& Highly elegant\\
-\hline
-Smoothness  & Highly rough& Moderately rough& Slightly rough& Neutral & Slightly smooth& Moderately smooth& Highly smooth\\
-\hline
-Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat good& Moderately good& Extremely good\\
-\hline
-\end{tabular}
-}
-\caption{The rating categories and the associated scale presented to the survey respondent}
-\label{tab:rating_scales}
-\end{table*}
 
 \section{Background}
 \label{sec:background}
@@ -169,7 +149,7 @@ Our approach starts with an online survey designed to get information from multi
 
 \subsection{Planning System Infrastructure}
 
-The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with video recording capabilities to quickly generate a large number of trajectories. The MoveIt! architecture allows for the definition of environments, referred to as planning scenes, start and goal states for robots (motion planning queries). It also allows for the use of any supported planning algorithms (planners). A combination of different scenes, motion queries, and planners was used to generate robot trajectories for evalutation. We chose three distinct scenes (Fig.~\ref{fig:scenes}): a kitchen ({\sc Countertop}), an industrial workbench ({\sc Industrial}) and a drawer on a table ({\sc Drawer}). Multiple queries were generated in each scene for trajectories of the right arm of the PR2 robot. The robot was positioned in the scenes manually and motion planning queries were constructed by hand. The positioning in the scenes was done with the expectation that the planning queries would not be impossible or trivial for the planning algorithms to solve. 
+The MoveIt! benchmarking architecture~\cite{cohen2012generic} was extended with video recording capabilities to quickly generate a large number of trajectories. The MoveIt! architecture allows for the definition of environments, referred to as planning scenes, start and goal states for robots (motion planning queries). It also allows for the use of any supported planning algorithms (planners). A combination of different scenes, motion queries, and planners was used to generate robot trajectories for evalutation. We chose three distinct scenes (Fig.~\ref{fig:scenes}): a kitchen ({\sc Countertop}), an industrial workbench ({\sc Industrial}) and a drawer on a table ({\sc Drawer}). Multiple queries were generated in each scene for trajectories of the right arm of the PR2 robot (Fig.~\ref{fig:PR2}. The robot was positioned in the scenes manually and motion planning queries were constructed by hand. The positioning in the scenes was done with the expectation that the planning queries would not be impossible or trivial for the planning algorithms to solve. 
 
 %\begin{figure}[b]
 %    \includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/designing_queries_moveit}
@@ -182,16 +162,35 @@ The planning algorithms that we used are RRT-Connect~\cite{kuffner2000rrt} and R
 \begin{figure}
 \centering
   \includegraphics[trim = 0mm 0mm 40mm 0mm, width=\columnwidth, clip=true]{pictures/pr2_robot_4_downscale}
-\caption{The PR2 mobile manipulator with the three links frames for the elbow, wrist and tool (or fingertip).}\label{fig:scenes}
+\caption{The PR2 mobile manipulator with the three links frames for the elbow, wrist and tool (or fingertip).}\label{fig:PR2}
 \end{figure}
 
 \subsection{Online Survey}
 
+\begin{table*}
+\centering
+\scalebox{0.9}{
+\begin{tabular}{|c||c|c|c|c|c|c|c|}
+\hline
+Efficiency  & Highly inefficient& Moderately inefficient& Slightly inefficient& Neutral & Slightly efficient& Moderately efficient& Highly efficient\\
+\hline
+Elegance    & Highly awkward& Moderately awkward& Slightly awkward& Neutral & Slightly elegant& Moderately elegant& Highly elegant\\
+\hline
+Smoothness  & Highly rough& Moderately rough& Slightly rough& Neutral & Slightly smooth& Moderately smooth& Highly smooth\\
+\hline
+Overall     & Extremely poor& Moderately poor& Somewhat poor& Neutral & Somewhat good& Moderately good& Extremely good\\
+\hline
+\end{tabular}
+}
+\caption{The rating categories and the associated scale presented to the survey respondent}
+\label{tab:rating_scales}
+\end{table*}
+
 We conducted an online survey\footnote{The online survey was conducted after gaining a waiver from SRI's IRB after a review of our survey procedure. Our survey followed standard guidelines for privacy of respondent information when conducting a survey on Mechanical Turk.} where we asked human observers to rate a variety of trajectories of the PR2 robot. The survey was built on Amazon's Mechanical Turk~\cite{paolacci2010running}, which has become a useful tool for large online data gathering and crowd-sourced work. Each respondent in the survey was presented with a set of demographic questions, a video, and four scales to rate the robot's motion on the attributes  of elegance, efficency, smoothness and overall impression. Each respondent was expected to rate multiple trajectories but could not rate a trajectory more than once. Each video has four different views of the robot displayed simultaneously. respondents were asked demographic questions about familiarity with video games, familiarity with robotics, age group and highest education level. None of these pieces of information were used to filter the responses we collected.  A summary of the rating scales used in the main survey question can be seen in Table~\ref{tab:rating_scales}.
 
-Mechanical Turk allows monetary compensation on completion of the survey, which we set to 15\textcent~ per survey. We estimated the time that each respondent would take to rate a single trajectory as 1-2 minutes. Additionally, the respondents were allowed to replay the trajectory video repeatedly. The maximum possible payout for each respondent is thus 15.45\textdollar (if each survey took 1.5 minutes to complete then the wage is approximately 6\textdollar~ per hour). This is standard compensation for quality work on Mechanical Turk for tasks of this type, as was pointed out to us by several veteran Mechanical Turk surveyors. 
+Mechanical Turk allows monetary compensation on completion of the survey, which we set to 15\textcent~per survey. We estimated the time that each respondent would take to rate a single trajectory as 1-2 minutes. Additionally, the respondents were allowed to replay the trajectory video repeatedly. The maximum possible payout for each respondent is thus 15.45\$ (if each survey took 1.5 minutes to complete then the wage is approximately 6\$ per hour). This is standard compensation for quality work on Mechanical Turk for tasks of this type, as was pointed out to us by several veteran Mechanical Turk surveyors. 
 
-Respondents on Mechanical Turk are only paid if the survey organizer approves their response. A control question, asking the respondent to identify the known action of a robot in a video, served as the first satisficing trap to ensure that respondents were truthfully attempting the survey (see~\cite{krosnick1991response}~\cite{krosnick1996satisficing} for more information on satisficing in survey responses. Survey responses were also manually examined to assess whether respondents were responding honestly. We looked at whether respondent responses were outliers when compared to the rest of the group. We also examined the average time taken by each respondent to complete the survey. Overall, we found that all the respondents had made a honest attempt at filling out the rating and we did not reject any responses. 
+Respondents on Mechanical Turk are only paid if the survey organizer approves their response. A control question, asking the respondent to identify the known action of a robot in a video, served as the first satisficing trap to ensure that respondents were truthfully attempting the survey (see~\cite{krosnick1991response}~\cite{krosnick1996satisficing} for more information on satisficing in survey responses). Survey responses were also manually examined to assess whether respondents were responding honestly. We looked at whether respondent responses were outliers when compared to the rest of the group. We also examined the average time taken by each respondent to complete the survey. Overall, we found that all the respondents had made a honest attempt at filling out the rating and we did not reject any responses. 
 
 %\begin{figure}
 %    \frame{\includegraphics[trim = 0mm 0mm 0mm 0mm, width=\columnwidth]{pictures/amazon_survey_screenshot}}
@@ -217,7 +216,7 @@ The survey resulted in at least 20 ratings for each trajectory (so there were a 
   \caption{Histogram of averaged ratings for the 103 different trajectories. Clockwise from top left: Efficient vs. Inefficient, Elegant vs. Inelegant, Smooth vs. Rough, Overall Rating}
 \label{fig:survey_raw}
 \end{figure}
-The raw results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of averaged responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{tab:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1\% (with p-values < 0.01). Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. 
+The raw results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of averaged responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{tab:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1\% (with p-values $< 0.01\%$). Confidence intervals for the overall rating of each trajectory are shown in Fig.~\ref{confidence}. The small spread in the confidence intervals clearly indicates that different users had similar opinions about the same trajectory. 
 
 \begin{table}
 \centering
@@ -234,15 +233,16 @@ Overall & 0.98 & 0.98 & 0.96 & 1 \\ \hline
 \end{table}
 
 \subsection{Trajectory Features}
+\label{subsec:traj_feat}
 
-The first set of features we compute for each trajectory take into account the environment around the robot, the shape of the trajectory and the dynamics of the trajectory. These make up our unary features computed only on the input trajectory. We also include features that compare each trajectory to a nominal trajectory - these feature serve to characterize how much the trajectory deviates from the "expected" path. We go over the selection of the nominal path in Section~\ref{subsec:multi_traj_feat}. First, we detail the features we computed on each trajectory \tj{} with waypoints $q_i$ where $i={0,\mathellipsis,n}$ and $n=|\tj{}|$. Note that our features are generic, i.e. they can be computed in the same manner for any robot arm trajectory. We believe that our methods should be easily extensible to robots other than the PR2 as well and individual trajectory classifiers could be built for each different robot arm in a similar manner.  
+The first set of features we compute for each trajectory take into account the environment around the robot, the shape of the trajectory and the dynamics of the trajectory. These make up our unary features computed only on the input trajectory. We also include features that compare each trajectory to a nominal trajectory - these feature serve to characterize how much the trajectory deviates from the "expected" path. We go over the multi-point features in the next section. First, we detail the features we computed on each trajectory \tj{} with waypoints $q_i$ where $i={0,\mathellipsis,n}$ and $n=|\tj{}|$. Note that our features are generic, i.e. they can be computed in the same manner for any robot arm trajectory. We believe that our methods should be easily extensible to robots other than the PR2 as well and individual trajectory classifiers could be built for each different robot arm in a similar manner.  
 
 {\bf Path length:}
 %The length of the trajectory \tj{} computed as the sum over trajectory segments of the euclidean distance between end points of the segment, or
 %\begin{equation}
 %\text{Length} = \sum_{i=0}^{n-1} \| q_\text{i}-q_\text{i+1} \|
 %\end{equation}
-We compute path length for the joint-space trajectory and for three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links of the right arm (the moving arm).
+We compute path length for the joint-space trajectory and for three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links of the right arm (the moving arm). We also compute the length of the trajectory in angular distance by summing over the waypoints $\arccos( \langle Q_\text{i},Q_\text{i+1}\rangle^2-1 )$ where $Q_\text{i}$ is the quaternion orientation for the $i$-th waypoint (referred to later as the "quat\_dist" feature).
 
 {\bf Clearance:}
 The clearance of a trajectory \tj{} is the average over the waypoints of the minimum distance of configurations to the closest obstacle.
@@ -280,9 +280,12 @@ Curvature at a given waypoint is computed by splines to the workspace trajectory
 %\end{equation}
 %where velocity $\dot{q}_i$ and acceleration $\ddot{q}_i$ are computed at the waypoint $i$ from differentiating the interpolating spline of the work-space trajectory. Alternatively, the higher order derviatives can be %computed using finite differencing methods.
 
-\subsubsection{Multi-Trajectory Features}
+{\bf Joint Limit Distance: }
+The maximin distance to joint limits is the maximum over waypoints, of the miniminum over joints of their distance to their respective closest limit (upper or lower), or $\max_{q \in \tj{}} \min_{\theta \in q} \min(|\theta-\theta_U|,|\theta-\theta_L|)$.
+
+\subsection{Multi-Trajectory Features}
 \label{subsec:multi_traj_feat}
-We wanted to design a feature that captured the difference between the planned trajectory and an expected path for the end-effector in the environment. The expected or nominal end-effector trajectories were created using a breadth-first search in a 3D voxel approximation of the planning problem. The environment model was first discretized into a voxel-grid, and voxels are marked as occupied or empty. Any voxel that is partially occupied is considered to be occupied. A 26-connected grid was used in the planning process to find a path in the voxel grid for a cubical shape moving from the start position of the end-effector of the arm to the desired goal position.  Essentially, this would be the optimal path followed by the end-effector from start to goal if it were modeled as a free-standing cube. Next, we compute comparison features between $\xi_{\text{BFS}}$ and three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links. The comparison features computed between each pair of trajectories are the Hausdorff distances~\cite{dubuisson1994modified} and Dynamic Time Warping~\cite{senin2008dynamic} distances. 
+We also wanted to design features that captured the difference between the planned trajectory and an expected path for the end-effector in the environment. The expected or nominal end-effector trajectories were created using a breadth-first search in a 3D voxel approximation of the planning problem. The environment model was first discretized into a voxel-grid, and voxels are marked as occupied or empty. Any voxel that is partially occupied is considered to be occupied. A 26-connected grid was used in the planning process to find a path in the voxel grid for a cubical shape moving from the start position of the end-effector of the arm to the desired goal position.  Essentially, this would be the optimal path followed by the end-effector from start to goal if it were modeled as a free-standing cube. Next, we compute comparison features between $\xi_{\text{BFS}}$ and three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links. The comparison features computed between each pair of trajectories are the Hausdorff distances~\cite{dubuisson1994modified} and Dynamic Time Warping~\cite{senin2008dynamic} distances. 
 
 %The start and goal voxel is simply the $(x,y,z)$ of the end-effector tool-frame. The free voxels then make up our vertices $V_\text{grid}$ for our graph.
 
@@ -412,6 +415,27 @@ Dynamic Time Warping (DTW) was previously used in a wide varity of applications 
 %\label{fig:good_traj}
 %\end{figure*}
 
+\begin{table}
+\label{tab:feature_description}
+\scalebox{0.9}{
+\centering
+\begin{tabular}{p{0.3\columnwidth}|p{0.2\columnwidth}|p{0.5\columnwidth}}
+\hline
+Feature Name & Metric & Feature Description \\
+\hline
+path\_length, smoothness, clearance, max\_lin\_acc, joint\_limit\_distance & Joint-space & Features discussed in Section~\ref{subsec:traj_feat} computed on joint-space trajectory \tj{}\\
+\hline
+[link]\_length, [link]\_smoothness, [link]\_max\_curvature, [link]\_lin\_acc, [link]\_quat\_dist & Cartesian & Features discussed in Section~\ref{subsec:traj_feat} computed on 3D cartesian path traced by [link] in \tj{}\\
+\hline
+h\_[link]\_bfs, h\_[link1]\_[link2], H\_[link]\_bfs, H\_[link1]\_[link2] & Cartesian & Assymetric ($h$) or symmetric ($H$) hausdorff distance between 3D cartesian path traced by [link] in \tj{} w.r.t BFS path or between 3D Cartesian path traced by [link1] and [link2] in \tj{}\\
+\hline
+[link]\_bfs\_dtw, [link1]\_[link2]\_dtw & Cartesian & DTW cost between path traced by [link] in \tj{} and the BFS path, or between 3D-cartesian-path traced by [link1] and [link2] in \tj{}\\
+\hline
+\end{tabular}
+}
+\caption{Decoding of feature names into descriptions}
+\end{table}
+
 \section{Classification}
 The survey data provides a great platform to answer the question, ``Can we predict a human-observer preference for a given trajectory?''. Our approach to this question is to let the data drive us towards the answer instead of trying to hand-design a cost function or set of features that offer the best explanation. Towards this end, we chose to learn a classifier based on the available data to help predict the human-observer rating for a new trajectory. The 103 data points (corresponding to the 103 distinct trajectories) were broken up into 3 classes based on average overall ratings:
 \begin{itemize}
@@ -433,10 +457,10 @@ Test & 4 & 10 & 21 \\ \hline
 \end{centering}
 \end{table}
 
-In all, we utilized three different classification frameworks to predict overall ratings - decision trees, random forests and boosting. As a base framework we first construct a decision tree model.  Decision trees for classification provide a good visual representation especially in the presence of complex features, where the relationships between predictors and response is not immediately obvious. The features of interest in this tree include the DTW distance computed for the wrist (vs. the tool path) denoted by $wrist\_tool\_dtw$, the Hausdorf distance computed for the end-effector and the max curvature computed for the elbow. Using 10-fold cross-validation, we also design a simpler tree that has just three terminal nodes with the $wrist\_tool\_dtw$ feature serving as the key discriminant among the classes. This tree has an accuracy of 86\% on the test data. Large values of the $wrist\_tool\_dtw$ feature correspond to extra rotations of the wrist as the tool is moving towards the goal - such trajectories are rated as low quality by the human observers. 
+In all, we utilized three different classification frameworks to predict overall ratings - decision trees, random forests and boosting. As a base framework we first construct a decision tree model.  Decision trees for classification provide a good visual representation especially in the presence of complex features, where the relationships between predictors and response is not immediately obvious. The features of interest in this tree include the DTW distance computed for the wrist (vs. the tool path) denoted by wrist\_tool\_dtw, the Hausdorf distance computed for the end-effector and the max curvature computed for the elbow. Using 10-fold cross-validation, we also design a simpler tree that has just three terminal nodes with the wrist\_tool\_dtw feature serving as the key discriminant among the classes. This tree has an accuracy of 86\% on the test data. Large values of the wrist\_tool\_dtw feature correspond to extra rotations of the wrist as the tool is moving towards the goal - such trajectories are rated as low quality by the human observers. 
 The second classification framework we use is a random forest ensemble of trees. This involves randomly dividing the data into several bootstrap training samples and building a tree on each bootstrap sample. Within each boostrapped sample, at each split a subset of features is randomly selected from the full set of features, but only one predictor is used at each split. This brings additional randomness within each tree. The class is chosen by majority vote across all trees. For every tree constructed from a bootstrapped training sample there is one Out of Bag (OOB) error which can be thought of as a test error for every tree. It is estimated internally, during the run. On test data, the random forest method returns 83\% accuracy. 
 
-Fig.~\ref{fig:feature_importance_1} and Fig.~\ref{fig:feature_importance_2} show two measures of variable (or feature) importance. The first measure shows the mean decrease in accuracy for each feature. The importance of a feature is determined by how much the accuracy of the random forest is affected by comparing, for each tree, the OOB error with the error obtained after permuting each feature. The differences are averaged across trees and normalized.  The second measure is based on the Gini index and measures the total decrease in node heterogeneity/impurities from splitting on the feature.  For both measures higher values denote that the features are more important. Again, the $wrist\_tool\_dtw$ feature stands out as one of the more important features in building the classifer. Two path lengths $tool\_length$ (the distance traveled by the tool) and $path\_length$ (the total distance traveled in joint space) also serve as important features - in most environments the total distance traveled by the arm between start and goal locations is expected to be small. The $tool\_quat\_dist$ and $wrist\_quat\_dist$ measure the rotation of the end-effector and it seems natural that excessive rotations of the end-effector would contribute to trajectories getting a bad rating. It is also clear that the BFS path, which serves as the nominal path for computing both the DTW and Hausdorf distance, is a good approximation of the path expected by the human observer for the end-effector of the robot. 
+Fig.~\ref{fig:feature_importance_1} and Fig.~\ref{fig:feature_importance_2} show two measures of variable (or feature) importance. The first measure shows the mean decrease in accuracy for each feature. The importance of a feature is determined by how much the accuracy of the random forest is affected by comparing, for each tree, the OOB error with the error obtained after permuting each feature. The differences are averaged across trees and normalized.  The second measure is based on the Gini index and measures the total decrease in node heterogeneity/impurities from splitting on the feature.  For both measures higher values denote that the features are more important. Again, the wrist\_tool\_dtw feature stands out as one of the more important features in building the classifer. Two path lengths tool\_length (the distance traveled by the tool) and path\_length (the total distance traveled in joint space) also serve as important features - in most environments the total distance traveled by the arm between start and goal locations is expected to be small. The tool\_quat\_dist and wrist\_quat\_dist measure the rotation of the end-effector and it seems natural that excessive rotations of the end-effector would contribute to trajectories getting a bad rating. It is also clear that the BFS path, which serves as the nominal path for computing both the DTW and Hausdorf distance, is a good approximation of the path expected by the human observer for the end-effector of the robot. 
 
 The third classification framework that we use is Boosting. In the Boosting  framework, the trees are grown sequentially, using information (weights) from previously grown trees.  The algorithm adaptively changes the distribution of the training data by iteratively reweighting each observation in each iteration.  The weights are updated using (Breiman’s) weight updating coefficient which assigns higher weights to the wrongly classified observations and lower weights to the correctly classified examples. In every iteration, the  classifier thus focuses on the most difficult examples. Using 10-fold cross validation with all the available data, we obtain a classification accuracy of 76.7\%. Fig.~\ref{fig:gini_boosting} shows the relative importance of different features using the Boosting classifier. 7 of the top 10 features on this list are also part of the top 10 features using random forests.  
 
