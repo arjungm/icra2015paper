@@ -14,9 +14,6 @@ Reviewer 2
 
 (7) Add explanation on classifier instantiation, search document for typos
 
-
-
-
 Reviewer 4
 
 (1) Add intellectual merits of choosing the different features - 
@@ -31,4 +28,19 @@ Reviewer 5
 
 (3) Joint limit distance does not play a big role
 
-(4) 
+(4) correlation between human-observer rating of smoothness and calculated smoothness metric
+
+(5) correlation between efficiency rating and path length in configuration and workspace 
+
+(6) nominal path was never converted back into joint space - features were only computed based on their workspace projections
+
+(7) Is the perception affected by where the start and goal states are - there were no features that were start or goal state specific - that's a topic for future work - environment agnostic 
+
+(8) Task or context specific features may be useful - exhaustively generate more features
+
+(9) Randomized planners - post-processing step helped in making the paths more smoother
+
+(10) weighted combination in satisfying a cost function - estimating these weights would be nice
+
+(11) Need more task and context specific features - maybe a comparison to observed human trajectories of the same task
+
