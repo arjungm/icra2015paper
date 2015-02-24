@@ -1,0 +1,34 @@
+Reviewer 2
+
+(1) How does this generalize to other robots?
+
+(2) Related work - main price et. al., learning objective functions for manipulation (Kalakrishnan), Learning trajectory preferences for manipulators via iterative improvement (Jan Peters)
+
+(3) Mention, clarify criteria predicted by three classifiers
+
+(4) Hausdorff distance, DTW - point to citations
+
+(5) Too much detail for online survey
+
+(6) Typos
+
+(7) Add explanation on classifier instantiation, search document for typos
+
+
+
+
+Reviewer 4
+
+(1) Add intellectual merits of choosing the different features - 
+
+
+Reviewer 5
+
+(1) Check clearance calculations
+
+(2) Clarify the metrics against the notion of legibility and predictability
+ - mention why we have not computed it
+
+(3) Joint limit distance does not play a big role
+
+(4) 
