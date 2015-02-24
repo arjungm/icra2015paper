@@ -1,0 +1,148 @@
+Reviewer 5 of ICRA 2015 submission 3072
+
+Comments to the author
+======================
+
+The paper proposes a classification technique to estimate
+the importance of features of trajectories that influence
+human-observer preferences. The motivation for the work
+stems from human-robot interaction applications that
+require legible and predictable trajectory generation. The
+work provides indications that certain features like the
+relation between the wrist and end-effector trajectories
+and the length of the paths traversed by the end-effector,
+contribute to how favorably humans perceive robotic
+motions. Such a data driven approach can indeed validate
+and advance a lot of results that has been generated in
+studies on the legibility of manipulator motions. 
+
+There are some concerns raised and clarifications which are
+desired by the reviewer.
+ 
+The title of the paper is somewhat misleading. The main
+goal and contribution of the paper deals with human
+perception of the results of motion planning. Thereby, the
+work is a validation method for objectifying observer
+ratings of motion planning cost functions or trajectory
+rating functions. The aspect of human perception should be
+included in the title instead of the trying to imply that
+this method can encompass all forms of motion planning
+application. This would give a far more polarized
+introduction to the paper from the title.
+
+The abstract mentions terms like "human-observer
+preferences" and "trajectories that are more acceptable to
+people." The introduction also motivates the generation of
+more "human-acceptable trajectories". Recent work has
+clearly defined the terms legibility and predictability.
+The authors fail to convince the reader of the exact
+purpose of their study. Do they want observers to 
+a>correctly predict the intent of any robot's
+actions(legibility), or b>correctly predict the intent of a
+known robot's actions(predictability) or 
+c>to be comfortable in the presence of the robot performing
+the actions? ie. which trajectories do human-observers
+prefer?
+
+The authors mention c> in the related work section,
+especially in the context of cluttered environments.
+However, the reviewer feels that this is very closely tied
+to both legibility and predictability. The authors have
+designed metrics for the responses from the human
+observers, like elegance, efficiency, smoothness and
+overall impressions. 
+Using randomized planners will tend to generate paths with
+low legibility. Will it be worthwhile to try to generate
+trajectories with high classification scores and figure out
+whether they are more legible. How did the subjects perform
+in terms of getting accustomed to the robot over the
+trials? Do their ratings get better as they get more and
+more comfortable with the robot's motions? Is this a sign
+of predicability?
+
+The authors say that the believe the results can be
+extended to robots other than the PR2. The reviewer feels
+that this requires further generalization of the feature
+sets in future work. 
+
+In the calculation of Clearance, the authors take the
+average over the waypoint distances from obstacles. Is this
+a better measure than taking the maximum? What happens when
+a trajectory keeps far from obstacles for the majority of
+the time, but gets very close to an obstacle for the
+remainder of the execution? Perhaps, getting within a
+threshold clearance is actually perceived as worse than
+consistently keeping relatively close.
+
+The Joint Limit distance metric seems very robot specific.
+The human observer will also have very little idea about
+this.
+
+It would be interesting to report the correlation between
+the human-observer ratings of smoothness and the calculated
+metric of Smoothness.
+
+The authors can also report the relation between the
+perceived efficiency and the path length in configuration
+space and also workspace for different joints(end effector,
+wrist or elbow). Do humans actually perceive the joint
+movements or are they more transfixed with the
+hand/end-effector through the workspace? The latter seems
+to be implicitly assumed in calculating the nominal
+trajectory. This should provide the justification for doing
+that.
+
+Was there any analysis done on the nominal paths? How were
+these paths calculated, since IK solvers provide
+redundancies? 
+
+In Comparative Trajectory Features, how does the entire
+analysis of the features factor in the different start
+states, different goal states and the effect of the
+environment/obstacles? Is the data analysis agnostic of
+these factors? The more important question is, are humans
+agnostic of these factors? For instance, some feature like
+wrist_tool_dtw might be required if the tool has to be
+rotated from an oppositely facing initial state or has to
+avoid obstacles in a narrow or constrained environment. So
+extensible are these features considering these
+considerations?
+
+The use of randomized planners imply that the trajectories
+would not be smooth. The use of the smoothness metric
+should naturally be compromised to an extent. What would
+the observers rating be to trajectories that are measurably
+smoother? Would this bias them against the randomized
+planner paths? 
+
+The authors do not make concrete conclusions about what the
+specific metrics that they have narrowed down on in the
+end. It is presumable, that these metrics would be a
+weighted combination in satisfying a cost function. It
+would be a nice direction of research to try and estimate
+these weights. 
+
+One concern with the overall framework is there is no
+consideration of the specific task. Human perception of
+motion can depend upon the specific task being performed. A
+very naive example can be jittery oscillatory motion. While
+this is not always pleasant, it can be expected while doing
+a task like painting. While, the question is not to
+featurize all possible types of motions, giving the current
+motions in the context of a task might be interesting to
+gather data on.
+
+The purpose of research is not only to answer questions but
+also to raise them. To that extent, this work makes a
+commendable effort in answering some questions but also
+leaves the opportunity to explore a lot of very interesting
+avenues of research. Most of the reviewer's comments should
+be resolvable with existing data, and would draw further
+insight into the current work and substantiate its impact.
+
+
+Comments on the Video Attachment
+================================
+
+The instructions for the Amazon Turk task do not seem clear
+with respect to the video. 

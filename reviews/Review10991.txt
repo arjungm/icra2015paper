@@ -1,0 +1,91 @@
+Reviewer 2 of ICRA 2015 submission 3072
+
+Comments to the author
+======================
+
+The authors present a framework to account for human
+preferences when generating robot motions with a motion
+planner. The human preferences can be collected online by
+having users rate trajectory examples. The ratings are then
+used to determine what features explain best the user
+preferences. A trained classifier on the collected data,
+which can predict the user preferences, performs this
+mapping. The authors study different trajectory features on
+a manipulation task and provide results with three types of
+classifiers.
+
+Strengths and Weaknesses:
+
+This approach to integrate human preferences in robot
+motion planning allows avoiding a number of limitations of
+imitation learning, such as retargeting of the motion
+features and thus generalizes to any kind of robot shape
+and structure. The study of the survey (online collection
+of human preferences) allows generalizing results to other
+robots than the Pr2 used for the study. However, it is
+unclear whether such a study would be necessary for each
+new robot. The analysis of the performance of the
+classifier on test data gives insight on the performance of
+the learnt function, but no analysis of motions planned
+using such criteria is provided.
+
+Soundness:
+
+Learning human preference from a user study is a very
+common approach in human-robot interaction. The features
+for interpreting the results, smoothness (curvature,
+length, etc.), clearance and internal criteria such as
+distance to joint limits, are often used as optimality
+criteria for robot motion planning. The most original
+feature is the comparative trajectory feature, which allows
+determining how distant a trajectory is from the trajectory
+following the optimal end-effector path. This feature
+especially well suited for manipulator motion ends up
+predicting user preferences most efficiently.  Designing
+good features for robot motion planning is of great
+importance and this work despite not implementing these
+features in a motion planner propose to assess the validity
+of these features in human experiment, which is good.
+
+
+Related Work
+
+Is good, but does not mention “human-aware” motion planning
+(Mainprice et al.), nor imitation learning, inverse
+reinforcement learning (Ng et al.) and the more recent
+Learning objective functions for manipulation (Kalakrishnan
+et al.) as well as Learning Trajectory Preferences for
+Manipulators via Iterative Improvement by Jan et al.
+
+Presentation
+
+Many sections of the paper lack clarity. It seems that what
+the criteria predicted by the three classifiers is not
+explicitly mentioned. The hausdorff distance explanation
+seems wrong, and the dynamic time warping section too
+short. It would make more sense to refer the reader to an
+external source for these algorithms and spend more time on
+the instantiations of the three classifiers.  Also too much
+detail (given the format) is given to the online survey,
+which could be better spent on the method and results
+sections. A few typos lie in the document; please give a
+read through of the paper if selected for publication.
+
+Suggestions
+
+Implement a motion planner that accounts for these features
+and close the loop.
+
+Recommendation
+
+If explanation are added on the classifiers instantiation
+in the method section and the document is searched for
+typos, I would recommend publishing this paper.
+
+
+Comments on the Video Attachment
+================================
+
+The video was helpful, but it would have helped to keep
+environments the same when showing high and low values of
+the features.

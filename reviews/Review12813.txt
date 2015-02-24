@@ -1,0 +1,39 @@
+Reviewer 4 of ICRA 2015 submission 3072
+
+Comments to the author
+======================
+
+Evaluating whether a robot motion is human-like is a
+challenging work – it is difficult to hand-design a
+function that judge the quality of the motion
+appropriately. This paper presents an interesting
+data-driven approach for evaluating motion quality. The
+data is collected through an online survey which lets human
+reviewer provide the feedback of the motion quality.
+According to the feedbacks, the authors propose a set of
+features including trajectory features and comparative
+features. Several classification frameworks are used to
+determine the importance of the proposed features. 
+
+Generally, the paper is well-written though some parts need
+improvement. In part C of section IV, the authors propose
+two methods of comparing pairs of trajectories, Hausdorff
+distance and Dynamic Time Warping. The two methods are
+stated but few explanation is given to the intellectual
+merits of choosing the methods – why would they be good
+measures? It is possible that due to the page limits the
+authors choose not to go into further explanation. But to
+make it to be a self-contained paper, I suggest the authors
+give a brief discussion in the revised version. A minor
+issue in writing is consistency. In part B of section IV,
+the paper says workspace trajectory for finger-tip is
+considered. I assume the “tool” in section V refers to
+finger-tip. To remove the ambiguity, the terminology should
+be used consistently.
+ 
+Overall, the paper is interesting and it can be accepted.  
+
+Comments on the Video Attachment
+================================
+
+The video demonstrates the work well.

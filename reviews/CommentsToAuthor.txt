@@ -1,0 +1,15 @@
+The proposed work addresses new features and
+classifications for estimating the importance of trajectory
+features when influencing human observers. The work sheds
+light in answering some difficult questions related to
+generating high quality trajectories and also raises
+interesting new avenues for research. On the weaknesses
+side, the reviewers point out the need of a better analysis
+justifying the proposed metrics and methods, and point out
+several additional points needing clarification. These
+points should be taken into account.
+
+----------------------------------------
+Comments on Video Attachment:
+
+The video is appropriate and well prepared.
