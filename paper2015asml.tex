@@ -237,7 +237,7 @@ The survey resulted in at least 20 ratings for each trajectory (so there were a 
   \caption{Histogram of averaged ratings for the 4 different attributes for 103 trajectories. Clockwise from top left: Efficient vs. Inefficient, Elegant vs. Awkward, Smooth vs. Rough, Overall Rating}
 \label{fig:survey_raw}
 \end{figure}
-The raw results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of averaged responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{tab:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1\% (with p-values $< 0.01\%$). The Spearman rank correlation coefficient is also high and statistically significant. The 95\% confidence intervals for all the four ratings for each trajectory was less than 1.0. 
+The raw results of the survey are summarized in Fig.~\ref{fig:survey_raw} which shows a histogram of averaged responses for each of the four survey questions across the 103 trajectories that were rated by users. It is clear that a majority of the trajectories in our survey were well received by the human observers but there were quite a few trajectories that were rated badly as well. An analysis of the ratings for each trajectory showed that four (averaged) ratings for each individual trajectory were always similar to each other, indicating that users had similar preferences for each trajectory regardless of the individual attributes used to describe the preference for the trajectory (efficient, elegant, smooth, overall). Table~\ref{tab:correlation} shows the Pearson's correlation coefficients corresponding to pairs of attributes. Attributes across individual questions are highly correlated at a statistically significant level of 1\% (with p-values $< 0.01\%$). The Spearman rank correlation coefficients are also high and statistically significant. 
 \begin{table}
 \centering
 \begin{tabular}{|c|c|c|c|c|}
@@ -542,8 +542,8 @@ and weights for all the individual cost components for designing preferred traje
 The classifiers that we have built give us a notion of the quality of trajectories 
 being generated without an explicit need to model the cost function. The output from the classifier could be integrated into gradient-free motion planning schemes 
 (e.g. STOMP or a simulated annealing approach) as a cost for a particular trajectory. The identification of the key features that are important in defining a preferred trajectory 
-should also help in the design of cost functions, when necessary, especially since some the features may not be traditionally included as part of a cost function. 
-In particular, note that a feature like wrist\_tool\_dtw is not used in typical optimization schemes like RRT* which mostly relies on a path length optimization criterion. 
+should also help in the design of cost functions, especially since some the features may not be traditionally included as part of a cost function. 
+In particular, note that a feature like wrist\_tool\_dtw is not used in typical optimization schemes like RRT* which rely on a path length criterion. 
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -551,7 +551,7 @@ In this work, we have gathered ratings for a large dataset of robot trajectories
 types of trajectories that are preferred by human observers. In particular, we have been able to identify a set of features that seem to influence 
 the human's perception of the trajectories the most. This can help us in defining better cost functions when generating the trajectories. The classifiers 
 that we have learned could also be used to directly inform gradient free motion planning algorithms by assigning a rating to new trajectories. Our 
-results were generated using a single robot model (the PR2) but we believe that they will easily translate to other robot models as well. To this end, 
+results were generated using the PR2 but we believe that they will easily translate to other robot models as well. To this end, 
 we will keep the survey open and attempt to collect data for a larger set of trajectories in 
 more environments and with different robots. 
 
