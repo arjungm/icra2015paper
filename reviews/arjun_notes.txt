@@ -3,50 +3,128 @@ Consistency between Fingertip and Tool frame
 Reviewer 1:
 ===========
 Mention reinforcement learning
-> easy
+[A]
 Mention human aware learning
-> easy
-Hausdorff is wrong?
+[A]
+Hausdorff is wrong
+[A] textbook citation or paper
 DTW is too short
-Too much detail in online survey section
-Few typos
-Close the Loop
+[A] textbook citation or paper
 
-> outright state that the classifiers are prediciting the rating of a given trajectory
+Close the Loop
+[A] mention in future work
+
+outright state that the classifiers are predicting the rating of a given trajectory
+[S]
 
 Reviewer 2:
 ===========
 Discuss why Hausdorff and DTW are good features
 
 > add a note, we didn't choose rather we selected a large set of relevant features that could apply towards characterising trajectories for the purposes of classification
+[A]
 
 Reviewer 3:
 ===========
 Maximin Clearance
+[A] check in moveit and in text
+
 Go over features like legibility and predictability
+[S] we're not dealing with objects in view
+
 Title is misleading - include human perception in title
+[AS] come up with titles
+
 3 ways to interpret the high-level bit
+[S]
+
 Do subject ratings evolve over time?
+[S] requires more data which is part of our plan
 
 Joint limit ditance metric is unintuitive
 > maybe there is a perception of joint limits in people and we would've have caught it
 or
-> informative or uninformative metric that  directly pertains to robot capability
+> informative or uninformative metric that directly pertains to robot capability
+[S]
 
 Corrleations between metric-smoothness and rating-smoothness
-> DO compute the correlation between metric-smoothness and rating-smoothness
+[S] DO compute the correlation between metric-smoothness and rating-smoothness
 
 Correlation between PathLength_elbow, PathLength_tip and the perceived efficiency
-> DO compute this
+[S] DO compute this
 
 nominal path source?
+[A] how did i compute it
+> mention it is in workspace 3D xyz
 > It's a trajectory that was calculated using BFS
 > piece-wise collection of straight lines
 
 is the perception of the trajectory affected by the start and goal states?
+[S]
 > this is an open question about the initial config affects the perceptions
 > could be explored further in a more exhaustive study
 
 How do you reconcile that high wrist-tool-dtw for tasks that do require
+[S] task of context specific features
 > Jetchev's work on generating environments
 > very task specific
+
+============
+
+Reviewer 2
+
+(1) How does this generalize to other robots?
+[S]
+(2) Related work - main price et. al., learning objective functions for manipulation (Kalakrishnan), Learning trajectory preferences for manipulators via iterative improvement (Jan Peters)
+[A]
+(3) Mention, clarify criteria predicted by three classifiers
+[S]
+(4) Hausdorff distance, DTW - point to citations
+[A]
+(5) Too much detail for online survey
+[-]
+(6) Typos
+[A]
+(7) Add explanation on classifier instantiation, search document for typos
+[S]
+
+Reviewer 4
+
+(1) Add intellectual merits of choosing the different features - 
+
+
+Reviewer 5
+
+(1) Check clearance calculations
+[A]
+
+(2) Clarify the metrics against the notion of legibility and predictability
+ - mention why we have not computed it
+[S]
+
+(3) Joint limit distance does not play a big role
+[S]
+
+(4) correlation between human-observer rating of smoothness and calculated smoothness metric
+[S]
+
+(5) correlation between efficiency rating and path length in configuration and workspace 
+[S]
+
+(6) nominal path was never converted back into joint space - features were only computed based on their workspace projections
+[A]
+
+(7) Is the perception affected by where the start and goal states are - there were no features that were start or goal state specific - that's a topic for future work - environment agnostic 
+[S]
+
+(8) Task or context specific features may be useful - exhaustively generate more features
+[S]
+
+(9) Randomized planners - post-processing step helped in making the paths more smoother
+[S]
+
+(10) weighted combination in satisfying a cost function - estimating these weights would be nice
+[S]
+
+(11) Need more task and context specific features - maybe a comparison to observed human trajectories of the same task
+[S]
