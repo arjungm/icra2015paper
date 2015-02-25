@@ -1,0 +1,52 @@
+Consistency between Fingertip and Tool frame
+
+Reviewer 1:
+===========
+Mention reinforcement learning
+> easy
+Mention human aware learning
+> easy
+Hausdorff is wrong?
+DTW is too short
+Too much detail in online survey section
+Few typos
+Close the Loop
+
+> outright state that the classifiers are prediciting the rating of a given trajectory
+
+Reviewer 2:
+===========
+Discuss why Hausdorff and DTW are good features
+
+> add a note, we didn't choose rather we selected a large set of relevant features that could apply towards characterising trajectories for the purposes of classification
+
+Reviewer 3:
+===========
+Maximin Clearance
+Go over features like legibility and predictability
+Title is misleading - include human perception in title
+3 ways to interpret the high-level bit
+Do subject ratings evolve over time?
+
+Joint limit ditance metric is unintuitive
+> maybe there is a perception of joint limits in people and we would've have caught it
+or
+> informative or uninformative metric that  directly pertains to robot capability
+
+Corrleations between metric-smoothness and rating-smoothness
+> DO compute the correlation between metric-smoothness and rating-smoothness
+
+Correlation between PathLength_elbow, PathLength_tip and the perceived efficiency
+> DO compute this
+
+nominal path source?
+> It's a trajectory that was calculated using BFS
+> piece-wise collection of straight lines
+
+is the perception of the trajectory affected by the start and goal states?
+> this is an open question about the initial config affects the perceptions
+> could be explored further in a more exhaustive study
+
+How do you reconcile that high wrist-tool-dtw for tasks that do require
+> Jetchev's work on generating environments
+> very task specific
