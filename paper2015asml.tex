@@ -22,7 +22,7 @@
 %\usepackage{amsmath} % assumes amsmath package installed
 %\usepackage{amssymb}  % assumes amsmath package installed
 \usepackage{wrapfig}
-\usepackage{graphicx,color}
+\usepackage{graphicx,color,soul}
 \usepackage{adjustbox}
 
 \usepackage{textcomp}
@@ -37,7 +37,7 @@
 \usepackage{subcaption}
 
 %EDITING COMMANDS
-\newcommand{\hilight}[1]{\colorbox{red}{#1}}
+\newcommand{\hilight}[1]{\colorbox{yellow}{#1}}
 \newcommand{\todo}{\colorbox{red}{TODO}}
 \newcommand{\tj}[1]{\ensuremath{\xi_\text{#1}}}
 
@@ -154,7 +154,7 @@ Robot motion has been primarily influenced by the need to generate smooth jerk-f
 
 Human motions have been the subject of recent study with the intent of determining whether there are certain motor or locomotor invariants that best describe human manipulation or locomotion. Human motion has been observed to be stereotypical~\cite{Atkeson:85}, i.e. learned motion patterns that are repeatedly used. This requires less planning of individual motions and contributes to making human motions more deterministic and predictable. The minimum jerk principle for human motions specifies that the trajectory of the human can best be represented as a motion that minimizes jerk of the hand~\cite{Flash:85}. Uno et. al.~\cite{Uno:89} used minimum torque change as a measure to explain the observed human motions. Minimizing jerk at the joint level~\cite{Rosenbaum:1995} has been another criterion used for human motion. Human motion has also been found to be optimized~\cite{Arechavaleta:2006}. Albrech et. al.~\cite{Albrecht:2011} studied the reaching motions of several subjects in table-setting situations and attempted to codify the motion using cost functions representing minimum-jerk hand motions, minimum-jerk joint motions, minimum torque change and a combination of all three. They found that no single combination of the cost functions explained the observed data completely. 
 
-Recent work has also addressed the task of making motions predictable (similar motions in similar environments and tasks) and/or legible (make it easier for human observers to understand the intent of the robot)~\cite{Beetz:2010}. Legibility makes it possible for human observers to understand clearly what a robot is intending to do, allowing them to modify their actions and motions if necessary. Predictability implies that the robot will always be consistent in its actions, removing the element of surprise for human observers. These concepts have been well-studies recently with the intent of measuring legibility~\cite{Lichtenthaler:2011}, using expressions to improve the readability of robots~\cite{Takayama:2011} and generating anticipation~\cite{Gielniak:2011}. In~\cite{Dragan:2013}, the notion of legibility was incorporated into a constrained trajectory optimization motion planner to generate motions that are more legible to human observers. 
+Recent work has also addressed the task of making motions predictable (similar motions in similar environments and tasks) and/or legible (make it easier for human observers to understand the intent of the robot)~\cite{Beetz:2010}. Legibility makes it possible for human observers to understand clearly what a robot is intending to do, allowing them to modify their actions and motions if necessary. Predictability implies that the robot will always be consistent in its actions, removing the element of surprise for human observers. These concepts have been well-studies recently with the intent of measuring legibility~\cite{Lichtenthaler:2011}, using expressions to improve the readability of robots~\cite{Takayama:2011} and generating anticipation~\cite{Gielniak:2011}. In~\cite{Dragan:2013}, the notion of legibility was incorporated into a constrained trajectory optimization motion planner to generate motions that are more legible to human observers,\hl{ while in}~\cite{mainprice2011planning} \hl{a cost-map was developed in conjunction with sampling based planning to produce trajectories in cluttered ienvironements.}
 
 There has been relatively little examination of how human observers perceive robot arm trajectories in environments with obstacles. There is no data available for how human observers react to such robot motions. It is not clear whether minimum-jerk trajectories (or other cost functions) are the best descriptors of motions in such environments or if there are other features that better explain human-observer preferences in such sitations. Our goal in this work is to collect the data needed to answer the query, ``Which robot trajectories in cluttered environments do human-observers prefer'' A second question that we would like to answer is ``Why are certain robot trajectories preferred by human-observers?'' This is a larger question that we aim to address in future work and instead we focus on, ``Can we predict a human-observer preference for a given trajectory'' The answer to this latter question, we hope, will eventually point us towards trajectories that are better accepted by human observers. 
 
@@ -256,7 +256,9 @@ Overall & 0.98 & 0.98 & 0.96 & 1 \\ \hline
 \subsection{Trajectory Features}
 \label{subsec:traj_feat}
 
-We identified and computed multiple types of trajectory features. The first set of features we compute for each trajectory take into account the environment around the robot, the shape of the trajectory and the dynamics of the trajectory. These make up our unary features computed only on the input trajectory. We also include features that compare each trajectory to a nominal trajectory - these feature serve to characterize how much the trajectory deviates from the ``expected'' path. We go over these comparative features in the next section. First, we detail the features we computed on each trajectory \tj{} with waypoints $q_i$ where $i={0,\mathellipsis,n}$ and $n=|\tj{}|$. Note that our features are generic, i.e. they can be computed in the same manner for any robot arm trajectory. We believe that our methods should be easily extensible to robots other than the PR2 as well and individual trajectory classifiers could be built for each different robot arm in a similar manner.  
+We identified and computed multiple types of trajectory features. This set of features were selected to characterize the trajectories that were produced for the purpose of identifying the most informative sub-set. Developing a larger variety of more complicated and descriptive features is left as an avenue for future work.
+
+The first set of features we compute for each trajectory take into account the environment around the robot, the shape of the trajectory and the dynamics of the trajectory. These make up our unary features computed only on the input trajectory. We also include features that compare each trajectory to a nominal trajectory - these feature serve to characterize how much the trajectory deviates from the ``expected'' path. We go over these comparative features in the next section. First, we detail the features we computed on each trajectory \tj{} with waypoints $q_i$ where $i={0,\mathellipsis,n}$ and $n=|\tj{}|$. Note that our features are generic, i.e. they can be computed in the same manner for any robot arm trajectory. We believe that our methods should be easily extensible to robots other than the PR2 as well and individual trajectory classifiers could be built for each different robot arm in a similar manner.  
 
 {\bf Path length:}
 %The length of the trajectory \tj{} computed as the sum over trajectory segments of the euclidean distance between end points of the segment, or
@@ -306,7 +308,13 @@ The maximin distance to joint limits is the maximum over waypoints, of the minim
 
 \subsection{Comparative Trajectory Features}
 \label{subsec:multi_traj_feat}
-We also wanted to design features that captured the difference between the planned trajectory and an expected path for the end-effector in the environment. The expected or nominal end-effector trajectories were created using a breadth-first search in a 3D voxel approximation of the planning problem. The environment model was first discretized into a voxel-grid, and voxels are marked as occupied or empty. Any voxel that is partially occupied is considered to be occupied. A 26-connected grid was used in the planning process to find a path in the voxel grid for a cubical shape moving from the start position of the end-effector of the arm to the desired goal position.  Essentially, this would be the optimal path followed by the end-effector from start to goal if it were modeled as a free-standing cube. Next, we compute comparison features between $\xi_{\text{BFS}}$ and three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links. The comparison features computed between each pair of trajectories are the Hausdorff distances~\cite{dubuisson1994modified} and Dynamic Time Warping~\cite{senin2008dynamic} distances. 
+We also wanted to design features that captured the difference between the planned trajectory and an expected path for the end-effector in the environment. 
+
+{\bf Nominal Trajectory Generation}: \hl{The expected or nominal end-effector trajectories were created using a breadth-first search in a 3D grid approximation of the planning problem. We plan the path of the end-effector as if it were a }\emph{free-standing cube} \hl{that is not contrained by the kinematics of the arm to which it is attached. The environment model was first discretized into a voxel-grid, and voxels are marked as occupied or empty. Any voxel that is partially occupied is considered to be occupied.
+
+The breadth-first search was conducted using this 26-connected grid to find a path in the voxel grid from the start position of the end-effector of the arm (the }\emph{xyz} \hl{coordinates from forward kinematics) to the desired goal position. By ignoring orientation and using BFS, we get a piece-wise collection of straight-line paths in the }{\bf workspace} \hl{from that start to goal points.}
+
+Next, we compute comparison features between $\xi_{\text{BFS}}$ and three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links. The comparison features computed between each pair of trajectories are the Hausdorff distances~\cite{dubuisson1994modified} and Dynamic Time Warping~\cite{senin2008dynamic} distances. \hl{These features are used because of their applicability for comparing trajectories from location based services}~\cite{chen2013dynamic}.
 
 %The start and goal voxel is simply the $(x,y,z)$ of the end-effector tool-frame. The free voxels then make up our vertices $V_\text{grid}$ for our graph.
 
@@ -560,7 +568,7 @@ The dataset we have collected and the analysis we have already done in this pape
 a data-driven approach to motion planning. We intend to attempt to learn a cost function for describing the relation between the features and 
 the ratings of the generated trajectories using inverse reinforcement learning. We hope to examine whether a cost function derived in this manner will 
 lead to generation of more preferred trajectories. We would also like to extend our set of features to include more dynamic features to capture the effect 
-that the dynamics of the motions have on the perception of the motion. The infrastructure that we have developed for generating and conducting 
+that the dynamics of the motions have on the perception of the motion. \hl{Moreover, the feature set we describe in the paper should grow to further describe the spatial motions even more.} The infrastructure that we have developed for generating and conducting 
 surveys is fairly generic and could easily be extended to surveying people using trajectories from real robots. This is another avenue we intend to explore 
 in the near future. We also intend to explore the potential for open-sourcing the data and infrastructure to allow other researchers to conduct surveys of their own. 
 
@@ -581,7 +589,7 @@ in the near future. We also intend to explore the potential for open-sourcing th
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{ACKNOWLEDGMENT}
-We would like to thank Leila Takayama for valuable advice on structuring the online survey. We would like to thank Lydia Kavraki and Mark Moll for valuable discussions and suggestions. 
+We would like to thank Leila Takayama for valuable advice on structuring the online survey. We would like to thank Lydia Kavraki,  Mark Moll, and Mike Phillips for valuable discussions and suggestions. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliography{IEEEabrv,max,arjun}
 \bibliographystyle{IEEEtran}
