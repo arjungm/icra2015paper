@@ -7,12 +7,13 @@ Mention reinforcement learning
 Mention human aware learning
 [A]
 Hausdorff is wrong
-[A] textbook citation or paper
+[x] textbook citation or paper
+
 DTW is too short
-[A] textbook citation or paper
+[x] textbook citation or paper
 
 Close the Loop
-[A] mention in future work
+[x] mention in future work
 
 outright state that the classifiers are predicting the rating of a given trajectory
 [S]
@@ -22,12 +23,14 @@ Reviewer 2:
 Discuss why Hausdorff and DTW are good features
 
 > add a note, we didn't choose rather we selected a large set of relevant features that could apply towards characterising trajectories for the purposes of classification
-[A]
+[X]
 
 Reviewer 3:
 ===========
-Maximin Clearance
-[A] check in moveit and in text
+Maximin Clearance,
+Avg MinClearance = Feature
+Max MinClearance = Objective
+[?] check in moveit and in text
 
 Go over features like legibility and predictability
 [S] we're not dealing with objects in view
@@ -80,7 +83,7 @@ Reviewer 2
 (3) Mention, clarify criteria predicted by three classifiers
 [S]
 (4) Hausdorff distance, DTW - point to citations
-[A]
+[x]
 (5) Too much detail for online survey
 [-]
 (6) Typos
@@ -96,7 +99,7 @@ Reviewer 4
 Reviewer 5
 
 (1) Check clearance calculations
-[A]
+[x]
 
 (2) Clarify the metrics against the notion of legibility and predictability
  - mention why we have not computed it
@@ -112,7 +115,7 @@ Reviewer 5
 [S]
 
 (6) nominal path was never converted back into joint space - features were only computed based on their workspace projections
-[A]
+[x]
 
 (7) Is the perception affected by where the start and goal states are - there were no features that were start or goal state specific - that's a topic for future work - environment agnostic 
 [S]
