@@ -3,7 +3,8 @@ Consistency between Fingertip and Tool frame
 Reviewer 1:
 ===========
 Mention reinforcement learning
-[A]
+[S]
+** Add these in!!
 Mention human aware learning
 [A]
 Hausdorff is wrong
@@ -35,9 +36,10 @@ Max MinClearance = Objective
 Go over features like legibility and predictability
 [S] we're not dealing with objects in view
 - Mentioned this in Discussion
+** Mention that users were shown the start and goal states so legibility is not a good measure of what they were doing
 
 Title is misleading - include human perception in title
-[AS] come up with titles
+[AS] come up with titles - Towards a data-driven approach to Human preferences in motion planning
 
 3 ways to interpret the high-level bit
 [S] 
@@ -56,9 +58,11 @@ or
 
 Corrleations between metric-smoothness and rating-smoothness
 [S] DO compute the correlation between metric-smoothness and rating-smoothness
+**
 
 Correlation between PathLength_elbow, PathLength_tip and the perceived efficiency
 [S] DO compute this
+**
 
 nominal path source?
 [A] how did i compute it
@@ -84,56 +88,79 @@ Reviewer 2
 
 (1) How does this generalize to other robots?
 [S]
+- Done
+
 (2) Related work - main price et. al., learning objective functions for manipulation (Kalakrishnan), Learning trajectory preferences for manipulators via iterative improvement (Jan Peters)
 [A]
+** Add more related work
+
 (3) Mention, clarify criteria predicted by three classifiers
 [S]
+- DONE
+
 (4) Hausdorff distance, DTW - point to citations
 [x]
+- DONE
+
 (5) Too much detail for online survey
 [-]
+- IGNORE
+
 (6) Typos
 [A]
+- FIXED
+
 (7) Add explanation on classifier instantiation, search document for typos
 [S] - DONE
 
 Reviewer 4
 
 (1) Add intellectual merits of choosing the different features - 
-
+[S] - DONE
 
 Reviewer 5
 
 (1) Check clearance calculations
 [x]
+- DONE
 
 (2) Clarify the metrics against the notion of legibility and predictability
  - mention why we have not computed it
 [S]
+- DONE - Mention that start and goal states were shown
 
 (3) Joint limit distance does not play a big role
 [S]
+- DONE
 
 (4) correlation between human-observer rating of smoothness and calculated smoothness metric
 [S]
+**
 
 (5) correlation between efficiency rating and path length in configuration and workspace 
 [S]
+**
 
 (6) nominal path was never converted back into joint space - features were only computed based on their workspace projections
 [x]
+- DONE
 
 (7) Is the perception affected by where the start and goal states are - there were no features that were start or goal state specific - that's a topic for future work - environment agnostic 
 [S]
+- DONE
 
 (8) Task or context specific features may be useful - exhaustively generate more features
 [S]
+- DONE
 
 (9) Randomized planners - post-processing step helped in making the paths more smoother
 [S]
+- DONE
 
 (10) weighted combination in satisfying a cost function - estimating these weights would be nice
 [S]
+** FUTURE WORK
 
 (11) Need more task and context specific features - maybe a comparison to observed human trajectories of the same task
 [S]
+- DONE
