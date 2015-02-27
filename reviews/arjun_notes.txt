@@ -16,7 +16,7 @@ Close the Loop
 [x] mention in future work
 
 outright state that the classifiers are predicting the rating of a given trajectory
-[S]
+[S] - DONE
 
 Reviewer 2:
 ===========
@@ -34,21 +34,25 @@ Max MinClearance = Objective
 
 Go over features like legibility and predictability
 [S] we're not dealing with objects in view
+- Mentioned this in Discussion
 
 Title is misleading - include human perception in title
 [AS] come up with titles
 
 3 ways to interpret the high-level bit
-[S]
+[S] 
+- Clarified this in the text discussing the survey
 
 Do subject ratings evolve over time?
 [S] requires more data which is part of our plan
+- Mentioned this in discussion
 
 Joint limit ditance metric is unintuitive
 > maybe there is a perception of joint limits in people and we would've have caught it
 or
 > informative or uninformative metric that directly pertains to robot capability
 [S]
+- Wrote one-line note in joint limit section
 
 Corrleations between metric-smoothness and rating-smoothness
 [S] DO compute the correlation between metric-smoothness and rating-smoothness
@@ -66,11 +70,13 @@ is the perception of the trajectory affected by the start and goal states?
 [S]
 > this is an open question about the initial config affects the perceptions
 > could be explored further in a more exhaustive study
+- Noted in discussion
 
 How do you reconcile that high wrist-tool-dtw for tasks that do require
 [S] task of context specific features
 > Jetchev's work on generating environments
 > very task specific
+- Noted in discussion
 
 ============
 
@@ -89,7 +95,7 @@ Reviewer 2
 (6) Typos
 [A]
 (7) Add explanation on classifier instantiation, search document for typos
-[S]
+[S] - DONE
 
 Reviewer 4
 
