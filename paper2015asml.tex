@@ -301,7 +301,7 @@ The first set of features we compute for each trajectory take into account the e
 %\begin{equation}
 %\text{Length} = \sum_{i=0}^{n-1} \| q_\text{i}-q_\text{i+1} \|
 %\end{equation}
-We compute path length for the joint-space trajectory and for three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links of the right arm (the moving arm). We also compute the length of the trajectory in angular distance by summing over the waypoints $\arccos( \langle Q_\text{i},Q_\text{i+1}\rangle^2-1 )$ where $Q_\text{i}$ is the quaternion orientation for the $i$-th waypoint (referred to later as the ``quat\_dist'' feature).
+We compute path length for the joint-space trajectory and for three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip/tool ($\xi_\text{tip}$) links of the right arm (the moving arm). We also compute the length of the trajectory in angular distance by summing over the waypoints $\arccos( \langle Q_\text{i},Q_\text{i+1}\rangle^2-1 )$ where $Q_\text{i}$ is the quaternion orientation for the $i$-th waypoint (referred to later as the ``quat\_dist'' feature).
 
 {\bf Clearance:}
 The clearance of a trajectory \tj{} is the average over the waypoints of the minimum distance of configurations to the closest obstacle.
@@ -350,7 +350,7 @@ We also wanted to design features that captured the difference between the plann
 
 The breadth-first search was conducted using this 26-connected grid to find a path in the voxel grid from the start position of the end-effector of the arm (the }\emph{xyz} \hl{coordinates from forward kinematics) to the desired goal position. By ignoring orientation and using BFS, we get a piece-wise collection of straight-line paths in the }{\bf workspace} \hl{from that start to goal points.}
 
-Next, we compute comparison features between $\xi_{\text{BFS}}$ and three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip ($\xi_\text{tip}$) links. The comparison features computed between each pair of trajectories are the Hausdorff distances~\cite{dubuisson1994modified} and Dynamic Time Warping~\cite{senin2008dynamic} distances. \hl{These features have also often been used for comparing trajectories in applications like location based services and are useful in comparing trajectories that might have different lengths or shapes.}~\cite{chen2013dynamic}.
+Next, we compute comparison features between $\xi_{\text{BFS}}$ and three workspace trajectories for the elbow ($\xi_\text{elbow}$), wrist ($\xi_\text{wrist}$) and finger-tip/tool ($\xi_\text{tip}$) links. The comparison features computed between each pair of trajectories are the Hausdorff distances~\cite{dubuisson1994modified} and Dynamic Time Warping~\cite{senin2008dynamic} distances. \hl{These features have also often been used for comparing trajectories in applications like location based services and are useful in comparing trajectories that might have different lengths or shapes.}~\cite{chen2013dynamic}.
 
 %The start and goal voxel is simply the $(x,y,z)$ of the end-effector tool-frame. The free voxels then make up our vertices $V_\text{grid}$ for our graph.
 
