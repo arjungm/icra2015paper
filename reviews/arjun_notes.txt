@@ -3,9 +3,9 @@ Consistency between Fingertip and Tool frame
 Reviewer 1:
 ===========
 Mention reinforcement learning
-[A]
+[x]
 Mention human aware learning
-[A]
+[x]
 Hausdorff is wrong
 [x] textbook citation or paper
 
@@ -30,7 +30,7 @@ Reviewer 3:
 Maximin Clearance,
 Avg MinClearance = Feature
 Max MinClearance = Objective
-[?] check in moveit and in text
+[x] check in moveit and in text
 
 Go over features like legibility and predictability
 [S] we're not dealing with objects in view
@@ -61,7 +61,7 @@ Correlation between PathLength_elbow, PathLength_tip and the perceived efficienc
 [S] DO compute this
 
 nominal path source?
-[A] how did i compute it
+[x] how did i compute it
 > mention it is in workspace 3D xyz
 > It's a trajectory that was calculated using BFS
 > piece-wise collection of straight lines
@@ -85,7 +85,7 @@ Reviewer 2
 (1) How does this generalize to other robots?
 [S]
 (2) Related work - main price et. al., learning objective functions for manipulation (Kalakrishnan), Learning trajectory preferences for manipulators via iterative improvement (Jan Peters)
-[A]
+[x]
 (3) Mention, clarify criteria predicted by three classifiers
 [S]
 (4) Hausdorff distance, DTW - point to citations
@@ -93,7 +93,7 @@ Reviewer 2
 (5) Too much detail for online survey
 [-]
 (6) Typos
-[A]
+[x]
 (7) Add explanation on classifier instantiation, search document for typos
 [S] - DONE
 
