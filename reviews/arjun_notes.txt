@@ -4,7 +4,7 @@ Reviewer 1:
 ===========
 Mention reinforcement learning
 [S]
-** Add these in!!
+- DONE
 
 Mention human aware learning
 [x]
