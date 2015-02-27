@@ -5,8 +5,9 @@ Reviewer 1:
 Mention reinforcement learning
 [S]
 ** Add these in!!
+
 Mention human aware learning
-[A]
+[x]
 Hausdorff is wrong
 [x] textbook citation or paper
 
@@ -31,7 +32,7 @@ Reviewer 3:
 Maximin Clearance,
 Avg MinClearance = Feature
 Max MinClearance = Objective
-[?] check in moveit and in text
+[x] check in moveit and in text
 
 Go over features like legibility and predictability
 [S] we're not dealing with objects in view
@@ -65,7 +66,7 @@ Correlation between PathLength_elbow, PathLength_tip and the perceived efficienc
 **
 
 nominal path source?
-[A] how did i compute it
+[x] how did i compute it
 > mention it is in workspace 3D xyz
 > It's a trajectory that was calculated using BFS
 > piece-wise collection of straight lines
@@ -94,6 +95,7 @@ Reviewer 2
 [A]
 ** Add more related work
 
+=======
 (3) Mention, clarify criteria predicted by three classifiers
 [S]
 - DONE
@@ -110,6 +112,8 @@ Reviewer 2
 [A]
 - FIXED
 
+=======
+[x]
 (7) Add explanation on classifier instantiation, search document for typos
 [S] - DONE
 
