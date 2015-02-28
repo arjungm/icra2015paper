@@ -1,0 +1,3 @@
+1. This video shows example PR2 robot trajectories from a survey that we conducted to gauge human preference ratings for robot motions.
+2. We also computed trajectory features and in the video you will see clips of trajectories with high and low values for some of the features. 
+3. The features were used to train classifiers that could predict the human preference rating for a new trajectory. 
